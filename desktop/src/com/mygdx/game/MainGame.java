@@ -1,4 +1,4 @@
 package com.mygdx.game;
 
-public class Game {
+public class MainGame {
 }

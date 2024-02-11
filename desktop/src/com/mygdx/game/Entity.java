@@ -9,62 +9,16 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.Arrays;
 
 
-public abstract class Entity implements iMoveable {
-    public abstract void move();
-    public abstract void draw();
-    public abstract void update();
+public abstract class Entity implements ICollideable {
+    private int posX,posY;
 
+    public void update(){
 
-    private Color color;
-    private float x,y,speed;
-    private float[] position;
-    private Color[] colors;
-
-    public Color getColor() {
-        return color;
     }
+    public void render(){
 
-    public void setColor(Color color) {
-        this.color = color;
     }
+    public void setTexture(Texture t){
 
-    public float getX() {
-        return x;
     }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-    public float[] getPosition() {
-        return Arrays.copyOf(position, position.length);
-    }
-
-    public void setPosition(float[] position) {
-        this.position = Arrays.copyOf(position, position.length);
-    }
-
-    public Color[] getColors() {
-        return colors;
-    }
-
-    public void setColors(Color[] colors) {
-        this.colors = colors;
-    }
-
 }
