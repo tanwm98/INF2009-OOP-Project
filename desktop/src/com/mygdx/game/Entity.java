@@ -16,5 +16,4 @@ public abstract class Entity implements ICollideable {
     public abstract void update();
     public abstract void render();
 
-
 }
