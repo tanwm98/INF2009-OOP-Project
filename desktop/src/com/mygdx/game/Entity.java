@@ -6,19 +6,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Texture;
+
 import java.util.Arrays;
 
 
 public abstract class Entity implements ICollideable {
     private int posX,posY;
 
-    public void update(){
+    public abstract void update();
+    public abstract void render();
 
-    }
-    public void render(){
 
-    }
-    public void setTexture(Texture t){
-
-    }
 }

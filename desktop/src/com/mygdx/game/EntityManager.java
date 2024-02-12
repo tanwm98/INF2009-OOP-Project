@@ -30,5 +30,13 @@ public class EntityManager{
         }
     }
 
+    public void disposeEntities()
+    {
+        for(Entity entity : entityList)
+        {
+            entity.dispose();
+        }
+    }
+
 
 }
