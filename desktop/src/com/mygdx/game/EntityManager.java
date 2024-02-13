@@ -15,12 +15,19 @@ public class EntityManager{
         entityList.add(new Triangle(new float[]{0.0f,10.0f,170.0f,10.0f,100.0f,150.0f},
                 new Color[]{Color.GREEN,Color.GREEN,Color.GREEN},10));
     }
-    public void removeEntity(Entity entity)
-    {
-        entityList.remove(entity);
+
+    public void createEntity(Entity entity) {
+        entityList.add(entity);
     }
     public void manageEntity(Entity entity) {
 
+    }
+    public void updateEntity()
+    {
+        for(Entity entity: entityList)
+        {
+            entity.update();
+        }
     }
 
 }

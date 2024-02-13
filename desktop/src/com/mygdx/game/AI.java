@@ -8,4 +8,13 @@ public class AI extends Entity implements IMovement {
     public void render(){
 
     }
+    @Override
+    public void aiMovement(){
+
+    }
+
+    @Override
+    public void playerMovement() {
+
+    }
 }
