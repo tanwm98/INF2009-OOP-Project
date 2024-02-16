@@ -11,24 +11,31 @@ import java.util.Arrays;
 
 
 public abstract class Entity extends EntityManager implements ICollideable{
-	private int xPos;
-	private int yPos;
+	private float xPos;
+	private float yPos;
 	private Texture tex;
 	private boolean aiControl;	// Flag to determine whether entity is AI controlled.
 	
+	public Entity(Texture tex, int xPos, int yPos, boolean aiControl) {
+		setTexture(tex);
+		setX(xPos);
+		setY(yPos);
+		setControl(aiControl);
+	}
+	
 	// X position Getter and Setter
-	public int getX() {
+	public float getX() {
 		return xPos;
 	}
-	public void setX(int xPos) {
+	public void setX(float xPos) {
 		this.xPos = xPos;
 	}
 	
 	// Y position Getter and Setter
-	public int getY() {
+	public float getY() {
 		return yPos;
 	}
-	public void setY(int yPos) {
+	public void setY(float yPos) {
 		this.yPos = yPos;
 	}
 	
