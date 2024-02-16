@@ -13,14 +13,23 @@ import java.util.Arrays;
 public abstract class Entity extends EntityManager implements ICollideable{
 	private float xPos;
 	private float yPos;
+	private int speed;
 	private Texture tex;
-	private boolean aiControl;	// Flag to determine whether entity is AI controlled.
+	private Color color;
+	private boolean isAIControl;	// Flag to determine whether entity is AI controlled.
 	
-	public Entity(Texture tex, int xPos, int yPos, boolean aiControl) {
+	public Entity(Texture tex, int xPos, int yPos, boolean isAIControl) {
 		setTexture(tex);
 		setX(xPos);
 		setY(yPos);
-		setControl(aiControl);
+		setControl(isAIControl);
+	}
+	
+	public Entity(Color color, int xPos, int yPos, boolean isAIControl) {
+		setColor(color);
+		setX(xPos);
+		setY(yPos);
+		setControl(isAIControl);
 	}
 	
 	// X position Getter and Setter
@@ -47,11 +56,29 @@ public abstract class Entity extends EntityManager implements ICollideable{
 		return tex;
 	}
 	
+	// Control Getter and Setter
 	public boolean getControl() {
-		return aiControl;
+		return isAIControl;
 	}
-	public void setControl(boolean aiControl) {
-		this.aiControl = aiControl;
+	public void setControl(boolean isAIControl) {
+		this.isAIControl = isAIControl;
+	}
+	
+	
+	// Speed Getter and Setter
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+	public int getSpeed() {
+		return speed;
+	}
+	
+	// Color Getter and Setter
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	public Color getColor() {
+		return color;
 	}
 	
 	
