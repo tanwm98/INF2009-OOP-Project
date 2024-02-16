@@ -10,59 +10,48 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.Arrays;
 
 
-public abstract class Entity implements ICollideable {
-    private int posX,posY,width,height;
-    private Texture tex;
-    private SpriteBatch batch;
-
-    public abstract void update();
-    public abstract void render();
-
-    public int getPosX() {
-        return posX;
-    }
-
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public Texture getTex() {
-        return tex;
-    }
-
-    public void setTex(Texture tex) {
-        this.tex = tex;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-
-    public void setBatch(SpriteBatch batch) {
-        this.batch = batch;
-    }
+public abstract class Entity extends EntityManager implements ICollideable{
+	private int xPos;
+	private int yPos;
+	private Texture tex;
+	private int speed;
+	private boolean aiControl;	// Flag to determine whether entity is AI controlled.
+	
+	// X position Getter and Setter
+	public int getX() {
+		return xPos;
+	}
+	public void setX(int xPos) {
+		this.xPos = xPos;
+	}
+	
+	// Y position Getter and Setter
+	public int getY() {
+		return yPos;
+	}
+	public void setY(int yPos) {
+		this.yPos = yPos;
+	}
+	
+	// Texture Getter and Setter
+	public void setTexture(Texture tex) {
+		this.tex = tex;
+	}
+	public Texture getTexture() {
+		return tex;
+	}
+	
+	// Speed Getter and Setter
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+	public int getSpeed() {
+		return speed;
+	}
+	
+	
+	public abstract void update(Entity entity);
+	public abstract void render(SpriteBatch batch);
+	
 }
+
