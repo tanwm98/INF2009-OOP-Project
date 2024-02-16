@@ -14,7 +14,6 @@ public abstract class Entity extends EntityManager implements ICollideable{
 	private int xPos;
 	private int yPos;
 	private Texture tex;
-	private int speed;
 	private boolean aiControl;	// Flag to determine whether entity is AI controlled.
 	
 	// X position Getter and Setter
@@ -39,14 +38,6 @@ public abstract class Entity extends EntityManager implements ICollideable{
 	}
 	public Texture getTexture() {
 		return tex;
-	}
-	
-	// Speed Getter and Setter
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-	public int getSpeed() {
-		return speed;
 	}
 	
 	
