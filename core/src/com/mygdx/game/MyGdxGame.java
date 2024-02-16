@@ -8,21 +8,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class MyGdxGame extends ApplicationAdapter {
 
-	ShapeRenderer shape;
 	@Override
 	public void create () {
-		shape = new ShapeRenderer();
+
 	}
 
 	@Override
 	public void render () {
-		shape.begin(ShapeRenderer.ShapeType.Filled);
-		shape.circle(50,50,50);
-		shape.end();
+
 	}
 	
 	@Override
 	public void dispose () {
-		shape.dispose();
 	}
 }

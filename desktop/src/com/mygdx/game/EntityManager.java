@@ -8,6 +8,7 @@ public class EntityManager{
 
     public EntityManager()
     {
+        entityList = new ArrayList<>();
 //        entityList = new ArrayList<>();
 //        entityList.add(new TextureObject("droplet.png", new float[]{200.0f,200.0f}, 2, true));
 //        entityList.add(new TextureObject("bucket.png", new float[]{200.0f,0.0f},false));
