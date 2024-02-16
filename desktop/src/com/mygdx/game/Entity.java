@@ -1,32 +1,18 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.Texture;
 
-import java.util.Arrays;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 
 
 public abstract class Entity extends EntityManager implements ICollideable{
 	private float xPos;
 	private float yPos;
 	private int speed;
-	private Texture tex;
-	private Color color;
 	private boolean isAIControl;	// Flag to determine whether entity is AI controlled.
 	
-	public Entity(Texture tex, int xPos, int yPos, boolean isAIControl) {
-		setTexture(tex);
-		setX(xPos);
-		setY(yPos);
-		setControl(isAIControl);
-	}
-	
-	public Entity(Color color, int xPos, int yPos, boolean isAIControl) {
-		setColor(color);
+	public Entity(int speed, float xPos, float yPos, boolean isAIControl) {
+		setSpeed(speed);
 		setX(xPos);
 		setY(yPos);
 		setControl(isAIControl);
@@ -48,14 +34,6 @@ public abstract class Entity extends EntityManager implements ICollideable{
 		this.yPos = yPos;
 	}
 	
-	// Texture Getter and Setter
-	public void setTexture(Texture tex) {
-		this.tex = tex;
-	}
-	public Texture getTexture() {
-		return tex;
-	}
-	
 	// Control Getter and Setter
 	public boolean getControl() {
 		return isAIControl;
@@ -73,13 +51,6 @@ public abstract class Entity extends EntityManager implements ICollideable{
 		return speed;
 	}
 	
-	// Color Getter and Setter
-	public void setColor(Color color) {
-		this.color = color;
-	}
-	public Color getColor() {
-		return color;
-	}
 	
 	
 	public abstract void update(Entity entity);
