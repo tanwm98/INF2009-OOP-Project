@@ -40,6 +40,13 @@ public abstract class Entity extends EntityManager implements ICollideable{
 		return tex;
 	}
 	
+	public boolean getControl() {
+		return aiControl;
+	}
+	public void setControl(boolean aiControl) {
+		this.aiControl = aiControl;
+	}
+	
 	
 	public abstract void update(Entity entity);
 	public abstract void render(SpriteBatch batch);
