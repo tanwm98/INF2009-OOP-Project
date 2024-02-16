@@ -1,12 +1,14 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class Player extends Entity implements IMovement{
 
 
-    public void update(){
+    public void update(Entity entity){
 
     }
-    public void render(){
+    public void render(SpriteBatch batch){
 
     }
 
