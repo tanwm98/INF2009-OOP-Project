@@ -8,11 +8,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public abstract class Entity extends EntityManager implements ICollideable{
 	private float xPos;
 	private float yPos;
-	private int speed;
+	private int xSpeed, ySpeed;
 	private boolean isAIControl;	// Flag to determine whether entity is AI controlled.
 	
-	public Entity(int speed, float xPos, float yPos, boolean isAIControl) {
-		setSpeed(speed);
+	public Entity(int xSpeed, int ySpeed, float xPos, float yPos, boolean isAIControl) {
+		setXSpeed(xSpeed);
+		setYSpeed(ySpeed);
 		setX(xPos);
 		setY(yPos);
 		setControl(isAIControl);
@@ -44,13 +45,18 @@ public abstract class Entity extends EntityManager implements ICollideable{
 	
 	
 	// Speed Getter and Setter
-	public void setSpeed(int speed) {
-		this.speed = speed;
+	public void setXSpeed(int xSpeed) {
+		this.xSpeed = xSpeed;
 	}
-	public int getSpeed() {
-		return speed;
+	public int getXSpeed() {
+		return xSpeed;
 	}
-	
+	public void setYSpeed(int ySpeed) {
+		this.ySpeed = ySpeed;
+	}
+	public int getYSpeed() {
+		return ySpeed;
+	}
 	
 	
 	public abstract void update(Entity entity);
