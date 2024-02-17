@@ -1,12 +1,19 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+
 public class Player extends Entity implements IMovement{
 
+    private int life;
+    private int score;
+    private OrthographicCamera camera;
 
-    public void update(){
+    public void update(Entity entity){
+
 
     }
-    public void render(){
+    public void render(SpriteBatch batch){
 
     }
 

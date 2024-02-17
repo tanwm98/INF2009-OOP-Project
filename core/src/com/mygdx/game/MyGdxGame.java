@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class MyGdxGame extends ApplicationAdapter {
-
 	@Override
 	public void create () {
 

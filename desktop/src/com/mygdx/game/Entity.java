@@ -10,7 +10,16 @@ public abstract class Entity extends EntityManager implements ICollideable{
 	private float yPos;
 	private int xSpeed, ySpeed;
 	private boolean isAIControl;	// Flag to determine whether entity is AI controlled.
-	
+
+	public Entity()
+	{
+		setXSpeed(0);
+		setYSpeed(0);
+		setX(0);
+		setY(0);
+		setControl(false);
+
+	}
 	public Entity(int xSpeed, int ySpeed, float xPos, float yPos, boolean isAIControl) {
 		setXSpeed(xSpeed);
 		setYSpeed(ySpeed);
@@ -60,7 +69,7 @@ public abstract class Entity extends EntityManager implements ICollideable{
 	
 	
 	public abstract void update(Entity entity);
-	public abstract void render(SpriteBatch batch);
+	public abstract void render();
 	
 }
 
