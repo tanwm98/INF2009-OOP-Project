@@ -8,7 +8,6 @@ public class EntityManager{
 
     public EntityManager(){
         entityList = new ArrayList<>();
-
     }
 
     public void addEntity(Entity entity) {

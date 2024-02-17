@@ -15,6 +15,14 @@ public class AI extends Entity implements IMovement {
         shape.circle(super.getX(),super.getY(),50);
         shape.end();
     }
+    public void update()
+    {
+
+    }
+    public void collide(Entity e1, Entity e2)
+    {
+
+    }
     @Override
     public void movement(){
 

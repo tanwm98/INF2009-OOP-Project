@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-public class Player extends Entity implements IMovement{
+public class Player{
 
     private int lives,score;
     private boolean isAlive;
@@ -25,15 +25,4 @@ public class Player extends Entity implements IMovement{
         }
     }
 
-    public void update(Entity entity) {
-
-    }
-    public void render () {
-    }
-    public void movement() {
-        if(isAlive)
-        {
-            Gdx.input.getX();
-        }
-    }
 }

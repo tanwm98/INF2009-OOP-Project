@@ -9,11 +9,23 @@ public class Ball extends Entity {
     public Ball(){
         super();
     }
+
+    public Ball(int x, int y, int size, int xSpeed, int ySpeed)
+        {
+            super.setX(x);
+            super.setY(y);
+            this.size = size;
+            super.setXSpeed(xSpeed);
+            super.setYSpeed(ySpeed);
+        }
+
     public void movement(){
         // Move the ball
     }
-    public void update(Entity entity) {
-        // Update the ball
+    public void update() {
+        super.setX(super.getX() + super.getXSpeed());
+        super.setY(super.getY() + super.getYSpeed());
+
     }
     public void render(){
         ShapeRenderer shape = new ShapeRenderer();
@@ -27,6 +39,9 @@ public class Ball extends Entity {
         {
             color = Color.RED;
         }
+    }
+    public void collide(Entity e, Entity e2){
+
     }
 
 }
