@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 public class Player extends Entity implements IMovement{
+
+
     public void update(){
 
     }
@@ -11,6 +13,7 @@ public class Player extends Entity implements IMovement{
     public void playerMovement(){
 
     }
+
     public void aiMovement(){
 
     }

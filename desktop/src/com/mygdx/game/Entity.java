@@ -1,68 +1,66 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.Texture;
-
-import java.util.Arrays;
 
 
-public abstract class Entity implements ICollideable {
-    private int posX,posY,width,height;
-    private Texture tex;
-    private SpriteBatch batch;
 
-    public abstract void update();
-    public abstract void render();
-
-    public int getPosX() {
-        return posX;
-    }
-
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public Texture getTex() {
-        return tex;
-    }
-
-    public void setTex(Texture tex) {
-        this.tex = tex;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-
-    public void setBatch(SpriteBatch batch) {
-        this.batch = batch;
-    }
+public abstract class Entity extends EntityManager implements ICollideable{
+	private float xPos;
+	private float yPos;
+	private int xSpeed, ySpeed;
+	private boolean isAIControl;	// Flag to determine whether entity is AI controlled.
+	
+	public Entity(int xSpeed, int ySpeed, float xPos, float yPos, boolean isAIControl) {
+		setXSpeed(xSpeed);
+		setYSpeed(ySpeed);
+		setX(xPos);
+		setY(yPos);
+		setControl(isAIControl);
+	}
+	
+	// X position Getter and Setter
+	public float getX() {
+		return xPos;
+	}
+	public void setX(float xPos) {
+		this.xPos = xPos;
+	}
+	
+	// Y position Getter and Setter
+	public float getY() {
+		return yPos;
+	}
+	public void setY(float yPos) {
+		this.yPos = yPos;
+	}
+	
+	// Control Getter and Setter
+	public boolean getControl() {
+		return isAIControl;
+	}
+	public void setControl(boolean isAIControl) {
+		this.isAIControl = isAIControl;
+	}
+	
+	
+	// Speed Getter and Setter
+	public void setXSpeed(int xSpeed) {
+		this.xSpeed = xSpeed;
+	}
+	public int getXSpeed() {
+		return xSpeed;
+	}
+	public void setYSpeed(int ySpeed) {
+		this.ySpeed = ySpeed;
+	}
+	public int getYSpeed() {
+		return ySpeed;
+	}
+	
+	
+	public abstract void update(Entity entity);
+	public abstract void render(SpriteBatch batch);
+	
 }
+
