@@ -11,8 +11,13 @@ public class EntityManager{
 
     }
 
-    public void createEntity(Entity entity) {
+    public void addEntity(Entity entity) {
         entityList.add(entity);
+    }
+    public void renderEntities() {
+        for (Entity entity : entityList) {
+            entity.render();
+        }
     }
     public void removeEntity(Entity entity) {
     	entityList.remove(entity);

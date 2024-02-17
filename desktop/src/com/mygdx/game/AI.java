@@ -12,16 +12,11 @@ public class AI extends Entity implements IMovement {
     public void render(){
         ShapeRenderer shape = new ShapeRenderer();
         shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.circle(super.getX(),super.getY(),;
+        shape.circle(super.getX(),super.getY(),50);
         shape.end();
     }
     @Override
-    public void aiMovement(){
-
-    }
-
-    @Override
-    public void playerMovement() {
+    public void movement(){
 
     }
 }
