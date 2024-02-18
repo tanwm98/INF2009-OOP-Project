@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
 
@@ -69,7 +70,8 @@ public abstract class Entity extends EntityManager implements ICollideable{
 	
 	
 	public abstract void update(Entity entity);
-	public abstract void render();
+	public abstract void render(SpriteBatch batch);
+	public abstract void render(ShapeRenderer shape);
 	
 }
 
