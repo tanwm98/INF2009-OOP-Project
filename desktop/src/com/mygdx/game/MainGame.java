@@ -5,34 +5,38 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-
-public class MainGame extends ApplicationAdapter {
-	private EntityManager entityManager;
-	private Player player;
-	private Entity ball;
-	private Entity paddle;
+import com.badlogic.gdx.Game;
 
 
+//To remove this class from the project, remove the reference to it in the MainGame class
 
-	@Override
-	public void create() {
-		entityManager = new EntityManager();
-		player = new Player();
-		ball = new Ball(5,5,50,5,5,true);
-		paddle = new Paddle(100,50,100,100,20,false);
-		entityManager.addEntity(ball);
-		entityManager.addEntity(paddle);
-	}
 
-	@Override
-	public void render() {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //clears screen
-		entityManager.renderEntities();
-		entityManager.moveEntities();
-	}
-	
-	@Override
-	public void dispose() {
-
-	}
-}
+//public class MainGame extends Game {
+//	private ScreenManager screenManager;
+//
+//	private EntityManager entityManager;
+//	private Player player;
+//	private Entity ball;
+//	private Entity paddle;
+//
+//
+//	@Override
+//	public void create() {
+//	}
+//	public ScreenManager getScreenManager() {
+//		return screenManager;
+//	}
+//
+//	@Override
+//	public void render() {
+//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //clears screen
+//		super.render();
+//		entityManager.renderEntities();
+//		entityManager.moveEntities();
+//	}
+//
+//	@Override
+//	public void dispose() {
+//		screenManager.dispose();
+//	}
+//}
