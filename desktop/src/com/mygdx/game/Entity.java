@@ -1,39 +1,73 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class Entity extends EntityManager {
-	private int xPos;
-	private int yPos;
-	private Texture tex;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+
+public abstract class Entity extends EntityManager implements ICollideable, IMovement{
+	private float xPos;
+	private float yPos;
+	private float xSpeed, ySpeed;
+	private boolean isAIControl;	// Flag to determine whether entity is AI controlled.
+
+	public Entity()
+	{
+		setXSpeed(0);
+		setYSpeed(0);
+		setX(0);
+		setY(0);
+		setControl(false);
+	}
+	public Entity(float xSpeed, float ySpeed, float xPos, float yPos, boolean isAIControl) {
+		setXSpeed(xSpeed);
+		setYSpeed(ySpeed);
+		setX(xPos);
+		setY(yPos);
+		setControl(isAIControl);
+	}
 	
 	// X position Getter and Setter
-	public int getX() {
+	public float getX() {
 		return xPos;
 	}
-	public void setX(int xPos) {
+	public void setX(float xPos) {
 		this.xPos = xPos;
 	}
 	
 	// Y position Getter and Setter
-	public int getY() {
+	public float getY() {
 		return yPos;
 	}
-	public void setY(int yPos) {
+	public void setY(float yPos) {
 		this.yPos = yPos;
 	}
 	
-	// Texture Getter and Setter
-	public void setTexture(Texture tex) {
-		this.tex = tex;
+	// Control Getter and Setter
+	public boolean getControl() {
+		return isAIControl;
 	}
-	public Texture getTexture() {
-		return tex;
+	public void setControl(boolean isAIControl) {
+		this.isAIControl = isAIControl;
 	}
 	
 	
-	public abstract void update(Entity entity);
-	public abstract void render(SpriteBatch batch);
+	// Speed Getter and Setter
+	public void setXSpeed(float xSpeed) {
+		this.xSpeed = xSpeed;
+	}
+	public float getXSpeed() {
+		return xSpeed;
+	}
+	public void setYSpeed(float ySpeed) {
+		this.ySpeed = ySpeed;
+	}
+	public float getYSpeed() {
+		return ySpeed;
+	}
 	
+	
+	public abstract void update();
+	public abstract void render();
 }
+
