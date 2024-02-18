@@ -24,7 +24,7 @@ public class AI extends Entity implements IMovement {
 
     }
     @Override
-    public void movement(){
+    public void move(){
 
     }
 }

@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
 public interface IMovement {
-    public void movement();
+    public void move();
+
 }
