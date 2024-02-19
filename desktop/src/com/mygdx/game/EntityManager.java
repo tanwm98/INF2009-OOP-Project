@@ -33,6 +33,9 @@ public class EntityManager{
     	}
     }
 
-
+	public void detect() {
+		
+		
+	}
 
 }

@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
 
 
@@ -96,4 +99,3 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		this.color = color;
 	}
 }
-
