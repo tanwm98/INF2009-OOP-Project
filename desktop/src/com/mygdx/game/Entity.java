@@ -9,6 +9,7 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	private float xPos;
 	private float yPos;
 	private float xSpeed, ySpeed;
+	private float width,height;
 	private boolean isAIControl;	// Flag to determine whether entity is AI controlled.
 
 	public Entity()
@@ -70,5 +71,21 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	public abstract void update();
 	public abstract void render();
 	public abstract void dispose();
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
 }
 

@@ -51,7 +51,6 @@ public class Ball extends Entity {
     public void move()
     {
 
-
     }
     public void dispose()
     {
