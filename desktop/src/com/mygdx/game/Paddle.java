@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
 
 public class Paddle extends Entity {
+    ShapeRenderer shape = new ShapeRenderer();
     private Color color = Color.WHITE;
     public Paddle(){
         super.setXSpeed(0);
@@ -14,14 +15,16 @@ public class Paddle extends Entity {
         super.setY(0);
         super.setControl(false);
     }
-    public Paddle(float x, float y, float xSpeed,int width, int height,boolean aiFlag)
+    public Paddle(float x, float y, float xSpeed,int width, int height,Color color,boolean aiFlag)
     {
         super.setX(x);
         super.setY(y);
         super.setXSpeed(xSpeed);
         super.setWidth(width);
         super.setHeight(height);
+        super.setColor(color);
         super.setControl(aiFlag);
+
 
     }
     @Override
@@ -30,7 +33,6 @@ public class Paddle extends Entity {
     }
     @Override
     public void render(){
-        ShapeRenderer shape = new ShapeRenderer();
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
         shape.rect(super.getX(),super.getY(),super.getWidth(),getHeight());
@@ -63,9 +65,13 @@ public class Paddle extends Entity {
         }
         update();
     }
-    
+
     public void collide(boolean collide)
     {
 
+    }
+    public void dispose()
+    {
+        shape.dispose();
     }
 }

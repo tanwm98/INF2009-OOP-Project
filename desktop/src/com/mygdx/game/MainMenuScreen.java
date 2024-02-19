@@ -19,9 +19,9 @@ public class MainMenuScreen implements Screen {
     private MyGdxGame game;
     private int currentSelection = 0;
     private Music backgroundMusic;
-    
 
- 
+
+
     public MainMenuScreen(MyGdxGame game) {
         this.game = game;
         batch = new SpriteBatch();
@@ -31,11 +31,11 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-    	 // Load the music
+        // Load the music
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Toothless.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
-        
+
     }
 
     @Override
@@ -43,7 +43,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-    
+
         batch.begin();
 
         // Background image covers the whole screen
@@ -67,7 +67,7 @@ public class MainMenuScreen implements Screen {
         font.draw(batch, startText, startX, startY);
         startY -= lineHeight + gap;
 
-       
+
 
         // Draw "Exit" centered
         String exitText = "Exit";
@@ -81,7 +81,7 @@ public class MainMenuScreen implements Screen {
 
 
         batch.end(); // End batch drawing
-        
+
         updateCurrentSelection();
     }
 
@@ -103,14 +103,14 @@ public class MainMenuScreen implements Screen {
             selectOption();
         }
     }
-    
+
     // Option Selected will prompt a Use Case
     private void selectOption() {
-    	switch (currentSelection) {
-        case 0:
-        		game.setScreen(new GameScreen(game)); // New Game Screen
-            break;
-        case 1:
+        switch (currentSelection) {
+            case 0:
+                game.setScreen(new GameScreen(game)); // New Game Screen
+                break;
+            case 1:
                 Gdx.app.exit();
                 break;
         }
@@ -118,22 +118,22 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        
+
     }
 
     @Override
     public void pause() {
-       
+
     }
 
     @Override
     public void resume() {
-        
+
     }
 
     @Override
     public void hide() {
-    	backgroundMusic.stop();
+        backgroundMusic.stop();
     }
 
     @Override

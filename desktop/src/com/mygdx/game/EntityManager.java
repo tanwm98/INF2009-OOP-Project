@@ -13,6 +13,7 @@ public class EntityManager{
     public void addEntity(Entity entity) {
         entityList.add(entity);
     }
+
     public void renderEntities() {
         for (Entity entity : entityList) {
             entity.render();
@@ -25,6 +26,11 @@ public class EntityManager{
         for (Entity entity : entityList) {
             entity.move();
         }
+    }
+    public void dispose() {
+    	for (Entity entity : entityList) {
+    		entity.dispose();
+    	}
     }
 
 
