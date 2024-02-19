@@ -3,24 +3,23 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Block extends Entity{
+public class Block extends Entity {
 
     ShapeRenderer shape = new ShapeRenderer();
-    public Block(float x, float y, float width, float height, Color color)
-    {
+
+    public Block(float x, float y, float width, float height, Color color) {
         super.setX(x);
         super.setY(y);
         super.setWidth(width);
         super.setHeight(height);
         super.setColor(color);
     }
-    public void update()
-    {
+
+    public void update() {
 
     }
 
-    public void render()
-    {
+    public void render() {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(super.getColor());
         shape.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
@@ -28,17 +27,15 @@ public class Block extends Entity{
     }
 
 
-    public void dispose()
-    {
+    public void dispose() {
         shape.dispose();
     }
-    public void collide(boolean collide)
-    {
+
+    public void collide(boolean collide) {
 
     }
 
-    public void move()
-    {
+    public void move() {
 
     }
 }
