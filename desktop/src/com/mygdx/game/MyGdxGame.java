@@ -22,7 +22,7 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
 
         entityManager = new EntityManager();
         player = new Player();
-        ball = new Ball(5,5,50,5,5,true);
+        ball = new Ball(50,50,10,5,5,true);
         paddle = new Paddle(100,50,100,100,20,false);
         entityManager.addEntity(ball);
         entityManager.addEntity(paddle);
@@ -38,7 +38,7 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         super.render();
         entityManager.renderEntities();
         entityManager.moveEntities();
-        entityManager.detect();
+        //entityManager.detect();
     }
 
     @Override

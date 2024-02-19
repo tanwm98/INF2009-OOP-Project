@@ -2,11 +2,12 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
 
 public class Ball extends Entity {
     ShapeRenderer shape = new ShapeRenderer();
 
-    private int size;
+    private float size;
     private Color color = Color.WHITE;
 
     public Ball(){
@@ -26,8 +27,7 @@ public class Ball extends Entity {
 
     @Override
     public void update() {
-        super.setX(super.getX() + super.getXSpeed());
-        super.setY(super.getY() + super.getYSpeed());
+        System.out.printf("Ball pos X:%f and Y: %f\n",super.getX(),super.getY());
 
     }
     @Override
@@ -40,7 +40,7 @@ public class Ball extends Entity {
     
     @Override
     public void collide(boolean collide){
-    	if(collide == true) {
+    	if(collide) {
         	color = Color.RED;
     	}
     	else {
@@ -50,7 +50,16 @@ public class Ball extends Entity {
 
     public void move()
     {
-
+        super.setX(super.getX() + super.getXSpeed());
+        super.setY(super.getY() + super.getYSpeed());
+        if(super.getX() - size / 2 < 0 || super.getX() + size / 2 > Gdx.graphics.getWidth())  //divide by 2 to get the center of the ball
+        {
+            super.setXSpeed(super.getXSpeed() * -1); //reverse x direction
+        }
+        if(super.getY() - size / 2 < 0 || super.getY() + size / 2 > Gdx.graphics.getHeight())
+        {
+            super.setYSpeed(super.getYSpeed() * -1); //reverse y direction
+        }
     }
     public void dispose()
     {
