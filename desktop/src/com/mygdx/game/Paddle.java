@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Paddle extends Entity {
     private Color color = Color.WHITE;
-    private int width,height;
     public Paddle(){
         super.setXSpeed(0);
         super.setYSpeed(0);
@@ -20,8 +19,8 @@ public class Paddle extends Entity {
         super.setX(x);
         super.setY(y);
         super.setXSpeed(xSpeed);
-        this.width = width;
-        this.height = height;
+        super.setWidth(width);
+        super.setHeight(height);
         super.setControl(aiFlag);
 
     }
@@ -34,7 +33,7 @@ public class Paddle extends Entity {
         ShapeRenderer shape = new ShapeRenderer();
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
-        shape.rect(super.getX(),super.getY(),getWidth(),getHeight());
+        shape.rect(super.getX(),super.getY(),super.getWidth(),getHeight());
         shape.end();
     }
     public void move()
@@ -53,35 +52,20 @@ public class Paddle extends Entity {
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
         {
-            if(super.getX() + getWidth() < Gdx.graphics.getWidth())
+            if(super.getX() + super.getWidth() < Gdx.graphics.getWidth())
             {
                 super.setX(super.getX() + delta);
             }
             else
             {
-                super.setX(Gdx.graphics.getWidth() - getWidth());
+                super.setX(Gdx.graphics.getWidth() - super.getWidth());
             }
         }
         update();
     }
-    public void collide(Entity e, Entity e2)
+    
+    public void collide(boolean collide)
     {
 
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 }
