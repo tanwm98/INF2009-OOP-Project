@@ -3,7 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class AI extends Entity implements IMovement {
+public abstract class AI extends Entity implements IMovement {
 
     public void update(Entity entity){
 
@@ -27,4 +27,9 @@ public class AI extends Entity implements IMovement {
     public void move(){
 
     }
+	@Override
+	public void collide(boolean collide) {
+		
+		
+	}
 }

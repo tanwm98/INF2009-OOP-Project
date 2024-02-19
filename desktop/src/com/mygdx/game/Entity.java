@@ -1,14 +1,14 @@
 package com.mygdx.game;
 
-
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Color;
 
 
 public abstract class Entity extends EntityManager implements ICollideable, IMovement{
 	private float xPos;
 	private float yPos;
 	private float xSpeed, ySpeed;
+	private float width,height;
+	private Color color;
 	private boolean isAIControl;	// Flag to determine whether entity is AI controlled.
 
 	public Entity()
@@ -17,6 +17,7 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setYSpeed(0);
 		setX(0);
 		setY(0);
+		color = Color.WHITE;
 		setControl(false);
 	}
 	public Entity(float xSpeed, float ySpeed, float xPos, float yPos, boolean isAIControl) {
@@ -69,5 +70,29 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	
 	public abstract void update();
 	public abstract void render();
-}
+	public abstract void dispose();
 
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+}
