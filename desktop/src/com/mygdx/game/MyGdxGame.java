@@ -38,6 +38,7 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         super.render();
         entityManager.renderEntities();
         entityManager.moveEntities();
+        entityManager.detect();
     }
 
     @Override
