@@ -21,6 +21,7 @@ public class Ball extends Entity {
             super.setXSpeed(xSpeed);
             super.setYSpeed(ySpeed);
             super.setControl(aiFlag);
+            super.setHeight(size);
         }
 
     @Override
@@ -36,15 +37,15 @@ public class Ball extends Entity {
         shape.circle(super.getX(),super.getY(),size);
         shape.end();
     }
-    public void checkCollision(Paddle paddle)
-    {
-        if(super.getX() == paddle.getX() && super.getY() == paddle.getY())
-        {
-            color = Color.RED;
-        }
-    }
-    public void collide(Entity e, Entity e2){
-
+    
+    @Override
+    public void collide(boolean collide){
+    	if(collide == true) {
+        	color = Color.RED;
+    	}
+    	else {
+    		color = Color.WHITE;
+    	}
     }
 
     public void move()
