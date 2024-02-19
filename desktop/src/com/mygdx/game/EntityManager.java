@@ -13,6 +13,7 @@ public class EntityManager{
     public void addEntity(Entity entity) {
         entityList.add(entity);
     }
+
     public void renderEntities() {
         for (Entity entity : entityList) {
             entity.render();

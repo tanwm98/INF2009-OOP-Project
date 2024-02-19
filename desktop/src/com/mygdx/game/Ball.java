@@ -14,15 +14,15 @@ public class Ball extends Entity {
         super();
     }
 
-    public Ball(int x, int y, int size, int xSpeed, int ySpeed, boolean aiFlag)
+    public Ball(int x, int y, int size, int xSpeed, int ySpeed, Color color,boolean aiFlag)
         {
             super.setX(x);
             super.setY(y);
             this.size = size;
             super.setXSpeed(xSpeed);
             super.setYSpeed(ySpeed);
+            super.setColor(color);
             super.setControl(aiFlag);
-            super.setHeight(size);
         }
 
     @Override
