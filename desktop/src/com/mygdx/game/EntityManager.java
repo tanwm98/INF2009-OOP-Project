@@ -26,6 +26,11 @@ public class EntityManager{
             entity.move();
         }
     }
+    public void dispose() {
+    	for (Entity entity : entityList) {
+    		entity.dispose();
+    	}
+    }
 
 
 

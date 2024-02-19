@@ -69,5 +69,6 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	
 	public abstract void update();
 	public abstract void render();
+	public abstract void dispose();
 }
 

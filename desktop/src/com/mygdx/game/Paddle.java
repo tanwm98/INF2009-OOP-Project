@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
 
 public class Paddle extends Entity {
+    ShapeRenderer shape = new ShapeRenderer();
     private Color color = Color.WHITE;
     private int width,height;
     public Paddle(){
@@ -31,7 +32,7 @@ public class Paddle extends Entity {
     }
     @Override
     public void render(){
-        ShapeRenderer shape = new ShapeRenderer();
+
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
         shape.rect(super.getX(),super.getY(),getWidth(),getHeight());
@@ -68,7 +69,10 @@ public class Paddle extends Entity {
     {
 
     }
-
+    public void dispose()
+    {
+        shape.dispose();
+    }
     public int getWidth() {
         return width;
     }

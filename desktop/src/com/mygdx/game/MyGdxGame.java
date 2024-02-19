@@ -42,6 +42,8 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
 
     @Override
     public void dispose() {
-        screenManager.dispose(); 
+        screenManager.dispose();
+        ball.dispose();
     }
+
 }

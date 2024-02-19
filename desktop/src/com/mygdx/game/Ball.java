@@ -4,8 +4,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
 
 public class Ball extends Entity {
+    ShapeRenderer shape = new ShapeRenderer();
+
     private int size;
     private Color color = Color.WHITE;
+
     public Ball(){
         super();
     }
@@ -20,12 +23,6 @@ public class Ball extends Entity {
             super.setControl(aiFlag);
         }
 
-    public void movement(){
-        if(super.getControl())
-        {
-            //AI movement
-        }
-    }
     @Override
     public void update() {
         super.setX(super.getX() + super.getXSpeed());
@@ -34,7 +31,6 @@ public class Ball extends Entity {
     }
     @Override
     public void render(){
-        ShapeRenderer shape = new ShapeRenderer();
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
         shape.circle(super.getX(),super.getY(),size);
@@ -54,8 +50,12 @@ public class Ball extends Entity {
     public void move()
     {
 
-    }
 
+    }
+    public void dispose()
+    {
+        shape.dispose();
+    }
     public void playerMovement()
     {
 
