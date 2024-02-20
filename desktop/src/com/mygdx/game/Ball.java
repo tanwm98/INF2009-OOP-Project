@@ -14,7 +14,7 @@ public class Ball extends Entity {
         super();
     }
 
-    public Ball(int x, int y, int size, int xSpeed, int ySpeed, Color color,boolean aiFlag)
+    public Ball(float x, float y, float size, float xSpeed, float ySpeed, Color color,boolean aiFlag)
         {
             super.setX(x);
             super.setY(y);

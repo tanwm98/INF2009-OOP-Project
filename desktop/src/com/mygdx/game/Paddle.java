@@ -15,7 +15,7 @@ public class Paddle extends Entity {
         super.setY(0);
         super.setControl(false);
     }
-    public Paddle(float x, float y, float xSpeed,int width, int height,Color color,boolean aiFlag)
+    public Paddle(float x, float y, float xSpeed,float width, float height,Color color,boolean aiFlag)
     {
         super.setX(x);
         super.setY(y);

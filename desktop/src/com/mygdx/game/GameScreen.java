@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
+import  java.lang.Math;
 public class GameScreen implements Screen {
 	private SpriteBatch batch;
     private Texture backgroundImage;
@@ -25,10 +25,13 @@ public class GameScreen implements Screen {
     private Player player;
     private Entity ball;
     private Entity paddle;
-    private int blockWidth = 63, blockHeight = 20; //set the width and height of the blocks
+    private int blockWidth = 63, blockHeight = 20;//set the width and height of the blocks
+
     private boolean isGameOver = false;
     private BitmapFont gameOverFont;
     private BitmapFont optionFont;
+    private BitmapFont livesFont;
+    private BitmapFont scoreFont;
     private int selectedOptions = 0;
     
     
@@ -39,8 +42,10 @@ public class GameScreen implements Screen {
         shapeRenderer = new ShapeRenderer();
         gameOverFont = new BitmapFont();
         optionFont = new BitmapFont(); // Initialize a separate font for options if needed
+        player = new Player();
+        livesFont = new BitmapFont();
+        scoreFont = new BitmapFont();
         selectedOptions = 0;
-        
     }
 
     @Override
@@ -51,13 +56,13 @@ public class GameScreen implements Screen {
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         setupGameEntities();
+        player = new Player();
         
     }
     private void setupGameEntities() {
         entityManager = new EntityManager();
-        ball = new Ball(50, 20, 10, 5, 5, Color.WHITE, true);
         paddle = new Paddle(100, 20, 300, 100, 20, Color.WHITE, false);
-
+        ball = new Ball( 0,30, 10, 5, 5, Color.WHITE, true);
         entityManager.addEntity(ball);
         entityManager.addEntity(paddle);
         for (int y = Gdx.graphics.getHeight() / 2; y < Gdx.graphics.getHeight(); y += blockHeight + 10) {
@@ -76,6 +81,8 @@ public class GameScreen implements Screen {
         update(delta);
         
         batch.begin();
+        livesFont.draw(batch, "Lives: " + player.getLives(), 0, 100);
+        scoreFont.draw(batch, "Score: " + player.getScore(), 0, 50);
         batch.end(); 
         
         if (entityManager != null) {
@@ -135,14 +142,23 @@ public class GameScreen implements Screen {
     
     private void resetGame() {
         isGameOver = false;
+        setupGameEntities();
+        player.setLives(3);
+        player.setScore(0);
    
     }
     
     private void update(float delta) {
-    	if (ball.getY() <= 0) {
+        if(player.getLives() == 0) {
             isGameOver = true;
         }
-		
+        else if(ball.getY() <= 0) {
+            player.setLives(player.getLives() - 1);
+        }
+        else
+        {
+            player.addScore(10);;
+        }
 	}
 
 	public void backToMainMenu() {
