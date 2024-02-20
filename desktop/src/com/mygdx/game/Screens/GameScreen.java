@@ -173,7 +173,7 @@ public class GameScreen implements Screen {
 	}
 
 	public void backToMainMenu() {
-        game.setScreen(new MainMenuScreen(game)); 
+        game.getScreenManager().pushScreen(new MainMenuScreen(game));
     }
 
     @Override
