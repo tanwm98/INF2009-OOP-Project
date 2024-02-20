@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.game.AIControlManager;
 import com.mygdx.game.Entity.*;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
@@ -25,6 +26,7 @@ public class GameScreen implements Screen {
     
     private ScreenManager screenManager;
     private EntityManager entityManager;
+    private AIControlManager aiControlManager;
     private Player player;
     private Entity ball;
     private Entity paddle;
@@ -64,6 +66,7 @@ public class GameScreen implements Screen {
     }
     private void setupGameEntities() {
         entityManager = new EntityManager();
+        aiControlManager = new AIControlManager();
         paddle = new Paddle(100, 20, 300, 100, 20, Color.WHITE, false);
         ball = new Ball( 0,30, 10, 5, 5, Color.WHITE, true);
         entityManager.addEntity(ball);
@@ -73,6 +76,8 @@ public class GameScreen implements Screen {
                 entityManager.addEntity(new Block(x, y, blockWidth, blockHeight, Color.WHITE));
             }
         }
+        aiControlManager.addEntity(ball);
+
     }
 
     @Override
@@ -89,9 +94,11 @@ public class GameScreen implements Screen {
         batch.end(); 
         
         if (entityManager != null) {
-            entityManager.moveEntities();
             entityManager.renderEntities(); //
             entityManager.detect();
+        }
+        if (aiControlManager != null) {
+            aiControlManager.moveEntities();
         }
     } else {
     
