@@ -32,14 +32,12 @@ public class Block extends Entity{
     {
         shape.dispose();
     }
-    public void collide(boolean collide)
-    {
-
-    }
 
     public void move()
     {
 
     }
-
+    	public void collide(boolean collide) {
+            
+	}
 }

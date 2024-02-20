@@ -57,15 +57,14 @@ public class GameScreen implements Screen {
         entityManager = new EntityManager();
         ball = new Ball(50, 20, 10, 5, 5, Color.WHITE, true);
         paddle = new Paddle(100, 20, 300, 100, 20, Color.WHITE, false);
-        
+
+        entityManager.addEntity(ball);
+        entityManager.addEntity(paddle);
         for (int y = Gdx.graphics.getHeight() / 2; y < Gdx.graphics.getHeight(); y += blockHeight + 10) {
             for (int x = 0; x < Gdx.graphics.getWidth(); x += blockWidth + 10) {
                 entityManager.addEntity(new Block(x, y, blockWidth, blockHeight, Color.WHITE));
             }
         }
-
-        entityManager.addEntity(ball);
-        entityManager.addEntity(paddle);
     }
 
     @Override
@@ -82,6 +81,7 @@ public class GameScreen implements Screen {
         if (entityManager != null) {
             entityManager.moveEntities();
             entityManager.renderEntities(); //
+            entityManager.detect();
         }
     } else {
     

@@ -30,6 +30,7 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         if (entityManager != null) {
             entityManager.moveEntities();
             entityManager.renderEntities();
+            entityManager.detect();
         }
     }
 
