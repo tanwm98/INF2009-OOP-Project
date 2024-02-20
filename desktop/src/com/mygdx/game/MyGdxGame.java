@@ -18,7 +18,7 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         screenManager = new ScreenManager(this);
         MainMenuScreen mainMenuScreen = new MainMenuScreen(this);
         // Manage the MainMenuScreen
-        screenManager.newScreen(mainMenuScreen);
+        screenManager.pushScreen(mainMenuScreen);
         entityManager = new EntityManager();
         aiControlManager = new AIControlManager();
     }
