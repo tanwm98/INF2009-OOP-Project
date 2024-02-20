@@ -1,9 +1,9 @@
-package com.mygdx.game;
+package com.mygdx.game.Entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
+import com.mygdx.game.InputManager;
 
 public class Paddle extends Entity {
     ShapeRenderer shape = new ShapeRenderer();
@@ -24,8 +24,6 @@ public class Paddle extends Entity {
         super.setHeight(height);
         super.setColor(color);
         super.setControl(aiFlag);
-
-
     }
     @Override
     public void update() {

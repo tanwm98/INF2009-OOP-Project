@@ -3,8 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-
-import java.util.ArrayList;
+import com.mygdx.game.Entity.EntityManager;
+import com.mygdx.game.Screens.MainMenuScreen;
+import com.mygdx.game.Screens.ScreenManager;
 
 public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     private ScreenManager screenManager;

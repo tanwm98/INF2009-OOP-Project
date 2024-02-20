@@ -1,9 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.mygdx.game.Entity.Paddle;
 
 public class InputManager {
 	private float mouseX;

@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Screen;
 
@@ -12,7 +12,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import  java.lang.Math;
+import com.mygdx.game.Entity.*;
+import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Player;
+
 public class GameScreen implements Screen {
 	private SpriteBatch batch;
     private Texture backgroundImage;

@@ -1,7 +1,8 @@
-package com.mygdx.game;
+package com.mygdx.game.Entity;
 
 import java.util.*;
-import com.badlogic.gdx.graphics.Color;
+
+import com.mygdx.game.CollisionManager;
 
 public class EntityManager{
     private List<Entity> entityList;

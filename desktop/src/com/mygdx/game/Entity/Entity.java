@@ -1,9 +1,11 @@
-package com.mygdx.game;
+package com.mygdx.game.Entity;
 
 import com.badlogic.gdx.graphics.Color;
+import com.mygdx.game.Interfaces.ICollideable;
+import com.mygdx.game.Interfaces.IMovement;
 
 
-public abstract class Entity extends EntityManager implements ICollideable, IMovement{
+public abstract class Entity extends EntityManager implements ICollideable, IMovement {
 	private float xPos;
 	private float yPos;
 	private float xSpeed, ySpeed;

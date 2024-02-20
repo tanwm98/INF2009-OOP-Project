@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.Interfaces;
 
 public interface IMovement {
     public void move();
