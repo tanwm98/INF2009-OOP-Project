@@ -96,4 +96,3 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		this.color = color;
 	}
 }
-
