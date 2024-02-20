@@ -27,13 +27,10 @@ public class MainMenuScreen implements Screen {
         backgroundImage = new Texture("DarkSpace.jpg"); 
     }
 
+    OutputManager output=new OutputManager();
     @Override
     public void show() {
-        
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Toothless.mp3"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
-
+    	output.soundStart();
     }
 
     @Override
@@ -123,14 +120,12 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-        backgroundMusic.stop();
+    	output.soundEnd();
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         font.dispose();
-        backgroundImage.dispose();
-        backgroundMusic.dispose();
     }
 }
