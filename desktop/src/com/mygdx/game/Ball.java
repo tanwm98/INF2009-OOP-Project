@@ -23,6 +23,7 @@ public class Ball extends Entity {
             super.setYSpeed(ySpeed);
             super.setColor(color);
             super.setControl(aiFlag);
+            super.setHeight(size);
         }
 
     @Override
@@ -41,10 +42,7 @@ public class Ball extends Entity {
     @Override
     public void collide(boolean collide){
     	if(collide) {
-        	color = Color.RED;
-    	}
-    	else {
-    		color = Color.WHITE;
+            super.setYSpeed(super.getYSpeed() * -1); //reverse y direction
     	}
     }
 
