@@ -7,6 +7,7 @@ import com.mygdx.game.InputManager;
 
 public class Paddle extends Entity {
     ShapeRenderer shape = new ShapeRenderer();
+    private InputManager inputManager = new InputManager();
     private Color color = Color.WHITE;
     public Paddle(){
         super.setXSpeed(0);
@@ -39,7 +40,29 @@ public class Paddle extends Entity {
 
     public void move()
     {
-
+        float delta = getXSpeed()*Gdx.graphics.getDeltaTime();
+        if(inputManager.isLeftKeyPressed())
+        {
+            if(super.getX() - delta < 0) //if going off-screen
+            {
+                super.setX(0);
+            }
+            else
+            {
+                super.setX(super.getX() - delta);
+            }
+        }
+        if(inputManager.isRightKeyPressed())
+        {
+            if(super.getX() + super.getWidth() < Gdx.graphics.getWidth())
+            {
+                super.setX(super.getX() + delta);
+            }
+            else
+            {
+                super.setX(Gdx.graphics.getWidth() - super.getWidth());
+            }
+        }
     }
 //    {
 //    	InputManager input=new InputManager();

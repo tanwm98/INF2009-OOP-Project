@@ -94,11 +94,12 @@ public class GameScreen implements Screen {
         batch.end(); 
         
         if (entityManager != null) {
+            aiControlManager.moveEntities();
             entityManager.renderEntities(); //
             entityManager.detect();
+            paddle.move();
         }
         if (aiControlManager != null) {
-            aiControlManager.moveEntities();
         }
     } else {
     
