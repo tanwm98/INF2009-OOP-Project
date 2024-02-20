@@ -33,15 +33,11 @@ public class Block extends Entity{
         shape.dispose();
     }
 
-
     public void move()
     {
 
     }
-	@Override
-	public void collide(boolean collide) {
-		shape.dispose();
-		
+    	public void collide(boolean collide) {
+            
 	}
-
 }
