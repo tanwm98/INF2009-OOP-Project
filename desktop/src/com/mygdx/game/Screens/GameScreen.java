@@ -207,7 +207,7 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void dispose() {
+    public void dispose() { // Dispose of all the resources to prevent memory leaks
         if (batch != null) {
             batch.dispose();
         }

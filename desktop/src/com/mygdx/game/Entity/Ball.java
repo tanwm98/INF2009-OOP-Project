@@ -67,9 +67,4 @@ public class Ball extends Entity {
     {
         shape.dispose();
     }
-    public void playerMovement()
-    {
-
-    }
-
 }

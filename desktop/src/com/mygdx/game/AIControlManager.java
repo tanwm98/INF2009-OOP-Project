@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 
 import com.mygdx.game.Entity.Entity;
-import com.mygdx.game.Interfaces.ICollideable;
 import com.mygdx.game.Interfaces.IMovement;
 
 import java.util.ArrayList;
