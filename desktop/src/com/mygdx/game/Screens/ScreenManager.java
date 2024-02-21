@@ -47,7 +47,4 @@ public class ScreenManager {
         }
     }
 
-    public void newScreen(Screen screen) {
-        pushScreen(screen); // Simply push the new screen onto the stack
-    }
 }

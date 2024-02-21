@@ -98,7 +98,7 @@ public class MainMenuScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-                game.setScreen(new GameScreen(game)); // New Game Screen
+                game.getScreenManager().pushScreen(new GameScreen(game));
                 break;
             case 1:
                 Gdx.app.exit();

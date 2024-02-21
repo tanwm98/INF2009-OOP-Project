@@ -10,7 +10,7 @@ import com.mygdx.game.Screens.ScreenManager;
 public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     private ScreenManager screenManager;
     private EntityManager entityManager;
-    
+    private AIControlManager aiControlManager;
 
 
     @Override
@@ -18,7 +18,9 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         screenManager = new ScreenManager(this);
         MainMenuScreen mainMenuScreen = new MainMenuScreen(this);
         // Manage the MainMenuScreen
-        screenManager.newScreen(mainMenuScreen);
+        screenManager.pushScreen(mainMenuScreen);
+        entityManager = new EntityManager();
+        aiControlManager = new AIControlManager();
     }
     public ScreenManager getScreenManager() {
         return screenManager;
@@ -29,9 +31,8 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //clears screen
         super.render(); // Important to call the parent method
         if (entityManager != null) {
-            entityManager.moveEntities();
+            aiControlManager.moveEntities();
             entityManager.renderEntities();
-            entityManager.detect();
         }
     }
 

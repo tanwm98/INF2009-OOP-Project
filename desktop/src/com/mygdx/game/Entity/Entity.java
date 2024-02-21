@@ -121,4 +121,13 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	public void setColor(Color color) {
 		this.color = color;
 	}
+
+	public boolean isAIControl() {
+		return isAIControl;
+	}
+	public void setAIControl(boolean isAIControl) {
+		this.isAIControl = isAIControl;
+	}
 }
+
+

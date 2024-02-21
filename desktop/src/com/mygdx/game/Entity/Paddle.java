@@ -7,6 +7,7 @@ import com.mygdx.game.InputManager;
 
 public class Paddle extends Entity {
     ShapeRenderer shape = new ShapeRenderer();
+    private InputManager inputManager = new InputManager();
     private Color color = Color.WHITE;
     public Paddle(){
         super.setXSpeed(0);
@@ -36,39 +37,39 @@ public class Paddle extends Entity {
         shape.rect(super.getX(),super.getY(),super.getWidth(),getHeight());
         shape.end();
     }
-    
+
     public void move()
     {
-    	InputManager input=new InputManager();
-    	input.keyboard(this);
-        update();
+        float delta = getXSpeed()*Gdx.graphics.getDeltaTime();
+        if(inputManager.isLeftKeyPressed())
+        {
+            if(super.getX() - delta < 0) //if going off-screen
+            {
+                super.setX(0);
+            }
+            else
+            {
+                super.setX(super.getX() - delta);
+            }
+        }
+        if(inputManager.isRightKeyPressed())
+        {
+            if(super.getX() + super.getWidth() < Gdx.graphics.getWidth())
+            {
+                super.setX(super.getX() + delta);
+            }
+            else
+            {
+                super.setX(Gdx.graphics.getWidth() - super.getWidth());
+            }
+        }
     }
-    
-    public void moveLeft(){
-    float delta = getXSpeed()*Gdx.graphics.getDeltaTime();
-    if(super.getX() - delta < 0) //if going off-screen
-    {
-        super.setX(0);
-    }
-    else
-    {
-        super.setX(super.getX() - delta);
-    }
-    update();
-    }
-
-    public void moveRight(){
-    float delta = getXSpeed()*Gdx.graphics.getDeltaTime();
-    if(super.getX() + super.getWidth() < Gdx.graphics.getWidth())
-    {
-        super.setX(super.getX() + delta);
-    }
-    else
-    {
-        super.setX(Gdx.graphics.getWidth() - super.getWidth());
-    }
-    update();
-    }
+//    {
+//    	InputManager input=new InputManager();
+//    	input.keyboard(this);
+//        update();
+//    }
+//
 
     public void collide(boolean collide)
     {

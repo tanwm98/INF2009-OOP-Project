@@ -25,11 +25,7 @@ public class EntityManager{
     public void removeEntity(Entity entity) {
     	entityList.remove(entity);
     }
-    public void moveEntities() {
-        for (Entity entity : entityList) {
-            entity.move();
-        }
-    }
+
     public void dispose() {
     	for (Entity entity : entityList) {
     		entity.dispose();
