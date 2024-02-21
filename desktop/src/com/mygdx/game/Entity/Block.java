@@ -2,10 +2,13 @@ package com.mygdx.game.Entity;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.game.OutputManager;
 
 public class Block extends Entity{
 
     ShapeRenderer shape = new ShapeRenderer();
+	OutputManager outputManager= new OutputManager();
+	
     public Block(float x, float y, float width, float height, Color color)
     {
         super.setX(x);
@@ -23,7 +26,8 @@ public class Block extends Entity{
     {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(super.getColor());
-        shape.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
+        outputManager.draw(shape,super.getX(), super.getY(), super.getWidth(), super.getHeight());
+        //shape.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
         shape.end();
     }
 

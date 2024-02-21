@@ -13,8 +13,10 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.AIControlManager;
+import com.mygdx.game.InputManager;
 import com.mygdx.game.Entity.*;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.OutputManager;
 import com.mygdx.game.Player;
 
 public class GameScreen implements Screen {
@@ -23,7 +25,6 @@ public class GameScreen implements Screen {
     private MyGdxGame game;
     private Music backgroundMusic;
     private ShapeRenderer shapeRenderer;
-    
     private ScreenManager screenManager;
     private EntityManager entityManager;
     private AIControlManager aiControlManager;
@@ -31,14 +32,15 @@ public class GameScreen implements Screen {
     private Entity ball;
     private Entity paddle;
     private int blockWidth = 63, blockHeight = 20;//set the width and height of the blocks
-
     private boolean isGameOver = false;
     private BitmapFont gameOverFont;
     private BitmapFont optionFont;
-    private BitmapFont livesFont;
-    private BitmapFont scoreFont;
+    //private BitmapFont livesFont;
+    //private BitmapFont scoreFont;
     private int selectedOptions = 0;
     
+    OutputManager outputManager=new OutputManager();
+    InputManager inputManager=new InputManager();
     
 
     public GameScreen(MyGdxGame game) {
@@ -48,8 +50,8 @@ public class GameScreen implements Screen {
         gameOverFont = new BitmapFont();
         optionFont = new BitmapFont(); // Initialize a separate font for options if needed
         player = new Player();
-        livesFont = new BitmapFont();
-        scoreFont = new BitmapFont();
+        //livesFont = new BitmapFont();
+        //scoreFont = new BitmapFont();
         selectedOptions = 0;
     }
 
@@ -57,9 +59,7 @@ public class GameScreen implements Screen {
     public void show() {
     	 // Load the music
     	entityManager = new EntityManager();
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Wii.mp3"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
+    	outputManager.musicStart(false);
         setupGameEntities();
         player = new Player();
         
@@ -89,13 +89,15 @@ public class GameScreen implements Screen {
         update(delta);
         
         batch.begin();
-        livesFont.draw(batch, "Lives: " + player.getLives(), 0, 100);
-        scoreFont.draw(batch, "Score: " + player.getScore(), 0, 50);
+        //livesFont.draw(batch, "Lives: " + player.getLives(), 0, 100);
+        //scoreFont.draw(batch, "Score: " + player.getScore(), 0, 50);
+        outputManager.draw(batch, "Lives: " + player.getLives(), 0, 100);
+        outputManager.draw(batch, "Score: " + player.getScore(), 0, 50);
         batch.end(); 
         
         if (entityManager != null) {
             aiControlManager.moveEntities();
-            entityManager.renderEntities(); //
+            entityManager.renderEntities(); 
             entityManager.detect();
             paddle.move();
         }
@@ -107,7 +109,8 @@ public class GameScreen implements Screen {
     	GlyphLayout gameOverLayout = new GlyphLayout(gameOverFont, "Game Over!");
     	float gameOverPosX = (Gdx.graphics.getWidth() - gameOverLayout.width) / 2;
     	float gameOverPosY = (Gdx.graphics.getHeight() / 2) + gameOverLayout.height;
-    	gameOverFont.draw(batch, gameOverLayout, gameOverPosX, gameOverPosY);
+    	//gameOverFont.draw(batch, gameOverLayout, gameOverPosX, gameOverPosY);
+    	outputManager.draw(batch, gameOverLayout, gameOverPosX, gameOverPosY);
 
     	
     	GlyphLayout retryLayout = new GlyphLayout(optionFont, "Retry?");
@@ -119,13 +122,16 @@ public class GameScreen implements Screen {
     	float exitPosX = retryPosX + retryLayout.width + 20;
     	float optionsPosY = gameOverPosY - gameOverLayout.height - 40; 
 
-    	// Retry
-    	optionFont.setColor(selectedOptions == 0 ? Color.YELLOW : Color.WHITE);
-    	optionFont.draw(batch, "Retry?", retryPosX, optionsPosY);
-
+		// Retry
+    	outputManager.draw(batch, "Retry?", retryPosX, optionsPosY,selectedOptions==0);
+    	//optionFont.setColor(selectedOptions == 0 ? Color.YELLOW : Color.WHITE);
+    	//optionFont.draw(batch, "Retry?", retryPosX, optionsPosY);
+    
     	// Exit
-    	optionFont.setColor(selectedOptions == 1 ? Color.BLUE : Color.WHITE);
-    	optionFont.draw(batch, "Back to Menu", exitPosX, optionsPosY);
+    	outputManager.draw(batch,"Back to Menu", exitPosX, optionsPosY, selectedOptions==1);
+    	//optionFont.setColor(selectedOptions == 1 ? Color.BLUE : Color.WHITE);
+    	//optionFont.draw(batch, "Back to Menu", exitPosX, optionsPosY);
+
         batch.end();
         handleInputs();
     }
@@ -137,11 +143,11 @@ public class GameScreen implements Screen {
 }
     private void handleInputs() {
         if (isGameOver) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            if (inputManager.isLeftKeyJustPressed() || inputManager.isRightKeyJustPressed()) {
             	selectedOptions = (selectedOptions + 1) % 2; // Toggle between options
             }
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            if (inputManager.isEnterKeyJustPressed()) {
                 if (selectedOptions == 0) {
                     resetGame(); // Reset the game
                 } else if (selectedOptions == 1) {
@@ -193,11 +199,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-    	if (backgroundMusic != null) {
+    	outputManager.soundEnd();
+    	/*if (backgroundMusic != null) {
             backgroundMusic.stop();
             backgroundMusic.dispose();
-        }
-        
+        }*/
     }
 
     @Override
@@ -211,6 +217,8 @@ public class GameScreen implements Screen {
         if (gameOverFont != null) {
             gameOverFont.dispose();
         }
-        
+    	if (backgroundMusic != null) {
+        backgroundMusic.dispose();
+    	}
     }
 }

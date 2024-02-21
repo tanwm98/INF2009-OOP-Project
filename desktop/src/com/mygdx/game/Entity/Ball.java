@@ -1,14 +1,17 @@
 package com.mygdx.game.Entity;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.game.OutputManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Gdx;
 
 public class Ball extends Entity {
-    ShapeRenderer shape = new ShapeRenderer();
+	private float size;
+	private Color color = Color.WHITE;
 
-    private float size;
-    private Color color = Color.WHITE;
+	ShapeRenderer shape = new ShapeRenderer();
+	OutputManager outputManager= new OutputManager();
+
 
     public Ball(){
         super();
@@ -29,13 +32,14 @@ public class Ball extends Entity {
     @Override
     public void update() {
         System.out.printf("Ball pos X:%f and Y: %f\n",super.getX(),super.getY());
-
     }
+    
     @Override
     public void render(){
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
-        shape.circle(super.getX(),super.getY(),size);
+        outputManager.draw(shape,super.getX(),super.getY(),size);
+        //shape.circle(super.getX(),super.getY(),size);
         shape.end();
     }
     
