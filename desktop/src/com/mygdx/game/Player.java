@@ -13,7 +13,23 @@ public class Player{
         lives = 3;
         score = 0;
     }
-
+    public Player(int lives)
+    {
+        if(lives <= 0)
+        {
+            throw new IllegalArgumentException("Lives cannot be negative or zero");
+        }
+        this.lives = lives;
+        score = 0;
+    }
+    public Player(int lives, int score){
+        if(lives < 0 || score < 0)
+        {
+            throw new IllegalArgumentException("Lives and score cannot be negative");
+        }
+        this.lives = lives;
+        this.score = score;
+    }
     public void addScore(int points)
     {
         score += points;

@@ -1,4 +1,4 @@
-package com.mygdx.game.Screens;
+package com.mygdx.game.Interfaces;
 
 public interface Screen {
     void show();

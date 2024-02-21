@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,7 +21,7 @@ public class MainMenuScreen implements Screen {
     private Texture backgroundImage;
     private MyGdxGame game;
     private int currentSelection = 0;
-    
+
     OutputManager outputManager=new OutputManager();
     InputManager inputManager=new InputManager();
 
@@ -31,6 +32,7 @@ public class MainMenuScreen implements Screen {
         backgroundImage = new Texture("DarkSpace.jpg");
     }
 
+    OutputManager output=new OutputManager();
     @Override
     public void show() {
     	outputManager.musicStart(true);
@@ -132,7 +134,14 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
-        font.dispose();
+        if (batch != null) {
+            batch.dispose();
+        }
+        if (font != null) {
+            font.dispose();
+        }
+        if (backgroundImage != null) {
+            backgroundImage.dispose();
+        }
     }
 }

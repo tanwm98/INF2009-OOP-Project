@@ -19,6 +19,10 @@ public class Ball extends Entity {
 
     public Ball(float x, float y, float size, float xSpeed, float ySpeed, Color color,boolean aiFlag)
         {
+            if(size <= 0)
+            {
+                throw new IllegalArgumentException("Invalid input; negative values and zero not allowed");
+            }
             super.setX(x);
             super.setY(y);
             this.size = size;
@@ -67,9 +71,4 @@ public class Ball extends Entity {
     {
         shape.dispose();
     }
-    public void playerMovement()
-    {
-
-    }
-
 }

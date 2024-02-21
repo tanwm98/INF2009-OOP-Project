@@ -25,6 +25,7 @@ public class GameScreen implements Screen {
     private MyGdxGame game;
     private Music backgroundMusic;
     private ShapeRenderer shapeRenderer;
+    
     private ScreenManager screenManager;
     private EntityManager entityManager;
     private AIControlManager aiControlManager;
@@ -32,27 +33,34 @@ public class GameScreen implements Screen {
     private Entity ball;
     private Entity paddle;
     private int blockWidth = 63, blockHeight = 20;//set the width and height of the blocks
+
     private boolean isGameOver = false;
     private BitmapFont gameOverFont;
     private BitmapFont optionFont;
-    //private BitmapFont livesFont;
-    //private BitmapFont scoreFont;
+    private BitmapFont livesFont;
+    private BitmapFont scoreFont;
     private int selectedOptions = 0;
     
     OutputManager outputManager=new OutputManager();
     InputManager inputManager=new InputManager();
-    
+
 
     public GameScreen(MyGdxGame game) {
-    	this.game = game;
-        batch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
-        gameOverFont = new BitmapFont();
-        optionFont = new BitmapFont(); // Initialize a separate font for options if needed
-        player = new Player();
-        //livesFont = new BitmapFont();
-        //scoreFont = new BitmapFont();
-        selectedOptions = 0;
+        try {
+            this.game = game;
+            batch = new SpriteBatch();
+            shapeRenderer = new ShapeRenderer();
+            gameOverFont = new BitmapFont();
+            optionFont = new BitmapFont(); // Initialize a separate font for options if needed
+            player = new Player();
+            livesFont = new BitmapFont();
+            scoreFont = new BitmapFont();
+            selectedOptions = 0;
+        }
+        catch(Exception e) {
+            System.err.println("Game screen not initialised due to:" + e.getMessage());
+        }
+
     }
 
     @Override
@@ -97,7 +105,7 @@ public class GameScreen implements Screen {
         
         if (entityManager != null) {
             aiControlManager.moveEntities();
-            entityManager.renderEntities(); 
+            entityManager.renderEntities(); //
             entityManager.detect();
             paddle.move();
         }
@@ -126,7 +134,7 @@ public class GameScreen implements Screen {
     	outputManager.draw(batch, "Retry?", retryPosX, optionsPosY,selectedOptions==0);
     	//optionFont.setColor(selectedOptions == 0 ? Color.YELLOW : Color.WHITE);
     	//optionFont.draw(batch, "Retry?", retryPosX, optionsPosY);
-    
+
     	// Exit
     	outputManager.draw(batch,"Back to Menu", exitPosX, optionsPosY, selectedOptions==1);
     	//optionFont.setColor(selectedOptions == 1 ? Color.BLUE : Color.WHITE);
@@ -220,5 +228,17 @@ public class GameScreen implements Screen {
     	if (backgroundMusic != null) {
         backgroundMusic.dispose();
     	}
+        if (backgroundMusic != null) {
+            backgroundMusic.dispose();
+        }
+        if (shapeRenderer != null) {
+            shapeRenderer.dispose();
+        }
+        if (optionFont != null) {
+            optionFont.dispose();
+        }
+        if (entityManager != null) {
+            entityManager.dispose();
+        }
     }
 }

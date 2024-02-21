@@ -33,6 +33,12 @@ public class EntityManager{
     }
 
 	public void detect() {
+        if (entityList == null) {
+            throw new NullPointerException("Entity list is null");
+        }
+        if (entityList.isEmpty()) {
+            throw new IndexOutOfBoundsException("Entity list is empty");
+        }
 		collisionManager = new CollisionManager();
 		Entity ball = entityList.get(0);
 		//Check for ball collision
