@@ -73,8 +73,9 @@ public class GameScreen implements Screen {
         
     }
     private void setupGameEntities() {
-        entityManager = new EntityManager();
         aiControlManager = new AIControlManager();
+        entityManager = new EntityManager(aiControlManager);
+
         paddle = new Paddle(100, 20, 300, 100, 20, Color.WHITE, false);
         ball = new Ball( 0,30, 10, 5, 5, Color.WHITE, true);
         entityManager.addEntity(ball);
@@ -84,8 +85,6 @@ public class GameScreen implements Screen {
                 entityManager.addEntity(new Block(x, y, blockWidth, blockHeight, Color.WHITE));
             }
         }
-        aiControlManager.addEntity(ball);
-
     }
 
     @Override

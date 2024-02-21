@@ -3,18 +3,30 @@ package com.mygdx.game.Entity;
 import java.util.*;
 
 import com.mygdx.game.CollisionManager;
+import com.mygdx.game.AIControlManager;
 
 public class EntityManager{
     private List<Entity> entityList;
     private CollisionManager collisionManager;
+    private AIControlManager aiControlManager;
     private boolean collide;
 
     public EntityManager(){
         entityList = new ArrayList<>();
+        aiControlManager = new AIControlManager();
+    }
+    public EntityManager(AIControlManager aiControlManager)
+    //uses the same AIControlManager as the game
+    {
+        this.entityList = new ArrayList<>();
+        this.aiControlManager = aiControlManager;
     }
 
     public void addEntity(Entity entity) {
         entityList.add(entity);
+        if (entity.isAIControl()) {
+            aiControlManager.addEntity(entity); //adds entity with AI movement to the list
+        }
     }
 
     public void renderEntities() {
