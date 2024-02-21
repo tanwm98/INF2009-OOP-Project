@@ -1,6 +1,7 @@
 package com.mygdx.game.Entity;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
@@ -22,14 +23,34 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setYSpeed(0);
 		setX(0);
 		setY(0);
+		setWidth(0);
+		setHeight(0);
 		color = Color.WHITE;
 		setControl(false);
 	}
-	public Entity(float xSpeed, float ySpeed, float xPos, float yPos, boolean isAIControl) {
+	public Entity(float xPos, float yPos,float xSpeed, float ySpeed,float width,float height, boolean isAIControl) {
+		if(xPos < 0 || yPos < 0 || xSpeed < 0 || ySpeed < 0 || width < 0 || height < 0)
+		{
+			throw new IllegalArgumentException("Invalid input; negative values");
+		}
+		else if(xSpeed == 0 || ySpeed == 0 || width == 0 || height == 0)
+		{
+			throw new IllegalArgumentException("Invalid input; zero values");
+		}
+		else if(xPos > Gdx.graphics.getWidth() || yPos > Gdx.graphics.getHeight())
+		{
+			throw new IllegalArgumentException("Invalid input; position cannot be greater than screen size");
+		}
+		else if(width > Gdx.graphics.getWidth())
+		{
+			throw new IllegalArgumentException("Invalid input; size cannot be greater than screen size");
+		}
 		setXSpeed(xSpeed);
 		setYSpeed(ySpeed);
 		setX(xPos);
 		setY(yPos);
+		setWidth(width);
+		setHeight(height);
 		setControl(isAIControl);
 	}
 	

@@ -26,20 +26,21 @@ public class MainMenuScreen implements Screen {
         this.game = game;
         batch = new SpriteBatch();
         font = new BitmapFont();
-        backgroundImage = new Texture("DarkSpace.jpg"); 
+        backgroundImage = new Texture("DarkSpace.jpg");
     }
 
-    OutputManager output=new OutputManager();
+    OutputManager output = new OutputManager();
+
     @Override
     public void show() {
-    	output.soundStart();
+        output.soundStart();
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         batch.begin();
         batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -122,12 +123,22 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-    	output.soundEnd();
+        output.soundEnd();
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        font.dispose();
+        if (batch != null) {
+            batch.dispose();
+        }
+        if (font != null) {
+            font.dispose();
+        }
+        if (backgroundImage != null) {
+            backgroundImage.dispose();
+        }
+        if (backgroundMusic != null) {
+            backgroundMusic.dispose();
+        }
     }
 }

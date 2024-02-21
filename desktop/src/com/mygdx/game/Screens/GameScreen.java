@@ -40,15 +40,21 @@ public class GameScreen implements Screen {
     
 
     public GameScreen(MyGdxGame game) {
-    	this.game = game;
-        batch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
-        gameOverFont = new BitmapFont();
-        optionFont = new BitmapFont(); // Initialize a separate font for options if needed
-        player = new Player();
-        livesFont = new BitmapFont();
-        scoreFont = new BitmapFont();
-        selectedOptions = 0;
+        try {
+            this.game = game;
+            batch = new SpriteBatch();
+            shapeRenderer = new ShapeRenderer();
+            gameOverFont = new BitmapFont();
+            optionFont = new BitmapFont(); // Initialize a separate font for options if needed
+            player = new Player();
+            livesFont = new BitmapFont();
+            scoreFont = new BitmapFont();
+            selectedOptions = 0;
+        }
+        catch(Exception e) {
+            System.err.println("Game screen not initialised due to:" + e.getMessage());
+        }
+
     }
 
     @Override
@@ -194,7 +200,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-    	if (batch != null) {
+        if (batch != null) {
             batch.dispose();
         }
         if (backgroundImage != null) {
@@ -203,6 +209,17 @@ public class GameScreen implements Screen {
         if (gameOverFont != null) {
             gameOverFont.dispose();
         }
-        
+        if (backgroundMusic != null) {
+            backgroundMusic.dispose();
+        }
+        if (shapeRenderer != null) {
+            shapeRenderer.dispose();
+        }
+        if (optionFont != null) {
+            optionFont.dispose();
+        }
+        if (entityManager != null) {
+            entityManager.dispose();
+        }
     }
 }
