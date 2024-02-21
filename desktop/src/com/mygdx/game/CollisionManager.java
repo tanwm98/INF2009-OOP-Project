@@ -1,28 +1,26 @@
 package com.mygdx.game;
 
-import java.util.List;
-
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.game.Entity.Entity;
 
 public class CollisionManager{
 
-	private Rectangle player_rect;
-	private Circle object_rect;
+	private Rectangle object_rect;
+	private Circle ball_rect;
 	private boolean collide;
 
-	public boolean detectCollision(List<Entity> entitylist) {
-			Entity player = entitylist.get(0);
-			Entity ball = entitylist.get(1);
-			player_rect = new Rectangle(player.getX() , player.getY() , player.getWidth() , player.getHeight());
-			object_rect = new Circle(ball.getX() , ball.getY() , ball.getHeight());
-
-			
-			if(Intersector.overlaps(object_rect , player_rect)) {
-				collide = true;
-			}
-			return collide;
+	public boolean detectCollision(Entity e1 , Entity e2) {
+		ball_rect = new Circle(e1.getX() , e1.getY() , 10);
+		object_rect = new Rectangle(e2.getX() , e2.getY() , e2.getWidth() , e2.getHeight());
+		if(Intersector.overlaps(ball_rect , object_rect) == true) {
+			collide = true;
+		}
+		else {
+			collide = false;
+		}
+		return collide;
 			
 	}
 }
