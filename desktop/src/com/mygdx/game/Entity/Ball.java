@@ -43,7 +43,6 @@ public class Ball extends Entity {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
         outputManager.draw(shape,super.getX(),super.getY(),size);
-        //shape.circle(super.getX(),super.getY(),size);
         shape.end();
     }
     

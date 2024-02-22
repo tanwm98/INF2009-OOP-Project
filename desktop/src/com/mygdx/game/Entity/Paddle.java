@@ -4,14 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
 import com.mygdx.game.InputManager;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.OutputManager;
 
 public class Paddle extends Entity {
     private Color color = Color.WHITE;
     
     ShapeRenderer shape = new ShapeRenderer();
-    InputManager inputManager = new InputManager();
-    OutputManager outputManager = new OutputManager();
+    OutputManager outputManager= new OutputManager();
+    InputManager inputManager= new InputManager();
     
     public Paddle(){
         super.setXSpeed(0);
@@ -32,8 +33,7 @@ public class Paddle extends Entity {
     public void render(){
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
-        shape.rect(super.getX(),super.getY(),super.getWidth(),getHeight());
-        //outputManager.draw(shape,super.getX(), super.getY(), super.getWidth(), super.getHeight());
+        outputManager.draw(shape,super.getX(), super.getY(), super.getWidth(), super.getHeight());
         shape.end();
     }
 
@@ -63,11 +63,6 @@ public class Paddle extends Entity {
             }
         }
     }
-    /*{
-    	InputManager input=new InputManager();
-    	input.keyboard(this);
-       update();
-    }*/
 
     public void collide(boolean collide)
     {

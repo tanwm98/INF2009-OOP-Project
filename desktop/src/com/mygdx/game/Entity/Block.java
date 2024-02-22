@@ -27,7 +27,6 @@ public class Block extends Entity{
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(super.getColor());
         outputManager.draw(shape,super.getX(), super.getY(), super.getWidth(), super.getHeight());
-        //shape.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
         shape.end();
     }
 
