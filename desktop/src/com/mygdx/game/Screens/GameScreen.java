@@ -13,10 +13,8 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.AIControlManager;
-import com.mygdx.game.InputManager;
 import com.mygdx.game.Entity.*;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.OutputManager;
 import com.mygdx.game.Player;
 
 
@@ -40,9 +38,6 @@ public class GameScreen implements Screen {
     private BitmapFont livesFont;
     private BitmapFont scoreFont;
     private int selectedOptions = 0;
-    
-    OutputManager outputManager=new OutputManager();
-    InputManager inputManager=new InputManager();
 
 
     public GameScreen(MyGdxGame game) {
@@ -67,7 +62,7 @@ public class GameScreen implements Screen {
     public void show() {
     	 // Load the music
     	entityManager = new EntityManager();
-    	outputManager.musicStart(false);
+    	backgroundMusic=game.getoutputManager().musicStart(false);
         setupGameEntities();
         player = new Player();
         
@@ -97,8 +92,8 @@ public class GameScreen implements Screen {
         
         batch.begin();
 
-        outputManager.draw(batch, "Lives: " + player.getLives(), 0, 100);
-        outputManager.draw(batch, "Score: " + player.getScore(), 0, 50);
+        game.getoutputManager().draw(batch, "Lives: " + player.getLives(), 0, 100);
+        game.getoutputManager().draw(batch, "Score: " + player.getScore(), 0, 50);
         batch.end(); 
         
         if (entityManager != null) {
@@ -112,7 +107,7 @@ public class GameScreen implements Screen {
     	GlyphLayout gameOverLayout = new GlyphLayout(gameOverFont, "Game Over!");
     	float gameOverPosX = (Gdx.graphics.getWidth() - gameOverLayout.width) / 2;
     	float gameOverPosY = (Gdx.graphics.getHeight() / 2) + gameOverLayout.height;
-    	outputManager.draw(batch, gameOverLayout, gameOverPosX, gameOverPosY);
+    	game.getoutputManager().draw(batch, gameOverLayout, gameOverPosX, gameOverPosY);
 
     	
     	GlyphLayout retryLayout = new GlyphLayout(optionFont, "Retry?");
@@ -125,11 +120,11 @@ public class GameScreen implements Screen {
     	float optionsPosY = gameOverPosY - gameOverLayout.height - 40; 
 
 		// Retry
-    	outputManager.draw(batch, "Retry?", retryPosX, optionsPosY,selectedOptions==0);
+    	game.getoutputManager().draw(batch, "Retry?", retryPosX, optionsPosY,selectedOptions==0);
 
 
     	// Exit
-    	outputManager.draw(batch,"Back to Menu", exitPosX, optionsPosY, selectedOptions==1);
+    	game.getoutputManager().draw(batch,"Back to Menu", exitPosX, optionsPosY, selectedOptions==1);
 
         batch.end();
         handleInputs();
@@ -142,11 +137,11 @@ public class GameScreen implements Screen {
 }
     private void handleInputs() {
         if (isGameOver) {
-            if (inputManager.isLeftKeyJustPressed() || inputManager.isRightKeyJustPressed()) {
+            if (game.getinputManager().isLeftKeyJustPressed() || game.getinputManager().isRightKeyJustPressed()) {
             	selectedOptions = (selectedOptions + 1) % 2; // Toggle between options
             }
 
-            if (inputManager.isEnterKeyJustPressed()) {
+            if (game.getinputManager().isEnterKeyJustPressed()) {
                 if (selectedOptions == 0) {
                     resetGame(); // Reset the game
                 } else if (selectedOptions == 1) {
@@ -198,7 +193,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-    	outputManager.soundEnd();
+    	game.getoutputManager().soundEnd(backgroundMusic);
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.mygdx.game.Interfaces;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 public interface Screen {
     void show();
     void render(float delta);
@@ -8,4 +11,6 @@ public interface Screen {
     void resume();
     void hide();
     void dispose();
+    //void draw(SpriteBatch batch);
+    //void draw(ShapeRenderer shape);
 }
