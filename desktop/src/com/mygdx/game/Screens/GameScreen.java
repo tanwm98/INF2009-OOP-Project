@@ -164,7 +164,7 @@ public class GameScreen implements Screen {
    
     }
     
-    private void update(float delta) {
+    private void update() {
         if(player.getLives() == 0) {
             isGameOver = true;
         }
