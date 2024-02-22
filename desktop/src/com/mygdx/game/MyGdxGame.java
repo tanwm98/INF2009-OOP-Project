@@ -12,6 +12,8 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     private ScreenManager screenManager;
     private EntityManager entityManager;
     private AIControlManager aiControlManager;
+    private OutputManager outputManager;
+    private InputManager inputManager;
 
 
     @Override
@@ -22,9 +24,22 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         screenManager.pushScreen(mainMenuScreen);
         entityManager = new EntityManager();
         aiControlManager = new AIControlManager();
+        outputManager = new OutputManager();
+        inputManager = new InputManager();
     }
     public ScreenManager getScreenManager() {
         return screenManager;
+    }
+    
+    public OutputManager getoutputManager(){
+    	if(outputManager == null) {
+    	    outputManager = new OutputManager();
+    	}
+    	return outputManager;
+    }
+    
+    public InputManager getinputManager(){
+    	return inputManager;
     }
 
     @Override
