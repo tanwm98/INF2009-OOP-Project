@@ -19,14 +19,14 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.OutputManager;
 import com.mygdx.game.Player;
 
+
 public class GameScreen implements Screen {
 	private SpriteBatch batch;
     private Texture backgroundImage;
     private MyGdxGame game;
     private Music backgroundMusic;
     private ShapeRenderer shapeRenderer;
-    
-    private ScreenManager screenManager;
+
     private EntityManager entityManager;
     private AIControlManager aiControlManager;
     private Player player;
@@ -96,8 +96,7 @@ public class GameScreen implements Screen {
         update(delta);
         
         batch.begin();
-        //livesFont.draw(batch, "Lives: " + player.getLives(), 0, 100);
-        //scoreFont.draw(batch, "Score: " + player.getScore(), 0, 50);
+
         outputManager.draw(batch, "Lives: " + player.getLives(), 0, 100);
         outputManager.draw(batch, "Score: " + player.getScore(), 0, 50);
         batch.end(); 
@@ -108,15 +107,11 @@ public class GameScreen implements Screen {
             entityManager.detect();
             paddle.move();
         }
-        if (aiControlManager != null) {
-        }
     } else {
-    
     	batch.begin();
     	GlyphLayout gameOverLayout = new GlyphLayout(gameOverFont, "Game Over!");
     	float gameOverPosX = (Gdx.graphics.getWidth() - gameOverLayout.width) / 2;
     	float gameOverPosY = (Gdx.graphics.getHeight() / 2) + gameOverLayout.height;
-    	//gameOverFont.draw(batch, gameOverLayout, gameOverPosX, gameOverPosY);
     	outputManager.draw(batch, gameOverLayout, gameOverPosX, gameOverPosY);
 
     	
@@ -131,13 +126,10 @@ public class GameScreen implements Screen {
 
 		// Retry
     	outputManager.draw(batch, "Retry?", retryPosX, optionsPosY,selectedOptions==0);
-    	//optionFont.setColor(selectedOptions == 0 ? Color.YELLOW : Color.WHITE);
-    	//optionFont.draw(batch, "Retry?", retryPosX, optionsPosY);
+
 
     	// Exit
     	outputManager.draw(batch,"Back to Menu", exitPosX, optionsPosY, selectedOptions==1);
-    	//optionFont.setColor(selectedOptions == 1 ? Color.BLUE : Color.WHITE);
-    	//optionFont.draw(batch, "Back to Menu", exitPosX, optionsPosY);
 
         batch.end();
         handleInputs();
@@ -181,7 +173,7 @@ public class GameScreen implements Screen {
         }
         else
         {
-            player.addScore(10);;
+            player.addScore(10);
         }
 	}
 
@@ -207,10 +199,6 @@ public class GameScreen implements Screen {
     @Override
     public void hide() {
     	outputManager.soundEnd();
-    	/*if (backgroundMusic != null) {
-            backgroundMusic.stop();
-            backgroundMusic.dispose();
-        }*/
     }
 
     @Override

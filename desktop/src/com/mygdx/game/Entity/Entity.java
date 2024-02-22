@@ -13,12 +13,11 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	private float xPos;
 	private float yPos;
 	private float xSpeed, ySpeed;
-	private float width,height;
+	private float width, height;
 	private Color color;
-	private boolean isAIControl;	// Flag to determine whether entity is AI controlled.
+	private boolean isAIControl;    // Flag to determine whether entity is AI controlled.
 
-	public Entity()
-	{
+	public Entity() {
 		setXSpeed(0);
 		setYSpeed(0);
 		setX(0);
@@ -28,14 +27,15 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		color = Color.WHITE;
 		setControl(false);
 	}
-	public Entity(float xPos, float yPos,float xSpeed, float ySpeed,float width,float height, boolean isAIControl) {
+
+	public Entity(float xPos, float yPos, float xSpeed, float ySpeed, float width, float height, Color color,boolean isAIControl) {
 		if(xPos < 0 || yPos < 0 || xSpeed < 0 || ySpeed < 0 || width < 0 || height < 0)
 		{
 			throw new IllegalArgumentException("Invalid input; negative values");
 		}
-		else if(xSpeed == 0 || ySpeed == 0 || width == 0 || height == 0)
+		else if(width == 0 || height == 0)
 		{
-			throw new IllegalArgumentException("Invalid input; zero values");
+			throw new IllegalArgumentException("Invalid input for width and height; zero values");
 		}
 		else if(xPos > Gdx.graphics.getWidth() || yPos > Gdx.graphics.getHeight())
 		{
@@ -52,8 +52,9 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setWidth(width);
 		setHeight(height);
 		setControl(isAIControl);
+		setColor(color);
 	}
-	
+
 	// X position Getter and Setter
 	public float getX() {
 		return xPos;
@@ -61,7 +62,6 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	public void setX(float xPos) {
 		this.xPos = xPos;
 	}
-	
 	// Y position Getter and Setter
 	public float getY() {
 		return yPos;
@@ -77,8 +77,6 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	public void setControl(boolean isAIControl) {
 		this.isAIControl = isAIControl;
 	}
-	
-	
 	// Speed Getter and Setter
 	public void setXSpeed(float xSpeed) {
 		this.xSpeed = xSpeed;
@@ -92,17 +90,14 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	public float getYSpeed() {
 		return ySpeed;
 	}
-	
-	
-	public abstract void update();
-	public abstract void render();
-	public abstract void dispose();
-
 	public float getWidth() {
 		return width;
 	}
 
 	public void setWidth(float width) {
+		if(width < 0 || width > Gdx.graphics.getWidth()) {
+			throw new IllegalArgumentException("Invalid input; size cannot be greater than screen size or negative");
+		}
 		this.width = width;
 	}
 
@@ -111,9 +106,11 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	}
 
 	public void setHeight(float height) {
+		if(height < 0 || height > Gdx.graphics.getHeight()) {
+			throw new IllegalArgumentException("Invalid input; size cannot be greater than screen size or negative");
+		}
 		this.height = height;
 	}
-
 	public Color getColor() {
 		return color;
 	}
@@ -128,6 +125,10 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	public void setAIControl(boolean isAIControl) {
 		this.isAIControl = isAIControl;
 	}
+	
+	public abstract void update();
+	public abstract void render();
+	public abstract void dispose();
 }
 
 

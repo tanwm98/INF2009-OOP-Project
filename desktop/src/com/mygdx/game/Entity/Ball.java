@@ -58,7 +58,8 @@ public class Ball extends Entity {
     {
         super.setX(super.getX() + super.getXSpeed());
         super.setY(super.getY() + super.getYSpeed());
-        if(super.getX() - size / 2 < 0 || super.getX() + size / 2 > Gdx.graphics.getWidth())  //divide by 2 to get the center of the ball
+        if(super.getX() - size / 2 < 0 || super.getX() + size / 2 > Gdx.graphics.getWidth())
+            //divide by 2 to get the center of the ball
         {
             super.setXSpeed(super.getXSpeed() * -1); //reverse x direction
         }

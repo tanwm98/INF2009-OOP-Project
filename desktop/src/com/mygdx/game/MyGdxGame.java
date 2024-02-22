@@ -7,6 +7,7 @@ import com.mygdx.game.Entity.EntityManager;
 import com.mygdx.game.Screens.MainMenuScreen;
 import com.mygdx.game.Screens.ScreenManager;
 
+
 public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     private ScreenManager screenManager;
     private EntityManager entityManager;

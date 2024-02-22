@@ -22,13 +22,7 @@ public class Paddle extends Entity {
     }
     public Paddle(float x, float y, float xSpeed,float width, float height,Color color,boolean aiFlag)
     {
-        super.setX(x);
-        super.setY(y);
-        super.setXSpeed(xSpeed);
-        super.setWidth(width);
-        super.setHeight(height);
-        super.setColor(color);
-        super.setControl(aiFlag);
+        super(x,y,xSpeed,0,width,height,color,aiFlag);
     }
     @Override
     public void update() {
