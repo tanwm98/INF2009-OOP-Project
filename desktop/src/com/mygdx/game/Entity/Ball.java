@@ -1,7 +1,7 @@
 package com.mygdx.game.Entity;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.OutputManager;
+import com.mygdx.game.Managers.OutputManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Gdx;
 

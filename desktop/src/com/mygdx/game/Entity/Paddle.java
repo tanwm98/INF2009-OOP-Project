@@ -3,9 +3,8 @@ package com.mygdx.game.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
-import com.mygdx.game.InputManager;
-import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.OutputManager;
+import com.mygdx.game.Managers.InputManager;
+import com.mygdx.game.Managers.OutputManager;
 
 public class Paddle extends Entity {
     private Color color = Color.WHITE;

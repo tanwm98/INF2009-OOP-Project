@@ -12,8 +12,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.AIControlManager;
+import com.mygdx.game.Managers.AIControlManager;
 import com.mygdx.game.Entity.*;
+import com.mygdx.game.Managers.EntityManager;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
 

@@ -11,6 +11,4 @@ public interface Screen {
     void resume();
     void hide();
     void dispose();
-    //void draw(SpriteBatch batch);
-    //void draw(ShapeRenderer shape);
 }

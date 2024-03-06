@@ -2,11 +2,10 @@ package com.mygdx.game.Entity;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
 import com.mygdx.game.Interfaces.ICollideable;
 import com.mygdx.game.Interfaces.IMovement;
+import com.mygdx.game.Managers.EntityManager;
 
 
 public abstract class Entity extends EntityManager implements ICollideable, IMovement {
