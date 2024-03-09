@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class Block extends Entity{
 
     ShapeRenderer shape = new ShapeRenderer();
+
 	
     public Block(float x, float y, float width, float height, Color color)
     {

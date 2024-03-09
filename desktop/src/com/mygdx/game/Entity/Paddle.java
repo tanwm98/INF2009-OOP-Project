@@ -8,7 +8,6 @@ public class Paddle extends Entity {
     private Color color = Color.WHITE;
     
     ShapeRenderer shape = new ShapeRenderer();
-
     
     public Paddle(){
         super.setXSpeed(0);

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.mygdx.game.Interfaces.ICollideable;
 import com.mygdx.game.Interfaces.IMovement;
+import com.mygdx.game.Managers.EntityManager;
 
 
 public abstract class Entity extends EntityManager implements ICollideable, IMovement {

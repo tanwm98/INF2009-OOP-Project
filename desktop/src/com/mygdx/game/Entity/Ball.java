@@ -64,7 +64,6 @@ public class Ball extends Entity {
             super.setYSpeed(super.getYSpeed() * -1); //reverse y direction
         }
     }
-    
     public void dispose()
     {
         shape.dispose();

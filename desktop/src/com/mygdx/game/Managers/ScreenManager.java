@@ -1,4 +1,4 @@
-package com.mygdx.game.Screens;
+package com.mygdx.game.Managers;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -48,4 +48,5 @@ public class ScreenManager extends MyGdxGame {
             s.dispose();
         }
     }
+
 }

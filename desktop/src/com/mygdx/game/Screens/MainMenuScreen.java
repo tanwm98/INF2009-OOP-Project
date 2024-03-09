@@ -10,14 +10,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Managers.ScreenManager;
 
 
 public class MainMenuScreen implements Screen {
     private SpriteBatch batch;
     private BitmapFont font;
     private Texture backgroundImage;
-    private ScreenManager screenmanager;
     private MyGdxGame game;
+    private ScreenManager screenmanager;
     private int currentSelection = 0;
     private Music backgroundMusic;
     
@@ -33,7 +34,6 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
     	backgroundMusic=screenmanager.getoutputManager().musicStart(true);
-    	
     }
 
     @Override
@@ -43,7 +43,7 @@ public class MainMenuScreen implements Screen {
         
         batch.begin();
         screenmanager.getoutputManager().draw(batch,backgroundImage,0,0);
-        
+
         // Calculate the center of the screen
         float centerX = Gdx.graphics.getWidth() / 2f;
         float centerY = Gdx.graphics.getHeight() / 2f;
@@ -101,7 +101,7 @@ public class MainMenuScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-            	screenmanager.pushScreen(new GameScreen(game));;
+            	screenmanager.pushScreen(new GameScreen(game));
                 break;
             case 1:
                 Gdx.app.exit();
@@ -126,7 +126,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-        screenmanager.getoutputManager().soundEnd(backgroundMusic);
+    	screenmanager.getoutputManager().soundEnd(backgroundMusic);
     }
 
     @Override

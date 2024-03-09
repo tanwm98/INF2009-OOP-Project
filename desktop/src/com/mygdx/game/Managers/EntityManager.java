@@ -1,10 +1,11 @@
-package com.mygdx.game.Entity;
+package com.mygdx.game.Managers;
 
 import java.util.*;
 
-import com.mygdx.game.CollisionManager;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.AIControlManager;
+import com.mygdx.game.Entity.Entity;
+import com.mygdx.game.Managers.CollisionManager;
+import com.mygdx.game.Managers.AIControlManager;
 
 public class EntityManager extends MyGdxGame{
     private List<Entity> entityList;

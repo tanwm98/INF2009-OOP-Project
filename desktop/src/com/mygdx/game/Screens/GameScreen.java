@@ -1,10 +1,8 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Screen;
-
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,8 +10,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.AIControlManager;
+import com.mygdx.game.Managers.AIControlManager;
 import com.mygdx.game.Entity.*;
+import com.mygdx.game.Managers.EntityManager;
+import com.mygdx.game.Managers.ScreenManager;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
 
@@ -25,7 +25,6 @@ public class GameScreen implements Screen {
     private Music backgroundMusic;
     private ShapeRenderer shapeRenderer;
     private ScreenManager screenmanager;
-
     private EntityManager entityManager;
     private AIControlManager aiControlManager;
     private Player player;
@@ -48,23 +47,23 @@ public class GameScreen implements Screen {
             optionFont = new BitmapFont(); // Initialize a separate font for options if needed
             player = new Player();
             screenmanager = new ScreenManager(game);
-
             selectedOptions = 0;
         }
         catch(Exception e) {
             System.err.println("Game screen not initialised due to:" + e.getMessage());
         }
+
     }
 
     @Override
     public void show() {
     	 // Load the music
     	entityManager = new EntityManager();
-    	backgroundMusic= screenmanager.getoutputManager().musicStart(false);
+    	backgroundMusic=screenmanager.getoutputManager().musicStart(false);
         setupGameEntities();
         player = new Player();
+        
     }
-    
     private void setupGameEntities() {
         aiControlManager = new AIControlManager();
         entityManager = new EntityManager(aiControlManager);
