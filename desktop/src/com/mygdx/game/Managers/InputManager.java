@@ -1,4 +1,4 @@
-package com.mygdx.game.Managers;
+package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -16,6 +16,9 @@ public class InputManager {
 	}
 	public boolean isDownKeyPressed() {
 		return Gdx.input.isKeyPressed(Keys.DOWN);
+	}
+	public boolean isEscapeKeyPressed() {
+		return Gdx.input.isKeyPressed(Keys.ESCAPE);
 	}
 	
 	//KeyJustPressed
