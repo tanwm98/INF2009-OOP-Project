@@ -16,6 +16,7 @@ public class MainMenuScreen implements Screen {
     private SpriteBatch batch;
     private BitmapFont font;
     private Texture backgroundImage;
+    private ScreenManager screenmanager;
     private MyGdxGame game;
     private int currentSelection = 0;
     private Music backgroundMusic;
@@ -26,11 +27,13 @@ public class MainMenuScreen implements Screen {
         batch = new SpriteBatch();
         font = new BitmapFont();
         backgroundImage = new Texture("DarkSpace.jpg");
+        screenmanager = new ScreenManager(game);
     }
 
     @Override
     public void show() {
-    	backgroundMusic=game.getoutputManager().musicStart(true);
+    	backgroundMusic=screenmanager.getoutputManager().musicStart(true);
+    	
     }
 
     @Override
@@ -39,8 +42,8 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.begin();
-        game.getoutputManager().draw(batch,backgroundImage,0,0);
-
+        screenmanager.getoutputManager().draw(batch,backgroundImage,0,0);
+        
         // Calculate the center of the screen
         float centerX = Gdx.graphics.getWidth() / 2f;
         float centerY = Gdx.graphics.getHeight() / 2f;
@@ -55,7 +58,7 @@ public class MainMenuScreen implements Screen {
         layout.setText(font, startText);
         float startGameWidth = layout.width;
         float startX = centerX - startGameWidth / 2; // To Center the text
-        game.getoutputManager().draw(batch, startText, startX, startY,currentSelection == 0);
+        screenmanager.getoutputManager().draw(batch, startText, startX, startY,currentSelection == 0);
         startY -= lineHeight + gap;
         //font.setColor(currentSelection == 0 ? Color.YELLOW : Color.WHITE);
         //font.draw(batch, startText, startX, startY);
@@ -65,7 +68,7 @@ public class MainMenuScreen implements Screen {
         layout.setText(font, exitText);
         float exitWidth = layout.width;
         startX = centerX - exitWidth / 2;
-        game.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 1);
+        screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 1);
         //font.setColor(currentSelection == 1 ? Color.RED : Color.WHITE);
         //font.draw(batch, exitText, startX, startY);
 
@@ -77,19 +80,19 @@ public class MainMenuScreen implements Screen {
 
 
     private void updateCurrentSelection() {
-        if (game.getinputManager().isUpKeyJustPressed()) {
+        if (screenmanager.getinputManager().isUpKeyJustPressed()) {
             currentSelection--;
             if (currentSelection < 0) {
                 currentSelection = 1;
             }
         }
-        if (game.getinputManager().isDownKeyJustPressed()) {
+        if (screenmanager.getinputManager().isDownKeyJustPressed()) {
             currentSelection++;
             if (currentSelection > 1) {
                 currentSelection = 0;
             }
         }
-        if (game.getinputManager().isEnterKeyJustPressed()) {
+        if (screenmanager.getinputManager().isEnterKeyJustPressed()) {
             selectOption();
         }
     }
@@ -98,7 +101,7 @@ public class MainMenuScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-                game.getScreenManager().pushScreen(new GameScreen(game));
+            	screenmanager.pushScreen(new GameScreen(game));;
                 break;
             case 1:
                 Gdx.app.exit();
@@ -123,7 +126,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-    	game.getoutputManager().soundEnd(backgroundMusic);
+        screenmanager.getoutputManager().soundEnd(backgroundMusic);
     }
 
     @Override

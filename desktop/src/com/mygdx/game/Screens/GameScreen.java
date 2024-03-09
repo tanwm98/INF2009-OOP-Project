@@ -12,9 +12,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.Managers.AIControlManager;
+import com.mygdx.game.AIControlManager;
 import com.mygdx.game.Entity.*;
-import com.mygdx.game.Managers.EntityManager;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
 
@@ -25,6 +24,7 @@ public class GameScreen implements Screen {
     private MyGdxGame game;
     private Music backgroundMusic;
     private ShapeRenderer shapeRenderer;
+    private ScreenManager screenmanager;
 
     private EntityManager entityManager;
     private AIControlManager aiControlManager;
@@ -36,8 +36,6 @@ public class GameScreen implements Screen {
     private boolean isGameOver = false;
     private BitmapFont gameOverFont;
     private BitmapFont optionFont;
-    private BitmapFont livesFont;
-    private BitmapFont scoreFont;
     private int selectedOptions = 0;
 
 
@@ -49,25 +47,24 @@ public class GameScreen implements Screen {
             gameOverFont = new BitmapFont();
             optionFont = new BitmapFont(); // Initialize a separate font for options if needed
             player = new Player();
-            livesFont = new BitmapFont();
-            scoreFont = new BitmapFont();
+            screenmanager = new ScreenManager(game);
+
             selectedOptions = 0;
         }
         catch(Exception e) {
             System.err.println("Game screen not initialised due to:" + e.getMessage());
         }
-
     }
 
     @Override
     public void show() {
     	 // Load the music
     	entityManager = new EntityManager();
-    	backgroundMusic=game.getoutputManager().musicStart(false);
+    	backgroundMusic= screenmanager.getoutputManager().musicStart(false);
         setupGameEntities();
         player = new Player();
-        
     }
+    
     private void setupGameEntities() {
         aiControlManager = new AIControlManager();
         entityManager = new EntityManager(aiControlManager);
@@ -93,8 +90,8 @@ public class GameScreen implements Screen {
         
         batch.begin();
 
-        game.getoutputManager().draw(batch, "Lives: " + player.getLives(), 0, 100);
-        game.getoutputManager().draw(batch, "Score: " + player.getScore(), 0, 50);
+        screenmanager.getoutputManager().draw(batch, "Lives: " + player.getLives(), 0, 100);
+        screenmanager.getoutputManager().draw(batch, "Score: " + player.getScore(), 0, 50);
         batch.end(); 
         
         if (entityManager != null) {
@@ -108,7 +105,7 @@ public class GameScreen implements Screen {
     	GlyphLayout gameOverLayout = new GlyphLayout(gameOverFont, "Game Over!");
     	float gameOverPosX = (Gdx.graphics.getWidth() - gameOverLayout.width) / 2;
     	float gameOverPosY = (Gdx.graphics.getHeight() / 2) + gameOverLayout.height;
-    	game.getoutputManager().draw(batch, gameOverLayout, gameOverPosX, gameOverPosY);
+    	screenmanager.getoutputManager().draw(batch, gameOverLayout, gameOverPosX, gameOverPosY);
 
     	
     	GlyphLayout retryLayout = new GlyphLayout(optionFont, "Retry?");
@@ -121,28 +118,28 @@ public class GameScreen implements Screen {
     	float optionsPosY = gameOverPosY - gameOverLayout.height - 40; 
 
 		// Retry
-    	game.getoutputManager().draw(batch, "Retry?", retryPosX, optionsPosY,selectedOptions==0);
+    	screenmanager.getoutputManager().draw(batch, "Retry?", retryPosX, optionsPosY,selectedOptions==0);
 
 
     	// Exit
-    	game.getoutputManager().draw(batch,"Back to Menu", exitPosX, optionsPosY, selectedOptions==1);
+    	screenmanager.getoutputManager().draw(batch,"Back to Menu", exitPosX, optionsPosY, selectedOptions==1);
 
         batch.end();
         handleInputs();
     }
     
     // ESC to Main Menu
-    if (!isGameOver && Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+    if (!isGameOver && screenmanager.getinputManager().isEscapeKeyPressed()) {
         backToMainMenu();
     }
 }
     private void handleInputs() {
         if (isGameOver) {
-            if (game.getinputManager().isLeftKeyJustPressed() || game.getinputManager().isRightKeyJustPressed()) {
+            if (screenmanager.getinputManager().isLeftKeyJustPressed() || screenmanager.getinputManager().isRightKeyJustPressed()) {
             	selectedOptions = (selectedOptions + 1) % 2; // Toggle between options
             }
 
-            if (game.getinputManager().isEnterKeyJustPressed()) {
+            if (screenmanager.getinputManager().isEnterKeyJustPressed()) {
                 if (selectedOptions == 0) {
                     resetGame(); // Reset the game
                 } else if (selectedOptions == 1) {
@@ -174,7 +171,7 @@ public class GameScreen implements Screen {
 	}
 
 	public void backToMainMenu() {
-        game.getScreenManager().pushScreen(new MainMenuScreen(game));
+		screenmanager.pushScreen(new MainMenuScreen(game));
     }
 
     @Override
@@ -194,7 +191,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-    	game.getoutputManager().soundEnd(backgroundMusic);
+    	screenmanager.getoutputManager().soundEnd(backgroundMusic);
     }
 
     @Override
