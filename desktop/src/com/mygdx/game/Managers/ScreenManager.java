@@ -1,11 +1,13 @@
-package com.mygdx.game.Managers;
+package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.mygdx.game.MyGdxGame;
+
 import java.util.Stack;
 
-public class ScreenManager {
+public class ScreenManager extends MyGdxGame {
     private final Game game; 
     private final Stack<Screen> screens; // Instantiated to keep track of the screens
 
@@ -46,5 +48,4 @@ public class ScreenManager {
             s.dispose();
         }
     }
-
 }
