@@ -3,15 +3,12 @@ package com.mygdx.game.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
-import com.mygdx.game.Managers.InputManager;
-import com.mygdx.game.Managers.OutputManager;
 
 public class Paddle extends Entity {
     private Color color = Color.WHITE;
     
     ShapeRenderer shape = new ShapeRenderer();
-    OutputManager outputManager= new OutputManager();
-    InputManager inputManager= new InputManager();
+
     
     public Paddle(){
         super.setXSpeed(0);
@@ -32,14 +29,14 @@ public class Paddle extends Entity {
     public void render(){
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
-        outputManager.draw(shape,super.getX(), super.getY(), super.getWidth(), super.getHeight());
+        getoutputManager().draw(shape,super.getX(), super.getY(), super.getWidth(), super.getHeight());
         shape.end();
     }
 
     public void move()
     {
         float delta = getXSpeed()*Gdx.graphics.getDeltaTime();
-        if(inputManager.isLeftKeyPressed())
+        if(getinputManager().isLeftKeyPressed())
         {
             if(super.getX() - delta < 0) //if going off-screen
             {
@@ -50,7 +47,7 @@ public class Paddle extends Entity {
                 super.setX(super.getX() - delta);
             }
         }
-        if(inputManager.isRightKeyPressed())
+        if(getinputManager().isRightKeyPressed())
         {
             if(super.getX() + super.getWidth() < Gdx.graphics.getWidth())
             {

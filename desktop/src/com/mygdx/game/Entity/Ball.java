@@ -1,7 +1,6 @@
 package com.mygdx.game.Entity;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.Managers.OutputManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Gdx;
 
@@ -10,8 +9,6 @@ public class Ball extends Entity {
 	private Color color = Color.WHITE;
 
 	ShapeRenderer shape = new ShapeRenderer();
-	OutputManager outputManager= new OutputManager();
-
 
     public Ball(){
         super();
@@ -42,7 +39,7 @@ public class Ball extends Entity {
     public void render(){
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
-        outputManager.draw(shape,super.getX(),super.getY(),size);
+        getoutputManager().draw(shape,super.getX(),super.getY(),size);
         shape.end();
     }
     
@@ -67,6 +64,7 @@ public class Ball extends Entity {
             super.setYSpeed(super.getYSpeed() * -1); //reverse y direction
         }
     }
+    
     public void dispose()
     {
         shape.dispose();
