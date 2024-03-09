@@ -3,12 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.mygdx.game.Managers.EntityManager;
-import com.mygdx.game.Managers.AIControlManager;
-import com.mygdx.game.Managers.InputManager;
-import com.mygdx.game.Managers.OutputManager;
+import com.mygdx.game.Entity.EntityManager;
 import com.mygdx.game.Screens.MainMenuScreen;
-import com.mygdx.game.Managers.ScreenManager;
+import com.mygdx.game.Screens.ScreenManager;
 
 
 public class MyGdxGame extends Game { // Rename the class to MyGdxGame
@@ -42,6 +39,9 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     }
     
     public InputManager getinputManager(){
+    	if(inputManager == null) {
+    	    inputManager = new InputManager();
+    	}
     	return inputManager;
     }
 
