@@ -30,8 +30,7 @@ public class GameScreen implements Screen {
     private Player player;
     private Entity ball;
     private Entity paddle;
-    private int blockWidth = 63, blockHeight = 20;//set the width and height of the blocks
-
+    private Entity spaceship;
     private boolean isGameOver = false;
     private BitmapFont gameOverFont;
     private BitmapFont optionFont;
@@ -46,7 +45,6 @@ public class GameScreen implements Screen {
             gameOverFont = new BitmapFont();
             optionFont = new BitmapFont(); // Initialize a separate font for options if needed
             player = new Player();
-            screenmanager = new ScreenManager(game);
             selectedOptions = 0;
         }
         catch(Exception e) {
