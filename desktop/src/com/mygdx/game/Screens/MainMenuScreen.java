@@ -60,17 +60,22 @@ public class MainMenuScreen implements Screen {
         float startX = centerX - startGameWidth / 2; // To Center the text
         screenmanager.getoutputManager().draw(batch, startText, startX, startY,currentSelection == 0);
         startY -= lineHeight + gap;
-        //font.setColor(currentSelection == 0 ? Color.YELLOW : Color.WHITE);
-        //font.draw(batch, startText, startX, startY);
+        
+        String orthoText = "Ortho Game Test";
+        layout.setText(font, orthoText);
+        float orthosWidth = layout.width;
+        startX = centerX - orthosWidth / 2; // To center the text
+        screenmanager.getoutputManager().draw(batch, orthoText, startX, startY, currentSelection == 1);
+        startY -= lineHeight + gap;
+        
 
         // "Exit" centered
         String exitText = "Exit";
         layout.setText(font, exitText);
         float exitWidth = layout.width;
         startX = centerX - exitWidth / 2;
-        screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 1);
-        //font.setColor(currentSelection == 1 ? Color.RED : Color.WHITE);
-        //font.draw(batch, exitText, startX, startY);
+        screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 2);
+        
 
 
         font.setColor(Color.WHITE);
@@ -83,12 +88,12 @@ public class MainMenuScreen implements Screen {
         if (screenmanager.getinputManager().isUpKeyJustPressed()) {
             currentSelection--;
             if (currentSelection < 0) {
-                currentSelection = 1;
+                currentSelection = 2; 
             }
         }
         if (screenmanager.getinputManager().isDownKeyJustPressed()) {
             currentSelection++;
-            if (currentSelection > 1) {
+            if (currentSelection > 2) { 
                 currentSelection = 0;
             }
         }
@@ -97,13 +102,15 @@ public class MainMenuScreen implements Screen {
         }
     }
 
-    // Option Selected will prompt a Use Case
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-            	screenmanager.pushScreen(new GameScreen(game));
+                screenmanager.pushScreen(new GameScreen(game));
                 break;
             case 1:
+                screenmanager.pushScreen(new OrthoScreen(game));
+                break;
+            case 2:
                 Gdx.app.exit();
                 break;
         }
