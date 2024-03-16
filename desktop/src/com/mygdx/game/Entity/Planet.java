@@ -7,17 +7,29 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Planet extends Entity {
 	private Texture texture;
 	private float rotation;
+	private float scaleFactor;
 	private SpriteBatch batch = new SpriteBatch();
 
 	
-	public Planet(String fileName, float rotate) {
+	public Planet(String fileName, float rotate, float scaleFactor) {
 		super();
-		setX(-100);
-		setY(-100);
+		// Test x and y values.
+		setX(-300);
+		setY(-300);
 		setTexture(new Texture(Gdx.files.internal(fileName)));
 		setRotation(rotate);
+		setScaleFactor(scaleFactor);
 	}
 	
+	// Scale Factor (size of texture) Get and Set.
+	public float getScaleFactor() {
+		return scaleFactor;
+	}
+
+	public void setScaleFactor(float scaleFactor) {
+		this.scaleFactor = scaleFactor;
+	}
+
 	// Rotation Get and Set.
     public float getRotation() {
 		return rotation;
@@ -35,15 +47,15 @@ public class Planet extends Entity {
 		Texture tex = this.getTexture();
 		float x = this.getX();
 		float y = this.getY();
-		float texWidth = this.getTexture().getWidth();
-		float texHeight = this.getTexture().getHeight();
-		float originX = (this.getTexture().getWidth())/2;
-		float originY = (this.getTexture().getHeight())/2;
-
+		float texWidth = tex.getWidth();
+		float texHeight = tex.getHeight();
+		float originX = texWidth/2;
+		float originY = texHeight/2;
+		float scaleFactor = this.getScaleFactor();
 		float rotate = this.getRotation();
     	
 		batch.begin();
-		getoutputManager().draw(batch, tex, x, y, originX, originY, texWidth, texHeight, rotate);
+		getoutputManager().draw(batch, tex, x, y, originX, originY, texWidth, texHeight, scaleFactor, rotate);
 		batch.end();
     }
     public void dispose()

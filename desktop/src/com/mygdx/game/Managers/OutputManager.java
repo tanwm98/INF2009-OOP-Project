@@ -32,7 +32,7 @@ public class OutputManager {
 	
 	// Draw Render for textures that Rotate.
 	// Origin X and Y = (this.getTexture().getWidth or Height())/2
-	// srcWidth and Height are original texture dimensions..
+	// srcWidth and Height are original texture dimensions.
 	public void draw(SpriteBatch batch, Texture tex, float x, float y, float originX, float originY, float texWidth, float texHeight, float scalingFactor, float rotation) {
 		batch.draw(tex, x, y,
 				originX, originY, texWidth, texHeight,
