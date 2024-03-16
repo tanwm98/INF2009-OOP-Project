@@ -25,6 +25,24 @@ public class OutputManager {
 		batch.draw(tex,x,y,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	
+	// Draw Render for textures, adjustable size and no rotation.
+	public void draw(SpriteBatch batch,Texture tex, float x, float y, float sizeX, float sizeY) {
+		batch.draw(tex,x,y,sizeX,sizeY);
+	}
+	
+	// Draw Render for textures that Rotate.
+	// Origin X and Y = (this.getTexture().getWidth or Height())/2
+	// Set initial rotation here, modify move() to spin the texture.
+	public void draw(SpriteBatch batch, Texture tex, float x, float y, float originX, float originY, float texWidth, float texHeight, float rotation) {
+		batch.draw(tex, x, y,
+				originX, originY, texWidth, texHeight,
+				1, 1, rotation,
+				0, 0, (int)texWidth, (int)texHeight,
+				false, false);
+	}
+	
+	
+	
 	public void draw(SpriteBatch batch, String text, float x, float y) {
 		font.draw(batch,text,x,y);
 	}
