@@ -32,12 +32,13 @@ public class OutputManager {
 	
 	// Draw Render for textures that Rotate.
 	// Origin X and Y = (this.getTexture().getWidth or Height())/2
-	// Set initial rotation here, modify move() to spin the texture.
-	public void draw(SpriteBatch batch, Texture tex, float x, float y, float originX, float originY, float texWidth, float texHeight, float rotation) {
+	// srcWidth and Height are original texture dimensions.
+	// To change texture render size, adjust texWidth and Height instead.
+	public void draw(SpriteBatch batch, Texture tex, float x, float y, float originX, float originY, float texWidth, float texHeight, int srcWidth, int srcHeight, float rotation) {
 		batch.draw(tex, x, y,
 				originX, originY, texWidth, texHeight,
 				1, 1, rotation,
-				0, 0, (int)texWidth, (int)texHeight,
+				0, 0, srcWidth, srcHeight,
 				false, false);
 	}
 	
