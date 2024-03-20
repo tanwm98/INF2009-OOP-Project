@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Asteroid extends Entity {
 	private Texture tex;
+	private float sizeX, sizeY;
 	
 	SpriteBatch batch = new SpriteBatch();
 	
@@ -16,6 +17,8 @@ public class Asteroid extends Entity {
     public Asteroid(String filePath) {
     	super();
 		tex = new Texture(Gdx.files.internal(filePath));
+		sizeX = 100;
+		sizeY = 100;
     }
     
 	public Texture getTexture() {
@@ -32,7 +35,7 @@ public class Asteroid extends Entity {
 
     public void render() {
     	batch.begin();
-    	getoutputManager().draw(batch, getTexture(), super.getX(), super.getY());
+    	getoutputManager().draw(batch, getTexture(), super.getX(), super.getY(), sizeX, sizeY);
 		batch.end();
     }
 
