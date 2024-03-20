@@ -1,7 +1,9 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Managers.ScreenManager;
 
 public class OrthoScreen implements Screen {
     private MyGdxGame game;
@@ -18,89 +21,117 @@ public class OrthoScreen implements Screen {
     private ShapeRenderer shapeRenderer;
     private Viewport viewport;
     private Texture backgroundTexture;
+    private ScreenManager screenManager;
+    
     private SpriteBatch batch;
-    private float circleX = 50;
-    private float circleY = 50;
+    private float circleX = 40;
+    private float circleY = 40;
     private float textureWidth;
     private float textureHeight;
-    private float circleRadius = 50; 
+    private float circleRadius = 40;
+    private float backgroundScrollSpeed = 100; // Speed of BackgroundScroll, Adjust if want to test
+    private float offsetX = 0; // Offset for the background X position
+	private InputProcessor stage;
+	//private boolean paused = false;
+    //private float offsetY = 0;
+    
 
     public OrthoScreen(MyGdxGame game) {
         this.game = game;
+        screenManager = new ScreenManager(game);
     }
+    
 
     @Override
     public void show() {
-        // Camera dimensions
+    	// Camera dimensions
         int cameraWidth = 1200; 
         int cameraHeight = 900;
 
+        // Instantiate camera
         camera = new OrthographicCamera();
-        viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); // Use ExtendViewport to maintain aspect ratio
-        shapeRenderer = new ShapeRenderer();
-        batch = new SpriteBatch();
-        backgroundTexture = new Texture(Gdx.files.internal("Galaxy.jpg"));
-        textureWidth = backgroundTexture.getWidth();
-        textureHeight = backgroundTexture.getHeight();
-
-        // Position the camera at the center of the world
         camera.position.set(cameraWidth / 2f, cameraHeight / 2f, 0);
         camera.update();
+
+        viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
+        shapeRenderer = new ShapeRenderer();
+        batch = new SpriteBatch();
+        backgroundTexture = new Texture(Gdx.files.internal("starfield8_screamingBrainStudios.png"));
+        textureWidth = backgroundTexture.getWidth();
+        textureHeight = backgroundTexture.getHeight();
+        circleX = circleRadius; 
+        circleY = camera.position.y;
+        Gdx.input.setInputProcessor(stage);
+        
+
     }
 
     @Override
     public void render(float delta) {
-        handleInput();
+    	handleInput(delta);
+        camera.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        offsetX -= delta * backgroundScrollSpeed; // Background scrolls right
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        // Calculate the position offsets for rendering the background image
-        float offsetX = -(circleX % textureWidth);
-        float offsetY = -(circleY % textureHeight);
-
-        // Draw the background image based on the circle's position
-        for (float x = offsetX; x < Gdx.graphics.getWidth(); x += textureWidth) {
-            for (float y = offsetY; y < Gdx.graphics.getHeight(); y += textureHeight) {
+        // Draw the background by tiling it across the screen
+        for (float x = offsetX % textureWidth - textureWidth; x < camera.viewportWidth; x += textureWidth) {
+            for (float y = 0; y < camera.viewportHeight; y += textureHeight) {
                 batch.draw(backgroundTexture, x, y);
             }
         }
         batch.end();
-
-        float startPosition = 50;
-        float circleCenterX = startPosition + 20 / 2f;  
-        float circleCenterY = (Gdx.graphics.getHeight() - 20) / 2f;
-        
+        shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 1, 1, 1); //Color
-        shapeRenderer.circle(circleCenterX, circleCenterY, 20);
+        shapeRenderer.setColor(0, 1, 1, 1);
+        shapeRenderer.circle(circleX, circleY, circleRadius);
         shapeRenderer.end();
+
     }
    
- private void handleInput() {
-     float moveSpeed = 120 * Gdx.graphics.getDeltaTime();
+    private void handleInput(float delta) {
+        float moveSpeed = 100 * delta; // Circle Speed
 
-     if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-         circleX += moveSpeed;
-     }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+            circleX += moveSpeed;
+            
+            if (circleX - circleRadius > camera.viewportWidth) {
+                circleX = -circleRadius;
+            }
+        }
+        // Math.max prevents circle from moving out of screen
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+            circleX = Math.max(circleRadius, circleX - moveSpeed);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+            
+            circleX = Math.min(camera.viewportWidth - circleRadius, circleX + moveSpeed);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+            circleY = Math.min(camera.viewportHeight - circleRadius, circleY + moveSpeed); 
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+            circleY = Math.max(circleRadius, circleY - moveSpeed); 
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                screenManager.pushScreen(new MainMenuScreen(game));
+        }
+    }
 
-     if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-         circleY += moveSpeed;
-         // Ensure the circle doesn't move off the top edge of the screen
-         circleY = Math.min(circleY, viewport.getWorldHeight() - circleRadius);
-     }
-
-     if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-         circleY -= moveSpeed;
-         // Ensure the circle doesn't move off the bottom edge of the screen
-         circleY = Math.max(circleY, circleRadius);
-     }
-     camera.update();
- }
+    	// private void pauseGameAndShowMenu() 
+        //this.pause();
+        //PauseMenu pauseMenu = new PauseMenu(game, game.getScreenManager());
+        //pauseMenu.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    
     @Override
     public void resize(int width, int height) {
-        // Update viewport dimensions
     	viewport.update(width, height);
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
+        camera.update();
+    	
     }
 
     @Override
