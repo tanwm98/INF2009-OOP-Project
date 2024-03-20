@@ -2,11 +2,13 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.game.Managers.EntityManager;
 import com.mygdx.game.Managers.AIControlManager;
 import com.mygdx.game.Managers.InputManager;
 import com.mygdx.game.Managers.OutputManager;
+import com.mygdx.game.Screens.GameScreen;
 import com.mygdx.game.Screens.MainMenuScreen;
 import com.mygdx.game.Managers.ScreenManager;
 
@@ -45,6 +47,12 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     	    inputManager = new InputManager();
     	}
     	return inputManager;
+    }
+    // For GameScreen
+    public void resetGameScreen() {
+        GameScreen gameScreen = new GameScreen(this);
+        gameScreen.resetGame();
+        this.setScreen(gameScreen);
     }
 
     @Override
