@@ -105,7 +105,7 @@ public class MainMenuScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-                screenmanager.pushScreen(new GameScreen(game));
+                screenmanager.pushScreen(new MixAndMatchMiniGameScreen(game));
                 break;
             case 1:
                 screenmanager.pushScreen(new OrthoScreen(game));

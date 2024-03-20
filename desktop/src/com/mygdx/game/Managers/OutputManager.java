@@ -21,7 +21,7 @@ public class OutputManager {
     }
 	
 	//Draw Render
-	public void draw(SpriteBatch batch,Texture tex, int x, int y) {
+	public void draw(SpriteBatch batch,Texture tex, float x, float y) {
 		batch.draw(tex,x,y,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	
