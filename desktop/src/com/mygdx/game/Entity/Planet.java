@@ -11,14 +11,15 @@ public class Planet extends Entity {
 	private SpriteBatch batch = new SpriteBatch();
 
 	
-	public Planet(String fileName, float rotate, float scaleFactor) {
+	public Planet(String fileName, float x, float y, float rotate, float scaleFactor) {
 		super();
-		// Test x and y values.
-		setX(-300);
-		setY(-300);
+
+		setX(x);
+		setY(y);
 		setTexture(new Texture(Gdx.files.internal(fileName)));
 		setRotation(rotate);
 		setScaleFactor(scaleFactor);
+//		setAIControl();
 	}
 	
 	// Scale Factor (size of texture) Get and Set.
@@ -40,7 +41,7 @@ public class Planet extends Entity {
 	}
 
 	public void update() {
-
+		System.out.println("Planet at:"+ this.getX()+ ","+ this.getY());
     }
     public void render()
     {
