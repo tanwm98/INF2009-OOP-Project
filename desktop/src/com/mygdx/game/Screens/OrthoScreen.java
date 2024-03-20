@@ -1,9 +1,7 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,7 +20,6 @@ public class OrthoScreen implements Screen {
     private Viewport viewport;
     private Texture backgroundTexture;
     private ScreenManager screenManager;
-    
     private SpriteBatch batch;
     private float circleX = 40;
     private float circleY = 40;
@@ -31,7 +28,6 @@ public class OrthoScreen implements Screen {
     private float circleRadius = 40;
     private float backgroundScrollSpeed = 100; // Speed of BackgroundScroll, Adjust if want to test
     private float offsetX = 0; // Offset for the background X position
-    //private InputProcessor stage;
     //private boolean paused = false;
     //private float offsetY = 0;
     
@@ -61,9 +57,6 @@ public class OrthoScreen implements Screen {
         textureHeight = backgroundTexture.getHeight();
         circleX = circleRadius; 
         circleY = camera.position.y;
-        //Gdx.input.setInputProcessor(stage);
-        
-
     }
 
     @Override
@@ -89,7 +82,6 @@ public class OrthoScreen implements Screen {
         shapeRenderer.setColor(0, 1, 1, 1);
         shapeRenderer.circle(circleX, circleY, circleRadius);
         shapeRenderer.end();
-
     }
    
     private void handleInput(float delta) {
@@ -131,7 +123,6 @@ public class OrthoScreen implements Screen {
     	viewport.update(width, height);
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
         camera.update();
-    	
     }
 
     @Override
