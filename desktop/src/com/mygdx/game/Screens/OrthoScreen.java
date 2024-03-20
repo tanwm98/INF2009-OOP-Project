@@ -31,8 +31,8 @@ public class OrthoScreen implements Screen {
     private float circleRadius = 40;
     private float backgroundScrollSpeed = 100; // Speed of BackgroundScroll, Adjust if want to test
     private float offsetX = 0; // Offset for the background X position
-	private InputProcessor stage;
-	//private boolean paused = false;
+    //private InputProcessor stage;
+    //private boolean paused = false;
     //private float offsetY = 0;
     
 
@@ -61,7 +61,7 @@ public class OrthoScreen implements Screen {
         textureHeight = backgroundTexture.getHeight();
         circleX = circleRadius; 
         circleY = camera.position.y;
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
         
 
     }
