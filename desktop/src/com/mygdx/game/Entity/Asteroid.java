@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Asteroid extends Entity {
 	private Texture tex;
+	private float sizeX, sizeY;
 	
 	SpriteBatch batch = new SpriteBatch();
 	
@@ -13,9 +14,11 @@ public class Asteroid extends Entity {
 
     }
     
-    public Asteroid(String filePath) {
+    public Asteroid(String filePath, float sizeX, float sizeY) {
     	super();
 		tex = new Texture(Gdx.files.internal(filePath));
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
     }
     
 	public Texture getTexture() {
@@ -26,13 +29,28 @@ public class Asteroid extends Entity {
 		tex = t;
 	}
 	
+	public void setSizeX(float x) {
+		this.sizeX = x;
+	}
+	
+	public void setY(float y) {
+		this.sizeY = y;
+	}
+	
+	public float getSizeX() {
+		return sizeX;
+	}
+	
+	public float getSizeY() {
+		return sizeY;
+	}
 	public void update() {
         System.out.printf("Asteroid pos X:%f and Y: %f\n",super.getX(),super.getY());
     }
 
     public void render() {
     	batch.begin();
-    	getoutputManager().draw(batch, getTexture(), super.getX(), super.getY());
+    	getoutputManager().draw(batch, getTexture(), super.getX(), super.getY(), getSizeX(), getSizeY());
 		batch.end();
     }
 
