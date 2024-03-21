@@ -36,12 +36,12 @@ public class OrthoScreen implements Screen {
         this.game = game;
         screenManager = new ScreenManager(game);
     }
-    
+
 
     @Override
     public void show() {
-    	// Camera dimensions
-        int cameraWidth = 1200; 
+        // Camera dimensions
+        int cameraWidth = 1200;
         int cameraHeight = 900;
 
         // Instantiate camera
@@ -55,13 +55,13 @@ public class OrthoScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("starfield8_screamingBrainStudios.png"));
         textureWidth = backgroundTexture.getWidth();
         textureHeight = backgroundTexture.getHeight();
-        circleX = circleRadius; 
+        circleX = circleRadius;
         circleY = camera.position.y;
     }
 
     @Override
     public void render(float delta) {
-    	handleInput(delta);
+        handleInput(delta);
         camera.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -83,13 +83,13 @@ public class OrthoScreen implements Screen {
         shapeRenderer.circle(circleX, circleY, circleRadius);
         shapeRenderer.end();
     }
-   
+
     private void handleInput(float delta) {
         float moveSpeed = 100 * delta; // Circle Speed
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
             circleX += moveSpeed;
-            
+
             if (circleX - circleRadius > camera.viewportWidth) {
                 circleX = -circleRadius;
             }
@@ -99,28 +99,28 @@ public class OrthoScreen implements Screen {
             circleX = Math.max(circleRadius, circleX - moveSpeed);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            
+
             circleX = Math.min(camera.viewportWidth - circleRadius, circleX + moveSpeed);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            circleY = Math.min(camera.viewportHeight - circleRadius, circleY + moveSpeed); 
+            circleY = Math.min(camera.viewportHeight - circleRadius, circleY + moveSpeed);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            circleY = Math.max(circleRadius, circleY - moveSpeed); 
+            circleY = Math.max(circleRadius, circleY - moveSpeed);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-                screenManager.pushScreen(new MainMenuScreen(game));
+            screenManager.pushScreen(new MainMenuScreen(game));
         }
     }
 
-    	// private void pauseGameAndShowMenu() 
-        //this.pause();
-        //PauseMenu pauseMenu = new PauseMenu(game, game.getScreenManager());
-        //pauseMenu.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    
+    // private void pauseGameAndShowMenu()
+    //this.pause();
+    //PauseMenu pauseMenu = new PauseMenu(game, game.getScreenManager());
+    //pauseMenu.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
     @Override
     public void resize(int width, int height) {
-    	viewport.update(width, height);
+        viewport.update(width, height);
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
         camera.update();
     }
@@ -134,16 +134,16 @@ public class OrthoScreen implements Screen {
 
     @Override
     public void pause() {
-        
+
     }
 
     @Override
     public void resume() {
-        
+
     }
 
     @Override
     public void hide() {
-        
+
     }
 }

@@ -8,7 +8,7 @@ import com.mygdx.game.Managers.EntityManager;
 import com.mygdx.game.Managers.AIControlManager;
 import com.mygdx.game.Managers.InputManager;
 import com.mygdx.game.Managers.OutputManager;
-import com.mygdx.game.Screens.GameScreen;
+//import com.mygdx.game.Screens.GameScreen;
 import com.mygdx.game.Screens.MainMenuScreen;
 import com.mygdx.game.Managers.ScreenManager;
 
@@ -50,9 +50,9 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     }
     // For GameScreen
     public void resetGameScreen() {
-        GameScreen gameScreen = new GameScreen(this);
-        gameScreen.resetGame();
-        this.setScreen(gameScreen);
+//        GameScreen gameScreen = new GameScreen(this);
+//        gameScreen.resetGame();
+//        this.setScreen(gameScreen);
     }
 
     @Override

@@ -60,14 +60,13 @@ public class MainMenuScreen implements Screen {
         float startX = centerX - startGameWidth / 2; // To Center the text
         screenmanager.getoutputManager().draw(batch, startText, startX, startY,currentSelection == 0);
         startY -= lineHeight + gap;
-        
-        String orthoText = "Ortho Game Test";
-        layout.setText(font, orthoText);
-        float orthosWidth = layout.width;
-        startX = centerX - orthosWidth / 2; // To center the text
-        screenmanager.getoutputManager().draw(batch, orthoText, startX, startY, currentSelection == 1);
+
+        String settingsText = "Settings";
+        layout.setText(font, settingsText);
+        float settingsWidth = layout.width;
+        startX = centerX - settingsWidth / 2;
+        screenmanager.getoutputManager().draw(batch,settingsText, startX, startY,currentSelection == 1);
         startY -= lineHeight + gap;
-        
 
         // "Exit" centered
         String exitText = "Exit";
@@ -105,10 +104,10 @@ public class MainMenuScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-                screenmanager.pushScreen(new MixAndMatchMiniGameScreen(game));
+                screenmanager.pushScreen(new OrthoScreen(game));
                 break;
             case 1:
-                screenmanager.pushScreen(new OrthoScreen(game));
+                screenmanager.pushScreen(new SettingsScreen(game));
                 break;
             case 2:
                 Gdx.app.exit();

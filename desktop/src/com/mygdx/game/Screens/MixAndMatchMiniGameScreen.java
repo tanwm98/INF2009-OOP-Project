@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.MyGdxGame;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 
 public class MixAndMatchMiniGameScreen implements Screen{
     private Stage stage;
@@ -25,28 +26,27 @@ public class MixAndMatchMiniGameScreen implements Screen{
         this.game = game;
         stage = new Stage(new ScreenViewport());
         originalPhoto = new Image(new Texture(Gdx.files.internal("satelite.png")));
-
         Gdx.input.setInputProcessor(stage);
         dragAndDrop = new DragAndDrop();
         setupBaseSilhouette();
     }
     private void setupBaseSilhouette() {
         Image baseSilhouette = new Image(new Texture(Gdx.files.internal("satellite_silhouette.png")));
-        baseSilhouette.setPosition(Gdx.graphics.getWidth() / 2 - baseSilhouette.getWidth() / 2, Gdx.graphics.getHeight() / 2 - baseSilhouette.getHeight() / 2); // Adjust position based on your game's layout
+        baseSilhouette.setPosition(Gdx.graphics.getWidth() / 2 - baseSilhouette.getWidth() / 2, Gdx.graphics.getHeight() / 2 - baseSilhouette.getHeight() / 2); // set to the center of the screen
         stage.addActor(baseSilhouette);
-        originalPhoto.setPosition(Gdx.graphics.getWidth() / 2 - originalPhoto.getWidth() / 2, Gdx.graphics.getHeight() / 2 - originalPhoto.getHeight() / 2); // Adjust position based on your game's layout
-        originalPhoto.setVisible(false); // Initially, the original photo is not visible
+        originalPhoto.setPosition(Gdx.graphics.getWidth() / 2 - originalPhoto.getWidth() / 2, Gdx.graphics.getHeight() / 2 - originalPhoto.getHeight() / 2);
+        originalPhoto.setVisible(false); // Hide the original photo
         stage.addActor(originalPhoto);
         setupParts(baseSilhouette);
     }
     private void setupParts(Image baseSilhouette) {
 
         boolean[] partPlaced = new boolean[totalParts];
-        // Define the target positions on the silhouette for each part
+        //Define the target positions on the silhouette for each part
         float[][] targetPositions = new float[][]{
-                {baseSilhouette.getWidth(), baseSilhouette.getHeight()}, // positions for each part
-                {baseSilhouette.getWidth(), baseSilhouette.getHeight()},
-                {baseSilhouette.getWidth(), baseSilhouette.getHeight()}
+                {baseSilhouette.getX()-270, baseSilhouette.getY()}, // positions for each part
+                {baseSilhouette.getX()-151, baseSilhouette.getY()-95},
+                {baseSilhouette.getX()-100, baseSilhouette.getY()-100}
         };
         float partSpacing = Gdx.graphics.getWidth() / (totalParts + 1); // Spacing between parts
 
@@ -70,7 +70,6 @@ public class MixAndMatchMiniGameScreen implements Screen{
                     DragAndDrop.Payload payload = new DragAndDrop.Payload();
                     payload.setDragActor(parts[partIndex - 1]); // Use the original part as the drag actor for simplicity
                     dragAndDrop.setDragActorPosition(parts[partIndex - 1].getWidth() / 2, -parts[partIndex - 1].getHeight() / 2);
-
                     payload.setObject(partIndex); // Identifier for the part
                     return payload;
                 }
@@ -92,10 +91,8 @@ public class MixAndMatchMiniGameScreen implements Screen{
                         partsAssembled++;
                         partPlaced[partIndex] = true;
                         parts[partIndex].setTouchable(Touchable.disabled);
-                        parts[partIndex].setPosition(target.x,
-                                target.y); // Center the part on the target
+                        parts[partIndex].setPosition(target.x, target.y); // Center the part on the target
                         System.out.println("Part " + (partIndex + 1) + " placed."); // Print statement
-
                         checkGameCompletion();
                     }
                 }
@@ -110,12 +107,23 @@ public class MixAndMatchMiniGameScreen implements Screen{
         if (partsAssembled == totalParts) {
             System.out.println("Game Completed!");
             originalPhoto.setVisible(true); // Show the original photo
-
+            Timer.instance().clear(); // Cancel the timer
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    game.setScreen(new OrthoScreen(game));
+                }
+            }, 3); // Delay in seconds
         }
     }
-
+@Override
     public void show() {
-
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                game.setScreen(new OrthoScreen(game));
+            }
+        }, 10); // Delay in seconds
     }
 
 @Override
@@ -125,7 +133,6 @@ public class MixAndMatchMiniGameScreen implements Screen{
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
-
 
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);

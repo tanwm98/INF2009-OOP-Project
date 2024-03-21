@@ -1,50 +1,32 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-public class Player{
+public class Player {
+    private static Player instance = null;
+    private int lives = 3;
+    private int score = 0;
+    private boolean isAlive = true;
+    private OrthographicCamera camera;
 
-    private int lives,score;
-
-    private OrthographicCamera camera; //won't be used for the demo
-    public Player(){
-        lives = 3;
-        score = 0;
+    private Player() {
     }
-    public Player(int lives)
-    {
-        if(lives <= 0)
-        {
-            throw new IllegalArgumentException("Lives cannot be negative or zero");
+
+    public static Player getInstance() {
+        if (instance == null) {
+            instance = new Player();
         }
-        this.lives = lives;
-        score = 0;
-    }
-    public Player(int lives, int score){
-        if(lives < 0 || score < 0)
-        {
-            throw new IllegalArgumentException("Lives and score cannot be negative");
-        }
-        this.lives = lives;
-        this.score = score;
-    }
-    public void addScore(int points)
-    {
-        score += points;
-    }
-    public int getLives() {
-        return lives;
-    }
-    public void setLives(int lives) {
-        this.lives = lives;
-    }
-    public int getScore() {
-        return score;
+        return instance;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void death() {
+        --this.lives;
+        if (this.lives == 0) {
+            this.isAlive = false;
+        }
+    }
+
+    public void addScore(int points) {
+        this.score += points;
     }
 }
