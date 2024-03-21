@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.MyGdxGame;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-
+import com.badlogic.gdx.math.Vector2;
 
 public class MixAndMatchMiniGameScreen implements Screen{
     private Stage stage;
@@ -29,7 +29,6 @@ public class MixAndMatchMiniGameScreen implements Screen{
         Gdx.input.setInputProcessor(stage);
         dragAndDrop = new DragAndDrop();
         setupBaseSilhouette();
-        setupParts();
     }
     private void setupBaseSilhouette() {
         Image baseSilhouette = new Image(new Texture(Gdx.files.internal("satellite_silhouette.png")));
@@ -38,69 +37,70 @@ public class MixAndMatchMiniGameScreen implements Screen{
         originalPhoto.setPosition(Gdx.graphics.getWidth() / 2 - originalPhoto.getWidth() / 2, Gdx.graphics.getHeight() / 2 - originalPhoto.getHeight() / 2); // Adjust position based on your game's layout
         originalPhoto.setVisible(false); // Initially, the original photo is not visible
         stage.addActor(originalPhoto);
+        setupParts(baseSilhouette);
     }
-    private void setupParts() {
+    private void setupParts(Image baseSilhouette) {
+
         boolean[] partPlaced = new boolean[totalParts];
         // Define the target positions on the silhouette for each part
         float[][] targetPositions = new float[][]{
-                {30, 30}, // Example positions for each part
-                {30, 60},
-                {40, 30}
+                {baseSilhouette.getWidth(), baseSilhouette.getHeight()}, // positions for each part
+                {baseSilhouette.getWidth(), baseSilhouette.getHeight()},
+                {baseSilhouette.getWidth(), baseSilhouette.getHeight()}
         };
         float partSpacing = Gdx.graphics.getWidth() / (totalParts + 1); // Spacing between parts
 
         Image[] parts = new Image[totalParts];
 
         for (int i = 1; i <= totalParts; i++) {
-            parts[i-1] = new Image(new Texture(Gdx.files.internal("satellite_" + i + ".png")));
-            parts[i-1].setPosition(partSpacing * i - parts[i-1].getWidth() / 2, 50); // Adjust spacing based on asset size
+            parts[i - 1] = new Image(new Texture(Gdx.files.internal("satellite_" + i + ".png")));
+            parts[i - 1].setPosition(partSpacing * i - parts[i - 1].getWidth() / 2, 50); // Adjust spacing based on asset size
 
-            // Note: Ensure "transparent.png" exists and is set correctly for target areas
             Image targetArea = new Image(new Texture(Gdx.files.internal("transparent.png"))); // A placeholder, size should match or be slightly larger than parts for easier targeting
-            targetArea.setSize(300,300); // Match the part size for easier drop targeting
-            targetArea.setPosition(targetPositions[i-1][0], targetPositions[i-1][1]);
+            targetArea.setPosition(baseSilhouette.getWidth(),baseSilhouette.getHeight());
             stage.addActor(targetArea);
 
             final int partIndex = i;
 
-            dragAndDrop.addSource(new DragAndDrop.Source(parts[i-1]) {
+            dragAndDrop.addSource(new DragAndDrop.Source(parts[i - 1]) {
                 public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                    if (partPlaced[partIndex - 1]) { // Add this check
+                    if (partPlaced[partIndex - 1]) { // Add this check to prevent dragging parts that are already placed
                         return null;
                     }
                     DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                    payload.setDragActor(parts[partIndex-1]); // Use the original part as the drag actor for simplicity
-                    dragAndDrop.setDragActorPosition(parts[partIndex-1].getWidth() / 2, -parts[partIndex-1].getHeight() / 2);
+                    payload.setDragActor(parts[partIndex - 1]); // Use the original part as the drag actor for simplicity
+                    dragAndDrop.setDragActorPosition(parts[partIndex - 1].getWidth() / 2, -parts[partIndex - 1].getHeight() / 2);
 
                     payload.setObject(partIndex); // Identifier for the part
                     return payload;
                 }
             });
-
             dragAndDrop.addTarget(new DragAndDrop.Target(targetArea) {
                 public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                    return true; // Always accept drags
+                    return true;
                 }
 
                 public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                    float targetX = targetPositions[partIndex - 1][0];
-                    float targetY = targetPositions[partIndex - 1][1];
-                    float distance = (float) Math.sqrt(Math.pow(x - targetX, 2) + Math.pow(y - targetY, 2));
-                    System.out.println("Distance: " + distance); // Print the calculated distance for debugging
+                    // Check if the part was dropped close enough to its target position.
+                    int partIndex = (Integer) payload.getObject() - 1;
+                    Vector2 target = new Vector2(targetPositions[partIndex][0], targetPositions[partIndex][1]);
+                    Vector2 dropPoint = new Vector2(x, y);
 
-                    if (distance <= 500) { // Adjust this value based on your game's layout
+                    float distance = dropPoint.dst(target);
+                    System.out.println("Distance: " + distance); // Print statement
+                    if (distance <= 150 && !partPlaced[partIndex]) { // Adjust this value based on your game's layout
                         partsAssembled++;
-                        System.out.println("Parts Assembled: " + partsAssembled); // Print the number of parts assembled for debugging
+                        partPlaced[partIndex] = true;
+                        parts[partIndex].setTouchable(Touchable.disabled);
+                        parts[partIndex].setPosition(target.x,
+                                target.y); // Center the part on the target
+                        System.out.println("Part " + (partIndex + 1) + " placed."); // Print statement
 
-                        partPlaced[partIndex - 1] = true;
-                        parts[partIndex-1].setTouchable(Touchable.disabled); // Disable the part from being dragged again
-                        parts[partIndex-1].setPosition(targetX, targetY); // Lock the part in the target area
                         checkGameCompletion();
                     }
                 }
             });
         }
-
         // Add parts to the stage after all target areas
         for (Image part : parts) {
             stage.addActor(part);
@@ -111,7 +111,6 @@ public class MixAndMatchMiniGameScreen implements Screen{
             System.out.println("Game Completed!");
             originalPhoto.setVisible(true); // Show the original photo
 
-            // Here you can transition to a game over or completion screen
         }
     }
 
@@ -143,7 +142,6 @@ public class MixAndMatchMiniGameScreen implements Screen{
 
     public void dispose() {
         stage.dispose();
-        // Remember to dispose of any other disposable resources you create
     }
 }
 
