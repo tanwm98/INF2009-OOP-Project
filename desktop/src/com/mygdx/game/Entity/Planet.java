@@ -11,15 +11,13 @@ public class Planet extends Entity {
 	private SpriteBatch batch = new SpriteBatch();
 
 	
-	public Planet(String fileName, float x, float y, float rotate, float scaleFactor) {
+	public Planet(String fileName, float x, float y, float rotate, float scaleFactor, boolean aiFlag) {
 		super();
-
 		setX(x);
 		setY(y);
 		setTexture(new Texture(Gdx.files.internal(fileName)));
 		setRotation(rotate);
 		setScaleFactor(scaleFactor);
-//		setAIControl();
 	}
 	
 	// Scale Factor (size of texture) Get and Set.

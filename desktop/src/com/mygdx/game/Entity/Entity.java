@@ -54,6 +54,15 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setColor(color);
 	}
 
+	public Entity(float x, float y, float xSpeed, float ySpeed, boolean aiFlag)
+	{
+		setX(x);
+		setY(y);
+		setXSpeed(xSpeed);
+		setYSpeed(ySpeed);
+		setControl(aiFlag);
+	}
+
 	// X position Getter and Setter
 	public float getX() {
 		return xPos;
@@ -121,10 +130,7 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	public boolean isAIControl() {
 		return isAIControl;
 	}
-	public void setAIControl(boolean isAIControl) {
-		this.isAIControl = isAIControl;
-	}
-	
+
 	public abstract void update();
 	public abstract void render();
 	public abstract void dispose();

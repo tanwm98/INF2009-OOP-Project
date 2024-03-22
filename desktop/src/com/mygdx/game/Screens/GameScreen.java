@@ -47,7 +47,6 @@
 //            shapeRenderer = new ShapeRenderer();
 //            gameOverFont = new BitmapFont();
 //            optionFont = new BitmapFont(); // Initialize font
-//            player = new Player();
 //            screenManager = new ScreenManager(game);
 //
 //        }
@@ -62,8 +61,6 @@
 //    	entityManager = new EntityManager();
 //    	backgroundMusic = screenManager.getoutputManager().musicStart(false);
 //        setupGameEntities();
-//        player = new Player();
-//
 //    }
 //    private void setupGameEntities() {
 //        aiControlManager = new AIControlManager();

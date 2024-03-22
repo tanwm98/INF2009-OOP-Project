@@ -1,13 +1,11 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Player {
     private static Player instance = null;
     private int lives = 3;
     private int score = 0;
     private boolean isAlive = true;
-    private OrthographicCamera camera;
 
     private Player() {
     }
