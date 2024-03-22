@@ -14,7 +14,7 @@ public class Spaceship extends Entity {
     private Texture tex;
     private OrthographicCamera camera;
     private Viewport viewport;
-    private float cameraWidth = 1200;
+    private float cameraWidth = 900;
     private float cameraHeight = 900;
     private SpriteBatch batch;
 
@@ -26,7 +26,6 @@ public class Spaceship extends Entity {
         super.setYSpeed(speedY);
         super.setControl(aiFlag);
         tex = new Texture(Gdx.files.internal(filePath));
-
     }
     public void update() {
     }
@@ -36,6 +35,7 @@ public class Spaceship extends Entity {
     {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch = new SpriteBatch();
         batch.begin(); // Start drawing
         getoutputManager().draw(batch,tex, getX(), getY()); // Draw the spaceship texture at the spaceship's position
         batch.end(); // End drawing

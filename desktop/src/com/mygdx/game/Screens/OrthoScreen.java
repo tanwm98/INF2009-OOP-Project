@@ -62,7 +62,7 @@ public class OrthoScreen implements Screen {
     @Override
     public void show() {
         // Camera dimensions
-        int cameraWidth = 1200;
+        int cameraWidth  = 900;
         int cameraHeight = 900;
 
         // Instantiate camera
@@ -71,7 +71,6 @@ public class OrthoScreen implements Screen {
         camera.update();
 
         viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
-        shapeRenderer = new ShapeRenderer();
         backgroundTexture = new Texture(Gdx.files.internal("starfield8_screamingBrainStudios.png"));
         textureWidth = backgroundTexture.getWidth();
         textureHeight = backgroundTexture.getHeight();
@@ -86,9 +85,10 @@ public class OrthoScreen implements Screen {
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 //
 //        offsetX -= delta * backgroundScrollSpeed; // Background scrolls right
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-
         // Draw the background by tiling it across the screen
         for (float x = offsetX % textureWidth - textureWidth; x < camera.viewportWidth; x += textureWidth) {
             for (float y = 0; y < camera.viewportHeight; y += textureHeight) {
@@ -101,8 +101,7 @@ public class OrthoScreen implements Screen {
 //        shapeRenderer.setColor(0, 1, 1, 1);
 //        shapeRenderer.circle(circleX, circleY, circleRadius);
 //        shapeRenderer.end();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 
         if (entityManager != null) {
             aiControlManager.moveEntities();
@@ -152,11 +151,11 @@ public class OrthoScreen implements Screen {
         for(int i = 0; i < 5; i++) {
             float posX = MathUtils.random(0, Gdx.graphics.getWidth());
             float posY = MathUtils.random(0, Gdx.graphics.getHeight());
-            Asteroid asteroid = new Asteroid("Asteroid.png", posX, posY, 0, 50, 50, true);
-            entityManager.addEntity(asteroid);
+            Asteroid = new Asteroid("Asteroid.png", posX, posY, 0, 50, 50, true);
+            entityManager.addEntity(Asteroid);
         }
         Spaceship = new Spaceship( "Spaceship.png",30, 10, 5, 5,false);
-        Planet = new Planet( "planet02.png",30, 10, 5, 5,false);
+        Planet = new Planet( "planet02.png",30, 10, 5, 1,false);
         entityManager.addEntity(Asteroid);
         entityManager.addEntity(Spaceship);
         entityManager.addEntity(Planet);

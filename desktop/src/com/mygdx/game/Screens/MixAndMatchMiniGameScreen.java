@@ -46,7 +46,7 @@ public class MixAndMatchMiniGameScreen implements Screen{
         float[][] targetPositions = new float[][]{
                 {baseSilhouette.getX()-270, baseSilhouette.getY()}, // positions for each part
                 {baseSilhouette.getX()-151, baseSilhouette.getY()-95},
-                {baseSilhouette.getX()-100, baseSilhouette.getY()-100}
+                {baseSilhouette.getX(), baseSilhouette.getY()}
         };
         float partSpacing = Gdx.graphics.getWidth() / (totalParts + 1); // Spacing between parts
 
