@@ -5,30 +5,42 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Managers.ScreenManager;
 
 
+
+
+
+
 public class MainMenuScreen implements Screen {
     private SpriteBatch batch;
-    private BitmapFont font;
     private Texture backgroundImage;
     private MyGdxGame game;
     private ScreenManager screenmanager;
     private int currentSelection = 0;
     private Music backgroundMusic;
+    private Viewport viewport;
+    private OrthographicCamera camera;
+    private FreeTypeFontGenerator generator;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     
 
     public MainMenuScreen(MyGdxGame game) {
         this.game = game;
         batch = new SpriteBatch();
-        font = new BitmapFont();
-        backgroundImage = new Texture("DarkSpace.jpg");
+        backgroundImage = new Texture("MenuScreen.png");
         screenmanager = new ScreenManager(game);
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(1200,900, camera);
     }
 
     @Override
@@ -40,29 +52,29 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
+        viewport.apply();
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        screenmanager.getoutputManager().draw(batch,backgroundImage,0,0);
-
+        screenmanager.getoutputManager().draw(batch,backgroundImage,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
         // Calculate the center of the screen
-        float centerX = Gdx.graphics.getWidth() / 2f;
-        float centerY = Gdx.graphics.getHeight() / 2f;
-        float lineHeight = font.getLineHeight();
-        float gap = 1 * Gdx.graphics.getPpcY(); // Initialize Gap between lines
+        float centerX = viewport.getWorldWidth() / 2f;
+        float centerY = viewport.getWorldHeight() / 2f;
+        float lineHeight = screenmanager.getoutputManager().getFont().getLineHeight(); // Get the height of the font
+        float gap = 2 * Gdx.graphics.getPpcY(); // Initialize Gap between lines
         float startY = centerY + lineHeight;
-
         GlyphLayout layout = new GlyphLayout(); //Calculating text width
 
         // "Start Game" Centered
         String startText = "Start Game";
-        layout.setText(font, startText);
+        layout.setText(screenmanager.getoutputManager().getFont(), startText);
         float startGameWidth = layout.width;
         float startX = centerX - startGameWidth / 2; // To Center the text
-        screenmanager.getoutputManager().draw(batch, startText, startX, startY,currentSelection == 0);
+        screenmanager.getoutputManager().draw(batch,startText, startX, startY,currentSelection == 0);
         startY -= lineHeight + gap;
 
         String settingsText = "Settings";
-        layout.setText(font, settingsText);
+        layout.setText(screenmanager.getoutputManager().getFont(), settingsText);
         float settingsWidth = layout.width;
         startX = centerX - settingsWidth / 2;
         screenmanager.getoutputManager().draw(batch,settingsText, startX, startY,currentSelection == 1);
@@ -70,15 +82,11 @@ public class MainMenuScreen implements Screen {
 
         // "Exit" centered
         String exitText = "Exit";
-        layout.setText(font, exitText);
+        layout.setText(screenmanager.getoutputManager().getFont(), exitText);
         float exitWidth = layout.width;
         startX = centerX - exitWidth / 2;
         screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 2);
-        
-
-
-        font.setColor(Color.WHITE);
-        batch.end(); // 
+        batch.end(); //
         updateCurrentSelection();
     }
 
@@ -117,6 +125,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height, true);
 
     }
 
@@ -140,9 +149,7 @@ public class MainMenuScreen implements Screen {
         if (batch != null) {
             batch.dispose();
         }
-        if (font != null) {
-            font.dispose();
-        }
+
         if (backgroundImage != null) {
             backgroundImage.dispose();
         }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.Interfaces.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,13 +14,18 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 public class OutputManager {
 	private Music backgroundMusic;
 	private BitmapFont font;
+	private FreeTypeFontGenerator generator;
+	private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
 	//private List<Screen> screenList;
 	
 	public OutputManager() {
 		//screenList = new ArrayList<>();
-		font = new BitmapFont(); 
+		font = new BitmapFont();
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gomarice_no_continue.ttf"));
+		parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 50;
+		font = generator.generateFont(parameter);
     }
-	
 	//Draw Render
 	public void draw(SpriteBatch batch,Texture tex, float x, float y) {
 		batch.draw(tex,x,y,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -40,8 +46,7 @@ public class OutputManager {
 				0, 0, (int)texWidth, (int)texHeight,
 				false, false);
 	}
-	
-	
+
 	
 	public void draw(SpriteBatch batch, String text, float x, float y) {
 		font.draw(batch,text,x,y);
@@ -53,6 +58,10 @@ public class OutputManager {
 	
 	//Selection of text
 	public void draw(SpriteBatch batch, String text, float x, float y, boolean isSelected) {
+		ShapeRenderer shapeRenderer = new ShapeRenderer();
+		GlyphLayout layout = new GlyphLayout(font, text);
+
+
 		if(isSelected) {
 			font.setColor(Color.YELLOW); 
 		}
@@ -89,7 +98,9 @@ public class OutputManager {
 	public void soundEnd(Music backgroundMusic) { 
 		backgroundMusic.stop();
 	}
-	
+	public BitmapFont getFont() {
+		return font;
+	}
 	
 	/*public void draw(SpriteBatch batch) {
 		batch.begin();

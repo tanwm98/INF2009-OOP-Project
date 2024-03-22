@@ -12,20 +12,22 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 public class Spaceship extends Entity {
 
     private Texture tex;
-    private OrthographicCamera camera;
-    private Viewport viewport;
-    private float cameraWidth = 900;
-    private float cameraHeight = 900;
-    private SpriteBatch batch;
 
-    public Spaceship(String filePath, float posX, float posY, float speedX, float speedY,boolean aiFlag)
+    private SpriteBatch batch;
+    private OrthographicCamera camera;
+
+    public Spaceship(String filePath, float posX, float posY, int width, int height,float speedX, float speedY,OrthographicCamera camera,boolean aiFlag)
     {
+        tex = new Texture(Gdx.files.internal(filePath));
         super.setX(posX);
         super.setY(posY);
+        super.setWidth(width);
+        super.setHeight(height);
         super.setXSpeed(speedX);
         super.setYSpeed(speedY);
         super.setControl(aiFlag);
-        tex = new Texture(Gdx.files.internal(filePath));
+        this.camera = camera;
+
     }
     public void update() {
     }
@@ -33,11 +35,10 @@ public class Spaceship extends Entity {
     @Override
     public void render()
     {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch = new SpriteBatch();
+        batch.setProjectionMatrix(camera.combined);
         batch.begin(); // Start drawing
-        getoutputManager().draw(batch,tex, getX(), getY()); // Draw the spaceship texture at the spaceship's position
+        getoutputManager().draw(batch,tex, getX(), getY(), getWidth(),getHeight()); // Draw the spaceship texture at the spaceship's position
         batch.end(); // End drawing
     }
     public void dispose()
@@ -48,30 +49,28 @@ public class Spaceship extends Entity {
     public void move()
     {
         float delta = Gdx.graphics.getDeltaTime();
-        float movespeed = 200 * delta;
-        if(getinputManager().isRightKeyPressed())
+        float moveSpeed = 200 * delta;
+
+        if(getinputManager().isRightKeyPressed() && !getinputManager().isLeftKeyPressed())
         {
-            setX(getX() + movespeed);
-            if(getX() - tex.getWidth() / 2 > cameraWidth)
+            setX(getX() + moveSpeed);
+            if(getX() - getWidth() / 2 > Gdx.graphics.getWidth())
             {
-                setX(-tex.getWidth() / 2); // Wrap around
+                setX(-getWidth() / 2); // Wrap around
             }
         }
-        if(getinputManager().isLeftKeyPressed())
+        else if(getinputManager().isLeftKeyPressed())
         {
-            setX(Math.max(0, getX() - movespeed)); // Prevent from going off screen
+            setX(Math.max(0, getX() - moveSpeed)); // Prevent from going off screen
         }
-        if(getinputManager().isRightKeyPressed())
+
+        if(getinputManager().isUpKeyPressed() && !getinputManager().isDownKeyPressed())
         {
-            setX(Math.min(camera.viewportWidth - tex.getWidth(), getX() + movespeed)); // Prevent from going off screen
+            setY(Math.min(Gdx.graphics.getHeight() - getHeight(), getY() + moveSpeed)); // Prevent from going off screen
         }
-        if(getinputManager().isUpKeyPressed())
+        else if(getinputManager().isDownKeyPressed())
         {
-            setY(Math.min(camera.viewportHeight - tex.getHeight(), getY() + movespeed)); // Prevent from going off screen
-        }
-        if(getinputManager().isDownKeyPressed())
-        {
-            setY(Math.max(getX(), getY() - movespeed)); // Prevent from going off screen
+            setY(Math.max(0, getY() - moveSpeed)); // Prevent from going off screen
         }
     }
     public void collide(boolean collide)

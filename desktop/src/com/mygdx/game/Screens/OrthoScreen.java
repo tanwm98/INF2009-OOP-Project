@@ -1,10 +1,8 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -42,9 +40,9 @@ public class OrthoScreen implements Screen {
     //private boolean paused = false;
     //private float offsetY = 0;
 
-    private Entity Asteroid;
-    private Entity Spaceship;
-    private Entity Planet;
+    private Entity asteroid;
+    private Entity spaceship;
+    private Entity planet;
 
     public OrthoScreen(MyGdxGame game) {
         try {
@@ -62,16 +60,16 @@ public class OrthoScreen implements Screen {
     @Override
     public void show() {
         // Camera dimensions
-        int cameraWidth  = 900;
-        int cameraHeight = 900;
+        int cameraWidth  = Gdx.graphics.getWidth();
+        int cameraHeight = Gdx.graphics.getHeight();
 
         // Instantiate camera
         camera = new OrthographicCamera();
-        camera.position.set(cameraWidth / 2f, cameraHeight / 2f, 0);
+        camera.position.set( cameraWidth / 2f, cameraHeight / 2f, 0);
         camera.update();
 
         viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
-        backgroundTexture = new Texture(Gdx.files.internal("starfield8_screamingBrainStudios.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("starfield.png"));
         textureWidth = backgroundTexture.getWidth();
         textureHeight = backgroundTexture.getHeight();
         setupGameEntities();
@@ -79,14 +77,11 @@ public class OrthoScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        handleInput(delta);
-//        camera.update();
-//        Gdx.gl.glClearColor(0, 0, 0, 1);
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//        offsetX -= delta * backgroundScrollSpeed; // Background scrolls right
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
+        offsetX -= delta * backgroundScrollSpeed; // Background scrolls right
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         // Draw the background by tiling it across the screen
@@ -96,69 +91,32 @@ public class OrthoScreen implements Screen {
             }
         }
         batch.end();
-//        shapeRenderer.setProjectionMatrix(camera.combined);
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(0, 1, 1, 1);
-//        shapeRenderer.circle(circleX, circleY, circleRadius);
-//        shapeRenderer.end();
-
-
         if (entityManager != null) {
             aiControlManager.moveEntities();
             entityManager.renderEntities(); //
             //entityManager.detect();
-            Spaceship.move();
+            spaceship.move();
         } else {
             if (isGameOver) {
                 screenManager.setScreen(new GameOverScreen(game, screenManager));
             }
-
         }
+
     }
-
-//    private void handleInput(float delta) {
-//        float moveSpeed = 100 * delta; // Circle Speed
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-//            circleX += moveSpeed;
-//
-//            if (circleX - circleRadius > camera.viewportWidth) {
-//                circleX = -circleRadius;
-//            }
-//        }
-//        // Math.max prevents circle from moving out of screen
-//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-//            circleX = Math.max(circleRadius, circleX - moveSpeed);
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-//
-//            circleX = Math.min(camera.viewportWidth - circleRadius, circleX + moveSpeed);
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-//            circleY = Math.min(camera.viewportHeight - circleRadius, circleY + moveSpeed);
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-//            circleY = Math.max(circleRadius, circleY - moveSpeed);
-//        }
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-//            screenManager.pushScreen(new MainMenuScreen(game));
-//        }
-//    }
-
     private void setupGameEntities() {
         aiControlManager = new AIControlManager();
         entityManager = new EntityManager(aiControlManager);
         for(int i = 0; i < 5; i++) {
             float posX = MathUtils.random(0, Gdx.graphics.getWidth());
             float posY = MathUtils.random(0, Gdx.graphics.getHeight());
-            Asteroid = new Asteroid("Asteroid.png", posX, posY, 0, 50, 50, true);
-            entityManager.addEntity(Asteroid);
+            asteroid = new Asteroid("Asteroid.png", posX, posY, 0, 50, 50, true);
+            entityManager.addEntity(asteroid);
         }
-        Spaceship = new Spaceship( "Spaceship.png",30, 10, 5, 5,false);
-        Planet = new Planet( "planet02.png",30, 10, 5, 1,false);
-        entityManager.addEntity(Asteroid);
-        entityManager.addEntity(Spaceship);
-        entityManager.addEntity(Planet);
+        spaceship = new Spaceship( "Spaceship.png",450, 450, 100,100,5, 5, camera,true);
+        planet = new Planet( "planet02.png",30, 10, 5, 1,false);
+        entityManager.addEntity(asteroid);
+        entityManager.addEntity(spaceship);
+        entityManager.addEntity(planet);
     }
 
     // private void pauseGameAndShowMenu()
