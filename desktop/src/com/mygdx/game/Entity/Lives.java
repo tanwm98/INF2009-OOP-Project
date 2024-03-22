@@ -4,17 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Spaceship extends Entity {
+public class Lives extends Entity {
 	private Texture tex;
 	private float sizeX, sizeY;
 	
 	SpriteBatch batch = new SpriteBatch();
 	
-    public Spaceship() {
+    public Lives() {
 
     }
     
-    public Spaceship(String filePath, float sizeX, float sizeY) {
+    public Lives(String filePath, float sizeX, float sizeY) {
     	super();
 		tex = new Texture(Gdx.files.internal(filePath));
 		this.sizeX = sizeX;
