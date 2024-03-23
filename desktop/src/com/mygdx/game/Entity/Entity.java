@@ -15,6 +15,8 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	private float width, height;
 	private Color color;
 	private boolean isAIControl;    // Flag to determine whether entity is AI controlled.
+	private boolean isCollideable;	//Flag to see if entity can collide
+	private float rotation;
 
 	public Entity() {
 		setXSpeed(0);
@@ -25,9 +27,10 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setHeight(0);
 		color = Color.WHITE;
 		setControl(false);
+		setRotation(0);
 	}
 
-	public Entity(float xPos, float yPos, float xSpeed, float ySpeed, float width, float height, Color color,boolean isAIControl) {
+	public Entity(float xPos, float yPos, float xSpeed, float ySpeed, Color color,boolean isAIControl,boolean isCollideable) {
 		if(xPos < 0 || yPos < 0 || xSpeed < 0 || ySpeed < 0 || width < 0 || height < 0)
 		{
 			throw new IllegalArgumentException("Invalid input; negative values");
@@ -48,10 +51,9 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setYSpeed(ySpeed);
 		setX(xPos);
 		setY(yPos);
-		setWidth(width);
-		setHeight(height);
 		setControl(isAIControl);
 		setColor(color);
+		setCollideable(isCollideable);
 	}
 
 	public Entity(float x, float y, float xSpeed, float ySpeed, boolean aiFlag)
@@ -98,6 +100,7 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	public float getYSpeed() {
 		return ySpeed;
 	}
+	
 	public float getWidth() {
 		return width;
 	}
@@ -129,6 +132,21 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 
 	public boolean isAIControl() {
 		return isAIControl;
+	}
+	public boolean isCollideable() {
+		return isCollideable;
+	}
+	public void setCollideable(boolean isCollideable) {
+		this.isCollideable = isCollideable;
+	}
+	
+	// Rotation Get and Set.
+    public float getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
 	}
 
 	public abstract void update();

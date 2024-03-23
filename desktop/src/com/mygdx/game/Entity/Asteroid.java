@@ -1,7 +1,6 @@
 package com.mygdx.game.Entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -16,23 +15,22 @@ public class Asteroid extends Entity {
 
     }
     
-    public Asteroid(String filePath, float sizeX, float sizeY) {
+    public Asteroid(String filePath) {
     	super();
 		tex = new Texture(Gdx.files.internal(filePath));
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
     }
-	public Asteroid(String filePath, float posX, float posY, float width, float height, float rotation, float speedX, float speedY,boolean aiFlag)
+	public Asteroid(String filePath, float posX, float posY,float speedX, float speedY,boolean aiFlag,boolean Collideable)
 	{
 		super.setX(posX);
 		super.setY(posY);
 		super.setXSpeed(speedX);
 		super.setYSpeed(speedY);
 		super.setControl(aiFlag);
-		super.setWidth(width);
-		super.setHeight(height);
-		this.rotation = rotation;
+		super.setRotation(rotation);
 		tex = new Texture(Gdx.files.internal(filePath));
+		super.setCollideable(Collideable);
+		super.setHeight(tex.getHeight());
+		super.setWidth(tex.getWidth());
 	}
 	public Texture getTexture() {
 		return tex;
@@ -86,7 +84,7 @@ public class Asteroid extends Entity {
     }
 
     public void collide(boolean collide) {
-
+    	//transition to minigame
     }
 
 	public float getRotation() {
