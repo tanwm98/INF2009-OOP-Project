@@ -1,4 +1,4 @@
-	package com.mygdx.game.Managers;
+package com.mygdx.game.Managers;
 
 import java.util.*;
 
@@ -77,11 +77,8 @@ public class EntityManager extends MyGdxGame{
         			}
         			object.collide(collide);
         		}
-        		else {
-        			player.collide(collide);
-        		}
+
         	}
         }
 	}
-
 }
