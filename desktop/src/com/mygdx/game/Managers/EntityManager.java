@@ -9,6 +9,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Entity.Asteroid;
 import com.mygdx.game.Entity.Entity;
 import com.mygdx.game.Entity.Planet;
+import com.mygdx.game.Entity.Satellite;
 import com.mygdx.game.Managers.CollisionManager;
 import com.mygdx.game.Managers.AIControlManager;
 
@@ -72,7 +73,7 @@ public class EntityManager extends MyGdxGame{
         		Entity object = CollideableObjects.get(i);
         		collide = collisionManager.detectCollision(player, object);
         		if(collide) {
-        			if(object instanceof Asteroid) {
+        			if(object instanceof Asteroid || object instanceof Satellite) {
         				player.collide(collide);
         			}
         			object.collide(collide);
