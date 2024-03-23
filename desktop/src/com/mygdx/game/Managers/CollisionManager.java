@@ -36,8 +36,8 @@ public class CollisionManager{
 	public boolean detectCollision(Entity e1 , Entity e2) {
 		collide = false;
 		object1 = new Rectangle(e1.getX() , e1.getY() , e1.getWidth() , e1.getHeight());
-		if(e2 instanceof Asteroid) {
-			//More accurate collision for asteroid instead of using circle
+		if(e2 instanceof Asteroid || e2 instanceof Satellite) {
+			//More accurate collision for asteroid and satellite instead of using circle
 			object3 = new Rectangle(e2.getX() , e2.getY() , e2.getWidth() , e2.getHeight());
 			if(Intersector.overlaps(object1 , object3) == true) {
 				collide = true;
