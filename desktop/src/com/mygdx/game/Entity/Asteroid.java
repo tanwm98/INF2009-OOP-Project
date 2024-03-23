@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Asteroid extends Entity {
 	private Texture tex;
-	private float sizeX, sizeY;
 	private float rotation;
 	
 	SpriteBatch batch = new SpriteBatch();
@@ -40,21 +39,6 @@ public class Asteroid extends Entity {
 		tex = t;
 	}
 	
-	public void setSizeX(float x) {
-		this.sizeX = x;
-	}
-	
-	public void setY(float y) {
-		this.sizeY = y;
-	}
-	
-	public float getSizeX() {
-		return sizeX;
-	}
-	
-	public float getSizeY() {
-		return sizeY;
-	}
 	public void update() {
         System.out.printf("Asteroid pos X:%f and Y: %f\n",super.getX(),super.getY());
     }
@@ -72,12 +56,12 @@ public class Asteroid extends Entity {
     public void move() {
 		super.setX(super.getX() + super.getXSpeed());
 		super.setY(super.getY() + super.getYSpeed());
-		if(super.getX() - getSizeY() / 2 < 0 || super.getX() + getSizeX() / 2 > Gdx.graphics.getWidth())
+		if(super.getX()  < 0 || super.getX()  > Gdx.graphics.getWidth())
 		//divide by 2 to get the center of the ball
 		{
 			super.setXSpeed(super.getXSpeed() * -1); //reverse x direction
 		}
-		if(super.getY() - getSizeY() / 2 < 0 || super.getY() + getSizeX() / 2 > Gdx.graphics.getHeight())
+		if(super.getY()  < 0 || super.getY()  > Gdx.graphics.getHeight())
 		{
 			super.setYSpeed(super.getYSpeed() * -1); //reverse y direction
 		}
