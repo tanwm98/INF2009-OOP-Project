@@ -9,16 +9,13 @@ public class Planet extends Entity {
 	private float rotation;
 	private float scaleFactor;
 	private SpriteBatch batch = new SpriteBatch();
-	private boolean isVisible = false;
-	private boolean isMoving = false;
-
-	public Planet(String fileName, float x, float y, float rotate, boolean aiFlag,boolean Collideable) {
+	public Planet(String fileName, float x, float y, float Xspeed, boolean aiFlag,boolean Collideable) {
 		super();
 		setX(x);
 		setY(y);
 		setTexture(tex = new Texture(Gdx.files.internal(fileName)));
 //		setRotation(rotate);
-		setXSpeed(rotate);
+		setXSpeed(Xspeed);
 		setScaleFactor(scaleFactor);
 		setControl(aiFlag);
 		super.setCollideable(Collideable);
@@ -87,8 +84,5 @@ public class Planet extends Entity {
     public Texture getTexture() {
     	return this.tex;
     }
-	public void setVisible(boolean visible) {
-		isVisible = visible;
-	}
 
 }
