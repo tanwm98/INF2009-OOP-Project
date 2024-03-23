@@ -39,15 +39,7 @@ public class Asteroid extends Entity {
 	public void setTexture(Texture t) {
 		tex = t;
 	}
-	
-	public void setSizeX(float x) {
-		this.sizeX = x;
-	}
-	
-	public void setY(float y) {
-		this.sizeY = y;
-	}
-	
+
 	public float getSizeX() {
 		return sizeX;
 	}

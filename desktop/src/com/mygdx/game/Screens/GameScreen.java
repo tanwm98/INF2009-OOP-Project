@@ -12,11 +12,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Entity.*;
-import com.mygdx.game.Managers.AIControlManager;
-import com.mygdx.game.Managers.EntityManager;
-import com.mygdx.game.Managers.PlayerControlManager;
+import com.mygdx.game.Managers.*;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Managers.ScreenManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.Player;
 
@@ -33,16 +30,14 @@ public class GameScreen implements Screen {
     private EntityManager entityManager;
     private Player player;
     private PlayerControlManager playerControlManager;
-
+    private CollisionManager collisionManager;
     private AIControlManager aiControlManager;
     private ScreenManager screenManager;
     private SpriteBatch batch;
     private float textureWidth;
     private float textureHeight;
-    private float backgroundScrollSpeed = 100; // Speed of BackgroundScroll, Adjust if want to test
+    private float backgroundScrollSpeed = 200; // Speed of BackgroundScroll, Adjust if want to test
     private float offsetX = 0; // Offset for the background X position
-
-
     private Entity asteroid;
     private Entity spaceship;
     private Entity planet;
@@ -64,15 +59,14 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.graphics.setContinuousRendering(true);
         // Camera dimensions
         int cameraWidth  = Gdx.graphics.getWidth();
         int cameraHeight = Gdx.graphics.getHeight();
-
         // Instantiate camera
         camera = new OrthographicCamera();
         camera.position.set( cameraWidth / 2f, cameraHeight / 2f, 0);
         camera.update();
-
         viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
         backgroundMusic = screenManager.getoutputManager().musicStart(false);
         backgroundTexture = new Texture(Gdx.files.internal("Background/starfield.png"));
@@ -96,12 +90,14 @@ public class GameScreen implements Screen {
             }
         }
         batch.end();
-        if (entityManager != null) {
+        if (entityManager != null)
+        {
             aiControlManager.moveEntities();
             entityManager.renderEntities(); //
-            //entityManager.detect();
+            entityManager.detect();
             spaceship.move();
-        } else {
+        }
+        else {
             if (isGameOver) {
                 screenManager.setScreen(new GameOverScreen(game, screenManager));
             }
@@ -109,15 +105,22 @@ public class GameScreen implements Screen {
     }
     private void setupGameEntities() {
         aiControlManager = new AIControlManager();
-        entityManager = new EntityManager(aiControlManager);
-        for(int i = 0; i < 5; i++) {
-            float posX = Gdx.graphics.getWidth();
+        collisionManager = new CollisionManager();
+        entityManager = new EntityManager(aiControlManager, collisionManager);
+        for(int i = 0; i < 3; i++) {
+            float posX = MathUtils.random(300, Gdx.graphics.getWidth());
             float posY = MathUtils.random(0, Gdx.graphics.getHeight());
-            asteroid = new Asteroid("Objects/Asteroid/asteroid01.png", posX, posY, 100,100,0, -1, -1, true);
+            float speedX = MathUtils.random(-5, 5);
+            float speedY = MathUtils.random(-5, 5);
+            asteroid = new Asteroid("Objects/Asteroid/asteroid01.png", posX, posY,
+                    speedX, speedY, true, true);
             entityManager.addEntity(asteroid);
         }
-        spaceship = new Spaceship("Objects/Spaceship/Spaceship1.png",450, 450, 100,100,5, 5, camera,true);
-        planet = new Planet("Objects/Planets/planet02.png",30, 10, 5, 1,false);
+        spaceship = new Spaceship("Objects/Spaceship/Spaceship1.png",0, Gdx.graphics.getHeight() / 2,
+                500,camera,false,true);
+        planet = new Planet("Objects/Planets/planet02.png",
+                Gdx.graphics.getWidth()+500, Gdx.graphics.getHeight() / 2,
+                50, true,true); //set planet out of screen and slowly move in
         entityManager.addEntity(asteroid);
         entityManager.addEntity(spaceship);
         entityManager.addEntity(planet);
