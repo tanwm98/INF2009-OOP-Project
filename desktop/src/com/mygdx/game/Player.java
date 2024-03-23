@@ -2,19 +2,18 @@ package com.mygdx.game;
 
 
 public class Player {
-    private static Player instance = null;
-    private int lives = 3;
-    private int score = 0;
+    private int lives;
+    private int score;
     private boolean isAlive = true;
 
-    private Player() {
+    public Player() {
+        this.lives = 3;
+        this.score = 0;
     }
 
-    public static Player getInstance() {
-        if (instance == null) {
-            instance = new Player();
-        }
-        return instance;
+    public Player(int lives, int score) {
+        this.lives = lives;
+        this.score = score;
     }
 
     public void death() {
@@ -23,7 +22,6 @@ public class Player {
             this.isAlive = false;
         }
     }
-
     public void addScore(int points) {
         this.score += points;
     }

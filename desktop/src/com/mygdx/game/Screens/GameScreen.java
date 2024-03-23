@@ -14,9 +14,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Entity.*;
 import com.mygdx.game.Managers.AIControlManager;
 import com.mygdx.game.Managers.EntityManager;
+import com.mygdx.game.Managers.PlayerControlManager;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Managers.ScreenManager;
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.game.Player;
 
 public class GameScreen implements Screen {
     private MyGdxGame game;
@@ -29,6 +31,8 @@ public class GameScreen implements Screen {
     private Texture backgroundTexture;
     private Music backgroundMusic;
     private EntityManager entityManager;
+    private Player player;
+    private PlayerControlManager playerControlManager;
 
     private AIControlManager aiControlManager;
     private ScreenManager screenManager;
@@ -51,6 +55,8 @@ public class GameScreen implements Screen {
             gameOverFont = new BitmapFont();
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
+            playerControlManager = new PlayerControlManager(player,spaceship);
+            player = new Player();
         } catch (Exception e) {
             System.err.println("OrthoScreen not initialised due to:" + e.getMessage());
         }
@@ -68,6 +74,7 @@ public class GameScreen implements Screen {
         camera.update();
 
         viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
+        backgroundMusic = screenManager.getoutputManager().musicStart(false);
         backgroundTexture = new Texture(Gdx.files.internal("Background/starfield.png"));
         textureWidth = backgroundTexture.getWidth();
         textureHeight = backgroundTexture.getHeight();
@@ -76,7 +83,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();

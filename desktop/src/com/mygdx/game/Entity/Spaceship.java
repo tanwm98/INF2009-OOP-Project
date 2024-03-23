@@ -43,9 +43,10 @@ public class Spaceship extends Entity {
     }
     public void dispose()
     {
-
+        tex.dispose();
+        batch.dispose();
     }
-    @Override
+
     public void move()
     {
         float delta = Gdx.graphics.getDeltaTime();

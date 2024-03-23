@@ -84,10 +84,10 @@ public class OutputManager {
 	//Music start
 	public Music musicStart(boolean music) {
 		if(music) {
-			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/Toothless.mp3"));
+			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/menuBGM.mp3"));
 		}
 		else {
-			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/Wii.mp3"));
+			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/gameBGM.mp3"));
 		}
 		backgroundMusic.setLooping(true);
 		backgroundMusic.play();
