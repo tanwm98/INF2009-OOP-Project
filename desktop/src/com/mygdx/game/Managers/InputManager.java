@@ -20,6 +20,19 @@ public class InputManager {
 	public boolean isEscapeKeyPressed() {
 		return Gdx.input.isKeyPressed(Keys.ESCAPE);
 	}
+
+	public boolean isAKeyPressed() {
+		return Gdx.input.isKeyPressed(Keys.A);
+	}
+	public boolean isSKeyPressed() {
+		return Gdx.input.isKeyPressed(Keys.S);
+	}
+	public boolean isDKeyPressed() {
+		return Gdx.input.isKeyPressed(Keys.D);
+	}
+	public boolean isWKeyPressed() {
+		return Gdx.input.isKeyPressed(Keys.W);
+	}
 	
 	//KeyJustPressed
 	public boolean isLeftKeyJustPressed() {

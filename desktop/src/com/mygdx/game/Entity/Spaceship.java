@@ -10,20 +10,18 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 
 public class Spaceship extends Entity {
-
     private Texture tex;
-
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private boolean ishit;
     float flickerTimer = 0;
+    private float totalDistance = 0; // Total distance traveled by the spaceship
 
-    public Spaceship(String filePath, float posX, float posY,float speedX, float speedY,OrthographicCamera camera,boolean aiFlag,boolean Collideable)
+    public Spaceship(String filePath, float posX, float posY,float speedY,OrthographicCamera camera,boolean aiFlag,boolean Collideable)
     {
         tex = new Texture(Gdx.files.internal(filePath));
         super.setX(posX);
         super.setY(posY);
-        super.setXSpeed(speedX);
         super.setYSpeed(speedY);
         super.setControl(aiFlag);
         super.setCollideable(Collideable);
@@ -57,15 +55,16 @@ public class Spaceship extends Entity {
     }
     public void dispose()
     {
-
+        tex.dispose();
+        batch.dispose();
     }
-    @Override
+
     public void move()
     {
         float delta = Gdx.graphics.getDeltaTime();
-        float moveSpeed = 200 * delta;
+        float moveSpeed = super.getYSpeed() * delta;
 
-        if(getinputManager().isRightKeyPressed() && !getinputManager().isLeftKeyPressed())
+        if(getinputManager().isRightKeyPressed() || getinputManager().isDKeyPressed())
         {
             setX(getX() + moveSpeed);
             if(getX() - getWidth() / 2 > Gdx.graphics.getWidth())
@@ -73,16 +72,16 @@ public class Spaceship extends Entity {
                 setX(-getWidth() / 2); // Wrap around
             }
         }
-        else if(getinputManager().isLeftKeyPressed())
+        else if(getinputManager().isLeftKeyPressed() || getinputManager().isAKeyPressed())
         {
             setX(Math.max(0, getX() - moveSpeed)); // Prevent from going off screen
         }
 
-        if(getinputManager().isUpKeyPressed() && !getinputManager().isDownKeyPressed())
+        if(getinputManager().isUpKeyPressed() || getinputManager().isWKeyPressed())
         {
             setY(Math.min(Gdx.graphics.getHeight() - getHeight(), getY() + moveSpeed)); // Prevent from going off screen
         }
-        else if(getinputManager().isDownKeyPressed())
+        else if(getinputManager().isDownKeyPressed() || getinputManager().isSKeyPressed())
         {
             setY(Math.max(0, getY() - moveSpeed)); // Prevent from going off screen
         }
@@ -92,5 +91,9 @@ public class Spaceship extends Entity {
     	if(collide) {
         	ishit = true;
     	}
+    }
+
+    public float getTotalDistance() {
+        return totalDistance;
     }
 }
