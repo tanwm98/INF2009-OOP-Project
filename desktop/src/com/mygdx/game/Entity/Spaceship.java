@@ -51,11 +51,9 @@ public class Spaceship extends Entity {
                 flickerTimer = 0;
             }
         }
-        else {
-            batch.setColor(1, 1, 1, 1); // Fully opaque
-        }
         getoutputManager().draw(batch,tex, getX(), getY(), tex.getWidth(),tex.getHeight()); // Draw the spaceship texture at the spaceship's position
         batch.end(); // End drawing
+        ishit = false;
     }
     public void dispose()
     {
@@ -93,9 +91,6 @@ public class Spaceship extends Entity {
     {
     	if(collide) {
         	ishit = true;
-    	}
-    	else {
-    		ishit = false;
     	}
     }
 }
