@@ -18,31 +18,16 @@ public class Planet extends Entity {
 		setY(y);
 		setTexture(tex = new Texture(Gdx.files.internal(fileName)));
 		setRotation(rotate);
-		setScaleFactor(scaleFactor);
 		super.setCollideable(Collideable);
 		super.setWidth(tex.getWidth());
 		super.setHeight(tex.getHeight());
 	}
 	
-	// Scale Factor (size of texture) Get and Set.
-	public float getScaleFactor() {
-		return scaleFactor;
-	}
 
-	public void setScaleFactor(float scaleFactor) {
-		this.scaleFactor = scaleFactor;
-	}
 
-	// Rotation Get and Set.
-    public float getRotation() {
-		return rotation;
-	}
 
-	public void setRotation(float rotation) {
-		this.rotation = rotation;
-	}
 
-	public void update() {
+public void update() {
 		System.out.println("Planet at:"+ this.getX()+ ","+ this.getY());
     }
     public void render()
@@ -67,7 +52,7 @@ public class Planet extends Entity {
     }
     public void move()
     {
-		setRotation(getRotation() + 1);
+	setRotation(getRotation() + 1);
     }
     public void collide(boolean collide)
     {
