@@ -107,6 +107,13 @@ public class GameScreen implements Screen {
         aiControlManager = new AIControlManager();
         collisionManager = new CollisionManager();
         entityManager = new EntityManager(aiControlManager, collisionManager);
+        spaceship = new Spaceship("Objects/Spaceship/Spaceship1.png",0, Gdx.graphics.getHeight() / 2,
+                500,camera,false,true);
+        planet = new Planet("Objects/Planets/planet02.png",
+                Gdx.graphics.getWidth()+500, Gdx.graphics.getHeight() / 2,
+                50, true,true); //set planet out of screen and slowly move in
+        entityManager.addEntity(spaceship);
+        entityManager.addEntity(planet);
         for(int i = 0; i < 3; i++) {
             float posX = MathUtils.random(300, Gdx.graphics.getWidth());
             float posY = MathUtils.random(0, Gdx.graphics.getHeight());
@@ -116,14 +123,6 @@ public class GameScreen implements Screen {
                     speedX, speedY, true, true);
             entityManager.addEntity(asteroid);
         }
-        spaceship = new Spaceship("Objects/Spaceship/Spaceship1.png",0, Gdx.graphics.getHeight() / 2,
-                500,camera,false,true);
-        planet = new Planet("Objects/Planets/planet02.png",
-                Gdx.graphics.getWidth()+500, Gdx.graphics.getHeight() / 2,
-                50, true,true); //set planet out of screen and slowly move in
-        entityManager.addEntity(asteroid);
-        entityManager.addEntity(spaceship);
-        entityManager.addEntity(planet);
     }
 
     // private void pauseGameAndShowMenu()
