@@ -15,7 +15,8 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	private float width, height;
 	private Color color;
 	private boolean isAIControl;    // Flag to determine whether entity is AI controlled.
-
+	private float rotation;
+	
 	public Entity() {
 		setXSpeed(0);
 		setYSpeed(0);
@@ -25,6 +26,7 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setHeight(0);
 		color = Color.WHITE;
 		setControl(false);
+		setRotation(0);
 	}
 
 	public Entity(float xPos, float yPos, float xSpeed, float ySpeed, float width, float height, Color color,boolean isAIControl) {
@@ -130,7 +132,15 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	public boolean isAIControl() {
 		return isAIControl;
 	}
+	
+	// Rotation Get and Set.
+    public float getRotation() {
+		return rotation;
+	}
 
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
+	}
 	public abstract void update();
 	public abstract void render();
 	public abstract void dispose();
