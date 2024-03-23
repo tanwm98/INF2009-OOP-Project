@@ -22,13 +22,15 @@ public class Asteroid extends Entity {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
     }
-	public Asteroid(String filePath, float posX, float posY, float rotation, float speedX, float speedY,boolean aiFlag)
+	public Asteroid(String filePath, float posX, float posY, float width, float height, float rotation, float speedX, float speedY,boolean aiFlag)
 	{
 		super.setX(posX);
 		super.setY(posY);
 		super.setXSpeed(speedX);
 		super.setYSpeed(speedY);
 		super.setControl(aiFlag);
+		super.setWidth(width);
+		super.setHeight(height);
 		this.rotation = rotation;
 		tex = new Texture(Gdx.files.internal(filePath));
 	}
@@ -61,7 +63,7 @@ public class Asteroid extends Entity {
 
     public void render() {
     	batch.begin();
-    	getoutputManager().draw(batch, getTexture(), super.getX(), super.getY(), getSizeX(), getSizeY());
+    	getoutputManager().draw(batch, getTexture(), super.getX(), super.getY(), super.getWidth(), super.getHeight());
 		batch.end();
     }
 

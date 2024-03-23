@@ -3,11 +3,9 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -37,7 +35,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(MyGdxGame game) {
         this.game = game;
         batch = new SpriteBatch();
-        backgroundImage = new Texture("MenuScreen.png");
+        backgroundImage = new Texture("Background/MenuScreen.png");
         screenmanager = new ScreenManager(game);
         camera = new OrthographicCamera();
         viewport = new FitViewport(1200,900, camera);
@@ -112,7 +110,7 @@ public class MainMenuScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-                screenmanager.pushScreen(new OrthoScreen(game));
+                screenmanager.pushScreen(new GameScreen(game));
                 break;
             case 1:
                 screenmanager.pushScreen(new SettingsScreen(game));

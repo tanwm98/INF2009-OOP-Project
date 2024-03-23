@@ -30,10 +30,10 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
-    	 gameOverImage = new Texture("GameOver.png");
+    	 gameOverImage = new Texture("Background/GameOver.png");
          batch = new SpriteBatch();
          optionFont = new BitmapFont();
-         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("GameOverBGM.mp3"));
+         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/GameOverBGM.mp3"));
          backgroundMusic.setLooping(false);
          backgroundMusic.play();
     }

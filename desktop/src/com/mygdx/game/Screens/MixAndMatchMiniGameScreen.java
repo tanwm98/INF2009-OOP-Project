@@ -25,13 +25,13 @@ public class MixAndMatchMiniGameScreen implements Screen{
     public MixAndMatchMiniGameScreen(MyGdxGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
-        originalPhoto = new Image(new Texture(Gdx.files.internal("satelite.png")));
+        originalPhoto = new Image(new Texture(Gdx.files.internal("Objects/Satellites/satelite.png")));
         Gdx.input.setInputProcessor(stage);
         dragAndDrop = new DragAndDrop();
         setupBaseSilhouette();
     }
     private void setupBaseSilhouette() {
-        Image baseSilhouette = new Image(new Texture(Gdx.files.internal("satellite_silhouette.png")));
+        Image baseSilhouette = new Image(new Texture(Gdx.files.internal("Objects/Satellites/satellite_silhouette.png")));
         baseSilhouette.setPosition(Gdx.graphics.getWidth() / 2 - baseSilhouette.getWidth() / 2, Gdx.graphics.getHeight() / 2 - baseSilhouette.getHeight() / 2); // set to the center of the screen
         stage.addActor(baseSilhouette);
         originalPhoto.setPosition(Gdx.graphics.getWidth() / 2 - originalPhoto.getWidth() / 2, Gdx.graphics.getHeight() / 2 - originalPhoto.getHeight() / 2);
@@ -56,7 +56,7 @@ public class MixAndMatchMiniGameScreen implements Screen{
             parts[i - 1] = new Image(new Texture(Gdx.files.internal("satellite_" + i + ".png")));
             parts[i - 1].setPosition(partSpacing * i - parts[i - 1].getWidth() / 2, 50); // Adjust spacing based on asset size
 
-            Image targetArea = new Image(new Texture(Gdx.files.internal("transparent.png"))); // A placeholder, size should match or be slightly larger than parts for easier targeting
+            Image targetArea = new Image(new Texture(Gdx.files.internal("Objects/Satellites/transparent.png"))); // A placeholder, size should match or be slightly larger than parts for easier targeting
             targetArea.setPosition(baseSilhouette.getWidth(),baseSilhouette.getHeight());
             stage.addActor(targetArea);
 
@@ -111,7 +111,7 @@ public class MixAndMatchMiniGameScreen implements Screen{
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    game.setScreen(new OrthoScreen(game));
+                    game.setScreen(new GameScreen(game));
                 }
             }, 3); // Delay in seconds
         }
@@ -121,7 +121,7 @@ public class MixAndMatchMiniGameScreen implements Screen{
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
-                game.setScreen(new OrthoScreen(game));
+                game.setScreen(new GameScreen(game));
             }
         }, 10); // Delay in seconds
     }
