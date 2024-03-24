@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
+
 public class Satellite extends Entity{
 	
 	private Texture tex;
@@ -21,17 +22,22 @@ public class Satellite extends Entity{
     }
     
     
-	public Satellite(String filePath, float posX, float posY,float speedX, float speedY,boolean aiFlag,boolean Collideable)
+	public Satellite(float posX, float posY,float speedX, float speedY,boolean aiFlag,boolean Collideable)
 	{
 		super.setX(posX);
 		super.setY(posY);
 		super.setXSpeed(speedX);
 		super.setYSpeed(speedY);
 		super.setControl(aiFlag);
-		tex = new Texture(Gdx.files.internal(filePath));
 		super.setCollideable(Collideable);
-		super.setHeight(tex.getHeight());
-		super.setWidth(tex.getWidth());
+
+		
+		// Randomly pick a satellite texture.
+		SatelliteTextureFactory satFactory = new SatelliteTextureFactory();
+        int texSelect = MathUtils.random(0, 3);
+		setTexture(satFactory.makeSatellite(texSelect));
+		super.setHeight(this.getTexture().getHeight());
+		super.setWidth(this.getTexture().getWidth());
 	}
     
 	public Texture getTexture() {
