@@ -2,6 +2,7 @@ package com.mygdx.game.Managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -71,15 +72,6 @@ public class OutputManager {
 		font.draw(batch,text,x,y);
 	}
 	
-	//Circle Entity
-	public void draw(ShapeRenderer shape, float x,float y,float size) {
-		shape.circle(x,y,size);
-	}
-	
-	//Block Entity
-	public void draw(ShapeRenderer shape, float x,float y,float width,float height) {
-		shape.rect(x,y,width,height);
-	}
 	
 	//Music start
 	public Music musicStart(boolean music) {
@@ -100,6 +92,11 @@ public class OutputManager {
 	}
 	public BitmapFont getFont() {
 		return font;
+	}
+	public void  playsound(String sfx) {
+		Sound sound = Gdx.audio.newSound(Gdx.files.internal(sfx));
+		sound.play(1.0f);
+
 	}
 	
 	/*public void draw(SpriteBatch batch) {
