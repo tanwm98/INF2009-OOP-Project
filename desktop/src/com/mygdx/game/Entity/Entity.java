@@ -17,6 +17,7 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	private boolean isAIControl;    // Flag to determine whether entity is AI controlled.
 	private boolean isCollideable;	//Flag to see if entity can collide
 	private float rotation;
+	private boolean playerControlled;
 
 	public Entity() {
 		setXSpeed(0);
@@ -30,7 +31,7 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setRotation(0);
 	}
 
-	public Entity(float xPos, float yPos, float xSpeed, float ySpeed, Color color,boolean isAIControl,boolean isCollideable) {
+	public Entity(float xPos, float yPos, float xSpeed, float ySpeed, Color color,boolean isAIControl,boolean playerControlled,boolean isCollideable) {
 		if(xPos < 0 || yPos < 0 || xSpeed < 0 || ySpeed < 0 || width < 0 || height < 0)
 		{
 			throw new IllegalArgumentException("Invalid input; negative values");
@@ -54,7 +55,9 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setControl(isAIControl);
 		setColor(color);
 		setCollideable(isCollideable);
+		setPlayerControlled(playerControlled);
 	}
+
 
 	public Entity(float x, float y, float xSpeed, float ySpeed, boolean aiFlag)
 	{
@@ -149,9 +152,16 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		this.rotation = rotation;
 	}
 
-	public abstract void update();
 	public abstract void render();
 	public abstract void dispose();
+
+	public boolean isPlayerControlled() {
+		return playerControlled;
+	}
+
+	public void setPlayerControlled(boolean playerControlled) {
+		this.playerControlled = playerControlled;
+	}
 }
 
 

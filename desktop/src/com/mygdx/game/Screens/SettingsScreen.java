@@ -8,12 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.mygdx.game.Interfaces.Screen;
+import com.badlogic.gdx.Screen;
 import com.mygdx.game.Managers.ScreenManager;
 import com.mygdx.game.MyGdxGame;
 
 
-public class SettingsScreen implements Screen, com.badlogic.gdx.Screen {
+public class SettingsScreen implements Screen {
 
     private MyGdxGame game;
     private ScreenManager screenManager;

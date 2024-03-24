@@ -60,6 +60,5 @@ public class ScreenManager extends MyGdxGame {
     //public Screen getCurrentScreen() {
        // return screens.isEmpty() ? null : screens.peek();
     //}
-    
 
 }

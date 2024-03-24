@@ -17,26 +17,30 @@ public class EntityManager extends MyGdxGame{
     private List<Entity> CollideableObjects;
     private CollisionManager collisionManager;
     private AIControlManager aiControlManager;
+    private PlayerControlManager playerControlManager;
     private boolean collide;
 
     public EntityManager(){
         entityList = new ArrayList<>();
         aiControlManager = new AIControlManager();
 		collisionManager = new CollisionManager();
-
     }
-    public EntityManager(AIControlManager aiControlManager, CollisionManager collisionManager)
+    public EntityManager(AIControlManager aiControlManager, CollisionManager collisionManager, PlayerControlManager playerControlManager)
     //uses the same AIControlManager as the game
     {
         this.entityList = new ArrayList<>();
         this.aiControlManager = aiControlManager;
         this.collisionManager = collisionManager;
+        this.playerControlManager = playerControlManager;
     }
 
     public void addEntity(Entity entity) {
         entityList.add(entity);
         if (entity.isAIControl()) {
             aiControlManager.addEntity(entity); //adds entity with AI movement to the list
+        }
+        else if(!entity.isAIControl() && entity.isPlayerControlled()) {
+            playerControlManager.addEntity(entity); //adds entity with player movement to the list
         }
         if(entity.isCollideable()) {
         	collisionManager.addEntity(entity);

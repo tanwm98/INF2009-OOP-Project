@@ -40,7 +40,7 @@ public class Asteroid extends Entity {
 	}
 	
 	public void update() {
-        System.out.printf("Asteroid pos X:%f and Y: %f\n",super.getX(),super.getY());
+
     }
 
     public void render() {
@@ -57,7 +57,6 @@ public class Asteroid extends Entity {
 		super.setX(super.getX() + super.getXSpeed());
 		super.setY(super.getY() + super.getYSpeed());
 		if(super.getX()  < 0 || super.getX()  > Gdx.graphics.getWidth())
-		//divide by 2 to get the center of the ball
 		{
 			super.setXSpeed(super.getXSpeed() * -1); //reverse x direction
 		}

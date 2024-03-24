@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.Interfaces.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
@@ -93,7 +92,11 @@ public class OutputManager {
 		backgroundMusic.play();
 		return backgroundMusic;
 	}
-	
+
+	public void setFontSize(int size) {
+		parameter.size = size;
+		font = generator.generateFont(parameter);
+	}
 	//Music Stop
 	public void soundEnd(Music backgroundMusic) { 
 		backgroundMusic.stop();

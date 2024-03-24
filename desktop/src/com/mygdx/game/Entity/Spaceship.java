@@ -7,6 +7,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.mygdx.game.Managers.OutputManager;
+import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screens.GameScreen;
+import com.mygdx.game.Screens.MixAndMatchMiniGameScreen;
+import com.mygdx.game.Managers.OutputManager;
+import com.mygdx.game.Player;
+
 
 
 public class Spaceship extends Entity {
@@ -15,9 +22,11 @@ public class Spaceship extends Entity {
     private OrthographicCamera camera;
     private boolean ishit;
     float flickerTimer = 0;
-    private float totalDistance = 0; // Total distance traveled by the spaceship
+    private MyGdxGame game;
+    private boolean playerFlag;
+    private Player player;
 
-    public Spaceship(String filePath, float posX, float posY,float speedY,OrthographicCamera camera,boolean aiFlag,boolean Collideable)
+    public Spaceship(String filePath, float posX, float posY,float speedY,OrthographicCamera camera,boolean aiFlag,boolean playerFlag,boolean Collideable,Player player, MyGdxGame game)
     {
         tex = new Texture(Gdx.files.internal(filePath));
         super.setX(posX);
@@ -28,9 +37,9 @@ public class Spaceship extends Entity {
         this.camera = camera;
         super.setWidth(tex.getWidth());
         super.setHeight(tex.getHeight());
-    }
-    public void update() {
-    	ishit = false;
+        super.setPlayerControlled(playerFlag);
+        this.game = game;
+        this.player = player;
     }
 
     @Override
@@ -86,14 +95,10 @@ public class Spaceship extends Entity {
             setY(Math.max(0, getY() - moveSpeed)); // Prevent from going off screen
         }
     }
-    public void collide(boolean collide)
-    {
-    	if(collide) {
-        	ishit = true;
-    	}
-    }
-
-    public float getTotalDistance() {
-        return totalDistance;
+    public void collide(boolean collide) {
+        if (collide) {
+            ishit = true;
+            game.setScreen(new MixAndMatchMiniGameScreen(game,player)); // Transition to the minigame screen
+        }
     }
 }
