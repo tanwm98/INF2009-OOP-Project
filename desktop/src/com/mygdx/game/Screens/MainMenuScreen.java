@@ -8,16 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Managers.ScreenManager;
-
-
-
-
-
 
 public class MainMenuScreen implements Screen {
     private SpriteBatch batch;
@@ -28,8 +22,6 @@ public class MainMenuScreen implements Screen {
     private Music backgroundMusic;
     private Viewport viewport;
     private OrthographicCamera camera;
-    private FreeTypeFontGenerator generator;
-    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     
 
     public MainMenuScreen(MyGdxGame game) {
@@ -78,12 +70,20 @@ public class MainMenuScreen implements Screen {
         screenmanager.getoutputManager().draw(batch,settingsText, startX, startY,currentSelection == 1);
         startY -= lineHeight + gap;
 
+        String aboutText = "How to Play";
+        layout.setText(screenmanager.getoutputManager().getFont(), aboutText);
+        float aboutWidth = layout.width;
+        startX = centerX - aboutWidth / 2;
+        screenmanager.getoutputManager().draw(batch,aboutText, startX, startY,currentSelection == 2);
+        startY -= lineHeight + gap;
+
+
         // "Exit" centered
         String exitText = "Exit";
         layout.setText(screenmanager.getoutputManager().getFont(), exitText);
         float exitWidth = layout.width;
         startX = centerX - exitWidth / 2;
-        screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 2);
+        screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 3);
         batch.end(); //
         updateCurrentSelection();
     }
@@ -93,12 +93,12 @@ public class MainMenuScreen implements Screen {
         if (screenmanager.getinputManager().isUpKeyJustPressed()) {
             currentSelection--;
             if (currentSelection < 0) {
-                currentSelection = 2; 
+                currentSelection = 3;
             }
         }
         if (screenmanager.getinputManager().isDownKeyJustPressed()) {
             currentSelection++;
-            if (currentSelection > 2) { 
+            if (currentSelection > 3) {
                 currentSelection = 0;
             }
         }
@@ -116,6 +116,9 @@ public class MainMenuScreen implements Screen {
                 screenmanager.pushScreen(new SettingsScreen(game));
                 break;
             case 2:
+                screenmanager.pushScreen(new HelpScreen(game));
+                break;
+            case 3:
                 Gdx.app.exit();
                 break;
         }

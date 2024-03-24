@@ -53,6 +53,22 @@ public class GameScreen implements Screen {
             screenManager = new ScreenManager(game);
             playerControlManager = new PlayerControlManager(player,spaceship);
             player = new Player();
+
+        } catch (Exception e) {
+            System.err.println("OrthoScreen not initialised due to:" + e.getMessage());
+        }
+    }
+
+    public GameScreen(MyGdxGame game, Player player) {
+        try {
+            this.game = game;
+            batch = new SpriteBatch();
+            shapeRenderer = new ShapeRenderer();
+            gameOverFont = new BitmapFont();
+            optionFont = new BitmapFont(); // Initialize font
+            screenManager = new ScreenManager(game);
+            playerControlManager = new PlayerControlManager(player,spaceship);
+            this.player = player;
         } catch (Exception e) {
             System.err.println("OrthoScreen not initialised due to:" + e.getMessage());
         }
@@ -91,12 +107,14 @@ public class GameScreen implements Screen {
             }
         }
         batch.end();
-        if (entityManager != null)
+        if (entityManager != null && !isGameOver && playerControlManager != null)
         {
             aiControlManager.moveEntities();
             entityManager.renderEntities(); //
             entityManager.detect();
-            spaceship.move();
+            playerControlManager.moveEntities();
+            player.drawPlayer();
+            player.drawScore();
         }
         else {
             if (isGameOver) {
@@ -109,8 +127,9 @@ public class GameScreen implements Screen {
         collisionManager = new CollisionManager();
         outputManager = screenManager.getoutputManager();
         entityManager = new EntityManager(aiControlManager, collisionManager,outputManager);
+        entityManager = new EntityManager(aiControlManager, collisionManager,playerControlManager);
         spaceship = new Spaceship("Objects/Spaceship/Spaceship1.png",0, Gdx.graphics.getHeight() / 2,
-                500,camera,false,true);
+                500,camera,false,true,true,player,game);
         planet = new Planet("Objects/Planets/planet02.png",
                 Gdx.graphics.getWidth()+500, Gdx.graphics.getHeight() / 2,
                 50, true,true); //set planet out of screen and slowly move in
@@ -125,7 +144,6 @@ public class GameScreen implements Screen {
                     speedX, speedY, true, true);
             entityManager.addEntity(asteroid);
         }
-        
     }
 
     // private void pauseGameAndShowMenu()

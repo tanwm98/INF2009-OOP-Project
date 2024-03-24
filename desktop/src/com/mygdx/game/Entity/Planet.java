@@ -41,8 +41,6 @@ public class Planet extends Entity {
 		this.rotation = rotation;
 	}
 
-	public void update() {
-    }
     public void render()
     {
 		tex = this.getTexture();
