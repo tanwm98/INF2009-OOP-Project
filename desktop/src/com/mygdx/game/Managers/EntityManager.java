@@ -18,20 +18,23 @@ public class EntityManager extends MyGdxGame{
     private List<Entity> CollideableObjects;
     private CollisionManager collisionManager;
     private AIControlManager aiControlManager;
+    private OutputManager outputManager;
     private boolean collide;
 
     public EntityManager(){
         entityList = new ArrayList<>();
         aiControlManager = new AIControlManager();
 		collisionManager = new CollisionManager();
+		outputManager = new OutputManager();
 
     }
-    public EntityManager(AIControlManager aiControlManager, CollisionManager collisionManager)
+    public EntityManager(AIControlManager aiControlManager, CollisionManager collisionManager, OutputManager outputManager)
     //uses the same AIControlManager as the game
     {
         this.entityList = new ArrayList<>();
         this.aiControlManager = aiControlManager;
         this.collisionManager = collisionManager;
+        this.outputManager = outputManager;
     }
 
     public void addEntity(Entity entity) {
@@ -74,7 +77,12 @@ public class EntityManager extends MyGdxGame{
         		collide = collisionManager.detectCollision(player, object);
         		if(collide) {
         			if(object instanceof Asteroid || object instanceof Satellite) {
+        				outputManager.playsound("Music/sfx/hit_sfx.wav");
         				player.collide(collide);
+        				
+        			}
+        			else if(object instanceof Planet) {
+        				outputManager.playsound("Music/planet_collide.wav");
         			}
         			object.collide(collide);
         		}
