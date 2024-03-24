@@ -62,11 +62,6 @@ public class Satellite extends Entity{
 		setRotation(getRotation() + rotateSpeed);
 	}
 
-	@Override
-	public void update() {
-        System.out.printf("Satellite pos X:%f and Y: %f\n",super.getX(),super.getY());
-		
-	}
 
 	@Override
 	public void render() {

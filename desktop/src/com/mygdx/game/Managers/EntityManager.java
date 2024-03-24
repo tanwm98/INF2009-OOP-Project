@@ -27,17 +27,15 @@ public class EntityManager extends MyGdxGame{
         aiControlManager = new AIControlManager();
 		collisionManager = new CollisionManager();
 		outputManager = new OutputManager();
-
     }
-    public EntityManager(AIControlManager aiControlManager, CollisionManager collisionManager, OutputManager outputManager)
-    public EntityManager(AIControlManager aiControlManager, CollisionManager collisionManager, PlayerControlManager playerControlManager)
+    public EntityManager(AIControlManager aiControlManager, CollisionManager collisionManager,OutputManager outputManager,PlayerControlManager playerControlManager)
     //uses the same AIControlManager as the game
     {
         this.entityList = new ArrayList<>();
         this.aiControlManager = aiControlManager;
         this.collisionManager = collisionManager;
-        this.outputManager = outputManager;
         this.playerControlManager = playerControlManager;
+        this.outputManager = outputManager;
     }
 
     public void addEntity(Entity entity) {
