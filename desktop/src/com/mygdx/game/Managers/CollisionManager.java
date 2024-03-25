@@ -9,6 +9,7 @@ import com.mygdx.game.Entity.Asteroid;
 import com.mygdx.game.Entity.Entity;
 import com.mygdx.game.Entity.Planet;
 import com.mygdx.game.Entity.Satellite;
+import com.mygdx.game.Interfaces.ICollideable;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -21,7 +22,7 @@ public class CollisionManager{
 	private float planetx , planety , planetrad;
 	private Circle object2;
 	private boolean collide;
-    private List<Entity> CollideableObjects;
+    private List<ICollideable> CollideableObjects;
 	
 	public CollisionManager(){
         CollideableObjects = new ArrayList<>();
@@ -34,11 +35,11 @@ public class CollisionManager{
         }
     }
     
-    public List<Entity> getCollideables(){
+    public List<ICollideable> getCollideables(){
     	return CollideableObjects;
     }
 
-	public boolean detectCollision(Entity e1 , Entity e2) {
+	public boolean detectCollision(ICollideable e1 , ICollideable e2) {
 		collide = false;
 		object1 = new Rectangle(e1.getX() , e1.getY() , e1.getWidth() , e1.getHeight());
 		if(e2 instanceof Asteroid || e2 instanceof Satellite) {
