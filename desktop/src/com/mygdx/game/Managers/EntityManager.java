@@ -15,7 +15,7 @@ import com.mygdx.game.Managers.AIControlManager;
 
 public class EntityManager extends MyGdxGame{
     private List<Entity> entityList;
-    private List<Entity> CollideableObjects;
+    private List<ICollideable> CollideableObjects;
     private CollisionManager collisionManager;
     private AIControlManager aiControlManager;
     private OutputManager outputManager;
@@ -75,9 +75,9 @@ public class EntityManager extends MyGdxGame{
         }
         else {
         	CollideableObjects = collisionManager.getCollideables();
-        	Entity player = CollideableObjects.get(0);
+        	ICollideable player = CollideableObjects.get(0);
         	for(int i = 1; i<CollideableObjects.size(); i++){
-        		Entity object = CollideableObjects.get(i);
+        		ICollideable object = CollideableObjects.get(i);
         		collide = collisionManager.detectCollision(player, object);
         		if(collide) {
         			if(object instanceof Asteroid || object instanceof Satellite) {
