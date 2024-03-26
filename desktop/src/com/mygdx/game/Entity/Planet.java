@@ -9,7 +9,9 @@ public class Planet extends Entity {
 	private float rotation;
 	private float scaleFactor;
 	private SpriteBatch batch = new SpriteBatch();
-	public Planet(String fileName, float x, float y, float Xspeed, boolean aiFlag,boolean Collideable) {
+
+	private boolean isMoving = true;
+	public Planet(String fileName, float x, float y, float Xspeed,boolean Collideable) {
 		super();
 		setX(x);
 		setY(y);
@@ -17,7 +19,6 @@ public class Planet extends Entity {
 //		setRotation(rotate);
 		setXSpeed(Xspeed);
 		setScaleFactor(scaleFactor);
-		setControl(aiFlag);
 		super.setCollideable(Collideable);
 		super.setWidth(tex.getWidth());
 		super.setHeight(tex.getHeight());

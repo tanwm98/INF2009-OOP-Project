@@ -14,12 +14,8 @@ public class AIControlManager {
         aiMovements = new ArrayList<>();
     }
     public void addEntity(Entity entity) {
-        if(entity.isAIControl()) // If the entity is AI controlled, add it to the list
-        {
                 aiMovements.add(entity);
-        }
     }
-
     public void moveEntities()
     {
         for (IMovement entity : aiMovements) {

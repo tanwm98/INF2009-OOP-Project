@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Player;
 
 
-public class MixAndMatchMiniGameScreen implements Screen{
+public class MiniGameScreen implements Screen{
     private Stage stage;
     private DragAndDrop dragAndDrop;
     private int partsAssembled = 0;
@@ -32,13 +32,14 @@ public class MixAndMatchMiniGameScreen implements Screen{
 
     private BitmapFont font;
     private GlyphLayout layout;
-    private float timeLeft = 30; // Set the initial time left
+    private float timeLeft = 5; // Set the initial time left
     private SpriteBatch batch;
     private String gameText = "Match the pieces to the silhouette!";
     private OutputManager outputManager;
     private Player player;
+    private boolean timeUp = false;
 
-    public MixAndMatchMiniGameScreen(MyGdxGame game, Player player) {
+    public MiniGameScreen(MyGdxGame game, Player player) {
         this.game = game;
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         originalPhoto = new Image(new Texture(Gdx.files.internal("Objects/Satellites/satelite.png")));
@@ -84,9 +85,7 @@ public class MixAndMatchMiniGameScreen implements Screen{
             targetArea.setSize(baseSilhouette.getWidth()+100, baseSilhouette.getHeight()+100);
             stage.addActor(targetArea);
 
-
             final int partIndex = i;
-
             dragAndDrop.addSource(new DragAndDrop.Source(parts[i - 1])
             {
                 public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
@@ -116,7 +115,6 @@ public class MixAndMatchMiniGameScreen implements Screen{
                         partPlaced[partIndex] = true;
                         parts[partIndex].setTouchable(Touchable.disabled);
                         parts[partIndex].setPosition(target.x, target.y); // Center the part on the target
-                        checkGameCompletion();
                     }
                 }
             });
@@ -131,7 +129,7 @@ public class MixAndMatchMiniGameScreen implements Screen{
             originalPhoto.setVisible(true); // Show the original photo
             Timer.instance().clear(); // Cancel the timer
             player.addScore(1000);
-            timeLeft = 3;
+            timeLeft = 4;
             gameText = "Well done! Returning to the game... ";
             Timer.schedule(new Timer.Task() {
                 @Override
@@ -140,15 +138,21 @@ public class MixAndMatchMiniGameScreen implements Screen{
                 }
             }, timeLeft); // Delay in seconds
         }
+        else if (timeLeft <= 0 && partsAssembled < totalParts && !timeUp) {
+            timeUp = true;
+            player.decreaseLives(1);
+            timeLeft = 4;
+            gameText = "Time's up! You lost one health. Try again next time..";
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    game.setScreen(new GameScreen(game, player));
+                }
+            }, timeLeft); // Delay in seconds
+        }
     }
     @Override
     public void show() {
-        Timer.schedule(new Timer.Task(){
-            @Override
-            public void run() {
-                game.setScreen(new GameScreen(game));
-            }
-        }, timeLeft); // Delay in seconds
     }
 
     @Override
@@ -172,6 +176,7 @@ public class MixAndMatchMiniGameScreen implements Screen{
         float timeY = stage.getHeight() - layout.height - 10; // 10 pixels from the top
         outputManager.draw(batch, timeText, timeX, timeY);
         batch.end();
+        checkGameCompletion();
     }
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);

@@ -2,16 +2,12 @@ package com.mygdx.game.Managers;
 
 import java.util.*;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Entity.Asteroid;
 import com.mygdx.game.Entity.Entity;
 import com.mygdx.game.Entity.Planet;
 import com.mygdx.game.Entity.Satellite;
-import com.mygdx.game.Managers.CollisionManager;
-import com.mygdx.game.Managers.AIControlManager;
+import com.mygdx.game.Interfaces.ICollideable;
 
 public class EntityManager extends MyGdxGame{
     private List<Entity> entityList;
@@ -40,12 +36,6 @@ public class EntityManager extends MyGdxGame{
 
     public void addEntity(Entity entity) {
         entityList.add(entity);
-        if (entity.isAIControl()) {
-            aiControlManager.addEntity(entity); //adds entity with AI movement to the list
-        }
-        else if(!entity.isAIControl() && entity.isPlayerControlled()) {
-            playerControlManager.addEntity(entity); //adds entity with player movement to the list
-        }
         if(entity.isCollideable()) {
         	collisionManager.addEntity(entity);
         }

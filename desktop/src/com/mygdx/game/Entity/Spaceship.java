@@ -1,17 +1,11 @@
 package com.mygdx.game.Entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Screens.GameScreen;
-import com.mygdx.game.Screens.MixAndMatchMiniGameScreen;
-import com.mygdx.game.Managers.OutputManager;
+import com.mygdx.game.Screens.MiniGameScreen;
 import com.mygdx.game.Player;
 
 
@@ -98,7 +92,7 @@ public class Spaceship extends Entity {
     public void collide(boolean collide) {
         if (collide) {
             ishit = true;
-            game.setScreen(new MixAndMatchMiniGameScreen(game,player)); // Transition to the minigame screen
+            game.setScreen(new MiniGameScreen(game,player)); // Transition to the minigame screen
         }
     }
 }

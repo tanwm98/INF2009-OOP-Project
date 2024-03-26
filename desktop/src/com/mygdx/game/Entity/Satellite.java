@@ -4,13 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.game.Player;
 
 
 public class Satellite extends Entity{
 	
 	private Texture tex;
 	
-	SpriteBatch batch = new SpriteBatch();
+	private SpriteBatch batch = new SpriteBatch();
+
+	private Player player;
 	
     public Satellite() {
 
@@ -22,16 +25,14 @@ public class Satellite extends Entity{
     }
     
     
-	public Satellite(float posX, float posY,float speedX, float speedY,boolean aiFlag,boolean Collideable)
+	public Satellite(float posX, float posY, float speedX, float speedY, boolean Collideable, Player player)
 	{
 		super.setX(posX);
 		super.setY(posY);
 		super.setXSpeed(speedX);
 		super.setYSpeed(speedY);
-		super.setControl(aiFlag);
 		super.setCollideable(Collideable);
-
-		
+		this.player = player;
 		// Randomly pick a satellite texture.
 		SatelliteTextureFactory satFactory = new SatelliteTextureFactory();
         int texSelect = MathUtils.random(0, 3);
@@ -50,7 +51,10 @@ public class Satellite extends Entity{
 	
 	@Override
 	public void collide(boolean collide) {
-		
+		if(collide)
+		{
+			player.decreaseLives(1);
+		}
 	}
 
 	@Override

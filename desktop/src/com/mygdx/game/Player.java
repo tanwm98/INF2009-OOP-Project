@@ -39,10 +39,10 @@ public class Player {
         }
     }
 
-    public void death() {
-        --this.lives;
-        if (this.lives == 0) {
-            this.isAlive = false;
+    public void decreaseLives(int lives) {
+        if (this.lives > 0) {
+            this.lives -= lives;
+            this.livesImage[this.lives] = null; // Remove the corresponding Image
         }
     }
     public void addScore(int points) {

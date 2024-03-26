@@ -42,6 +42,7 @@ public class GameScreen implements Screen {
     private Entity asteroid;
     private Entity spaceship;
     private Entity planet;
+    private Entity satellite;
 
     public GameScreen(MyGdxGame game) {
         try {
@@ -91,7 +92,6 @@ public class GameScreen implements Screen {
         textureHeight = backgroundTexture.getHeight();
         setupGameEntities();
     }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -117,7 +117,8 @@ public class GameScreen implements Screen {
             player.drawScore();
         }
         else {
-            if (isGameOver) {
+            if (player.getLives() == 0) {
+                isGameOver = true;
                 screenManager.setScreen(new GameOverScreen(game, screenManager));
             }
         }
@@ -132,19 +133,27 @@ public class GameScreen implements Screen {
                 500,camera,false,true,true,player,game);
         planet = new Planet("Objects/Planets/planet02.png",
                 Gdx.graphics.getWidth()+500, Gdx.graphics.getHeight() / 2,
-                50, true,true); //set planet out of screen and slowly move in
+                50,true); //set planet out of screen and slowly move in
+//        satellite = new Satellite("Objects/Satellite/satellite01.png",
+//                Gdx.graphics.getWidth()+500, Gdx.graphics.getHeight() / 2,
+//                50, true,true,player); //set satellite out of screen and slowly move in
         entityManager.addEntity(spaceship);
+        playerControlManager.addEntity(spaceship);
         entityManager.addEntity(planet);
+        aiControlManager.addEntity(planet);
+
         for(int i = 0; i < 5; i++) {
             float posX = MathUtils.random(300, Gdx.graphics.getWidth());
             float posY = MathUtils.random(0, Gdx.graphics.getHeight());
             float speedX = MathUtils.random(-5, 5);
             float speedY = MathUtils.random(-5, 5);
             asteroid = new Asteroid("Objects/Asteroid/asteroid01.png", posX, posY,
-                    speedX, speedY, true, true);
+                    speedX, speedY, true);
             entityManager.addEntity(asteroid);
+            aiControlManager.addEntity(asteroid);
         }
     }
+
 
     // private void pauseGameAndShowMenu()
     //this.pause();

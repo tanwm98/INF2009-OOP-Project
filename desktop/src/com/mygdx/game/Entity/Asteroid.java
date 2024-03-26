@@ -18,13 +18,12 @@ public class Asteroid extends Entity {
     	super();
 		tex = new Texture(Gdx.files.internal(filePath));
     }
-	public Asteroid(String filePath, float posX, float posY,float speedX, float speedY,boolean aiFlag,boolean Collideable)
+	public Asteroid(String filePath, float posX, float posY,float speedX, float speedY,boolean Collideable)
 	{
 		super.setX(posX);
 		super.setY(posY);
 		super.setXSpeed(speedX);
 		super.setYSpeed(speedY);
-		super.setControl(aiFlag);
 		super.setRotation(rotation);
 		tex = new Texture(Gdx.files.internal(filePath));
 		super.setCollideable(Collideable);
