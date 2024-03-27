@@ -20,6 +20,7 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     private InputManager inputManager;
 
     private GameScreen gameScreen;
+    private Player player;
 
 
     @Override
@@ -30,9 +31,14 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         screenManager.pushScreen(mainMenuScreen);
         entityManager = new EntityManager();
         aiControlManager = new AIControlManager();
+        gameScreen = new GameScreen(this, player);
+        player = new Player();
     }
 
     public GameScreen getGameScreen() {
+        if (gameScreen == null) {
+            gameScreen = new GameScreen(this);
+        }
         return gameScreen;
     }
     public ScreenManager getScreenManager() {
@@ -45,7 +51,11 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     	}
     	return outputManager;
     }
-    
+
+    public Player getPlayer() {
+        return player;
+    }
+
     public InputManager getinputManager(){
     	if(inputManager == null) {
     	    inputManager = new InputManager();
@@ -68,7 +78,6 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
             entityManager.renderEntities();
         }
     }
-
     @Override
     public void dispose() {
         screenManager.dispose();
