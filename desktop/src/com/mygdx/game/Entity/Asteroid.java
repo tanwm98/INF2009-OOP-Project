@@ -9,7 +9,6 @@ import com.mygdx.game.Screens.MiniGameScreen;
 
 public class Asteroid extends Entity {
 	private Texture tex;
-	private float rotation;
 
 	private Player player;
 	
@@ -31,7 +30,6 @@ public class Asteroid extends Entity {
 		super.setY(posY);
 		super.setXSpeed(speedX);
 		super.setYSpeed(speedY);
-		super.setRotation(rotation);
 		tex = new Texture(Gdx.files.internal(filePath));
 		super.setCollideable(Collideable);
 		super.setHeight(tex.getHeight());
@@ -82,11 +80,4 @@ public class Asteroid extends Entity {
 		}
     }
 
-	public float getRotation() {
-		return rotation;
-	}
-
-	public void setRotation(float rotation) {
-		this.rotation = rotation;
-	}
 }

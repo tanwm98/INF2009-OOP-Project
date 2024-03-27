@@ -7,8 +7,6 @@ import com.mygdx.game.Player;
 
 public class Planet extends Entity {
 	private Texture tex;
-	private float rotation;
-	private float scaleFactor;
 	private SpriteBatch batch = new SpriteBatch();
 	private Player player;
 
@@ -25,23 +23,6 @@ public class Planet extends Entity {
 		this.player = player;
 	}
 	
-	// Scale Factor (size of texture) Get and Set.
-	public float getScaleFactor() {
-		return scaleFactor;
-	}
-
-	public void setScaleFactor(float scaleFactor) {
-		this.scaleFactor = scaleFactor;
-	}
-
-	// Rotation Get and Set.
-    public float getRotation() {
-		return rotation;
-	}
-
-	public void setRotation(float rotation) {
-		this.rotation = rotation;
-	}
 
     public void render()
     {

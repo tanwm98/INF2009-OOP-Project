@@ -15,9 +15,10 @@ public class Satellite extends Entity {
 
 	private Player player;
 
-	public Satellite(String filePath) {
+	public Satellite(int texSelect) {
 		super();
-		tex = new Texture(Gdx.files.internal(filePath));
+		SatelliteTextureFactory satFactory = new SatelliteTextureFactory();
+		setTexture(satFactory.makeSatellite(texSelect));
 	}
 
 	public Satellite(float posX, float posY, float speedX, float speedY, boolean Collideable, Player player) {
@@ -73,9 +74,9 @@ public class Satellite extends Entity {
 	public void move() {
 		float delta = Gdx.graphics.getDeltaTime();
 		float moveSpeed = getXSpeed() * delta;
-        float rotateSpeed = MathUtils.random(2, 5);
-		setX(getX() - moveSpeed);
-		setRotation(getRotation() + rotateSpeed);
+        float rotateSpeed = MathUtils.random(1, 7);
+		super.setX(super.getX() - moveSpeed);
+		super.setRotation(super.getRotation() + rotateSpeed);
 	}
 
 	@Override
