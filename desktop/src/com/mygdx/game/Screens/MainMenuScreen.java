@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
@@ -51,7 +52,7 @@ public class MainMenuScreen implements Screen {
         float centerX = viewport.getWorldWidth() / 2f;
         float centerY = viewport.getWorldHeight() / 2f;
         float lineHeight = screenmanager.getoutputManager().getFont().getLineHeight(); // Get the height of the font
-        float gap = 2 * Gdx.graphics.getPpcY(); // Initialize Gap between lines
+        float gap = Gdx.graphics.getPpcY(); // Initialize Gap between lines
         float startY = centerY + lineHeight;
         GlyphLayout layout = new GlyphLayout(); //Calculating text width
 
@@ -62,7 +63,8 @@ public class MainMenuScreen implements Screen {
         float startX = centerX - startGameWidth / 2; // To Center the text
         screenmanager.getoutputManager().draw(batch,startText, startX, startY,currentSelection == 0);
         startY -= lineHeight + gap;
-
+        
+        // "Settings" Centered
         String settingsText = "Settings";
         layout.setText(screenmanager.getoutputManager().getFont(), settingsText);
         float settingsWidth = layout.width;
@@ -70,6 +72,7 @@ public class MainMenuScreen implements Screen {
         screenmanager.getoutputManager().draw(batch,settingsText, startX, startY,currentSelection == 1);
         startY -= lineHeight + gap;
 
+        // "How to Play" Centered
         String aboutText = "How to Play";
         layout.setText(screenmanager.getoutputManager().getFont(), aboutText);
         float aboutWidth = layout.width;
@@ -85,9 +88,38 @@ public class MainMenuScreen implements Screen {
         startX = centerX - exitWidth / 2;
         screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 3);
         batch.end(); //
+        
+        mouseSelection();
         updateCurrentSelection();
     }
 
+    private void mouseSelection() {
+    	Rectangle startrectangle = new Rectangle(665, 455, 260, 55);
+    	Rectangle settingrectangle = new Rectangle(695, 340, 205, 55);
+    	Rectangle helprectangle = new Rectangle(665, 225, 260, 55);
+    	Rectangle exitrectangle = new Rectangle(750, 115, 95, 55);
+    	float textX = Gdx.input.getX();
+        float textY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        
+        if (startrectangle.contains(textX,textY)) {
+            currentSelection=0;
+        }
+        if (settingrectangle.contains(textX,textY)) {
+        	currentSelection=1;
+        } 
+        if (helprectangle.contains(textX,textY)) {
+        	currentSelection=2;
+        } 
+        if (exitrectangle.contains(textX,textY)) {
+        	currentSelection=3;
+        } 
+    	if (screenmanager.getinputManager().leftClick()) {
+            // Check if the touch coordinates are inside the rectangle
+            if (startrectangle.contains(textX, textY)||settingrectangle.contains(textX, textY)||helprectangle.contains(textX, textY)|| exitrectangle.contains(textX,textY)) {
+            	selectOption();
+            }
+    	}
+    }
 
     private void updateCurrentSelection() {
         if (screenmanager.getinputManager().isUpKeyJustPressed()) {

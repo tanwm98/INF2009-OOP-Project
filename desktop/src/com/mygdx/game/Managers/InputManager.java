@@ -1,7 +1,7 @@
 package com.mygdx.game.Managers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Input.*;
 
 public class InputManager {
 	//KeyPressed
@@ -50,4 +50,13 @@ public class InputManager {
 	public boolean isEnterKeyJustPressed() {
 		return Gdx.input.isKeyJustPressed(Keys.ENTER);
 	}
+	
+	//Mouse
+	public boolean leftClick () {
+		return Gdx.input.isButtonJustPressed(Buttons.LEFT);
+	}
+	public boolean rightClick () {
+		return Gdx.input.isButtonJustPressed(Buttons.RIGHT);
+	}
+
 }
