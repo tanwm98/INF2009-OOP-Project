@@ -35,7 +35,7 @@ public class MiniGameScreen implements Screen{
     private OutputManager outputManager;
     private Player player;
     private boolean timeUp = false;
-    private float timeLeft = 10; // Set the initial time left
+    private float timeLeft = 5; // Set the initial time left
     private long startTime;
 
     public MiniGameScreen(MyGdxGame game, Player player) {
