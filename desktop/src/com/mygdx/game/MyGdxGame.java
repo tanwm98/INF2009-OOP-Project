@@ -32,7 +32,7 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         entityManager = new EntityManager();
         aiControlManager = new AIControlManager();
         gameScreen = new GameScreen(this, player);
-        player = new Player();
+        player = new Player(this);
     }
 
     public GameScreen getGameScreen() {

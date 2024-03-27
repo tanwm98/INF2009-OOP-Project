@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
 
 
@@ -14,6 +15,7 @@ public class Satellite extends Entity {
 	private SpriteBatch batch = new SpriteBatch();
 
 	private Player player;
+	private MyGdxGame game;
 
 	public Satellite(int texSelect) {
 		super();
@@ -21,19 +23,20 @@ public class Satellite extends Entity {
 		setTexture(satFactory.makeSatellite(texSelect));
 	}
 
-	public Satellite(float posX, float posY, float speedX, float speedY, boolean Collideable, Player player) {
+	public Satellite(float posX, float posY, float speedX, float speedY, boolean Collideable, MyGdxGame game, Player player) {
 		super.setX(posX);
 		super.setY(posY);
 		super.setXSpeed(speedX);
 		super.setYSpeed(speedY);
 		super.setCollideable(Collideable);
-		this.player = player;
 		// Randomly pick a satellite texture.
 		SatelliteTextureFactory satFactory = new SatelliteTextureFactory();
 		int texSelect = MathUtils.random(1, 3);
 		setTexture(satFactory.makeSatellite(texSelect));
 		super.setHeight(this.getTexture().getHeight());
 		super.setWidth(this.getTexture().getWidth());
+		this.player = player;
+		this.game = game;
 	}
 
 	public Texture getTexture() {
@@ -65,7 +68,7 @@ public class Satellite extends Entity {
 	@Override
 	public void collide(boolean collide) {
 		if (collide && super.getCollisionCD() <= 0) {
-			player.decreaseLives(1);
+			game.getPlayer().decreaseLives(1);
 			getoutputManager().playsound("Music/sfx/hit_sfx.wav");
 			super.setCollisionCD(super.getCD_period());
 		}

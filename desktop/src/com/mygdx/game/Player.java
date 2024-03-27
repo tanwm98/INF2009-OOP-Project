@@ -15,9 +15,11 @@ public class Player {
     private Texture tex;
     private SpriteBatch batch = new SpriteBatch();
     OutputManager outputManager;
+    private MyGdxGame game;
 
 
-    public Player() {
+    public Player(MyGdxGame game) {
+        this.game = game;
         this.lives = 3;
         this.score = 0;
         this.tex = new Texture("Objects/Player/lives01.png");
@@ -27,16 +29,6 @@ public class Player {
         }
         batch = new SpriteBatch();
         outputManager = new OutputManager();
-    }
-
-    public Player(int lives, int score) {
-        this.lives = lives;
-        this.score = score;
-        this.tex = new Texture("Objects/Player/lives01.png");
-        this.livesImage = new Image[lives];
-        for (int i = 0; i < lives; i++) {
-            livesImage[i] = new Image(tex);
-        }
     }
 
     public void decreaseLives(int lives) {

@@ -53,11 +53,11 @@ public class GameScreen implements Screen {
             gameOverFont = new BitmapFont();
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
-            player = new Player();
+            this.player = new Player(this.game);
             playerControlManager = new PlayerControlManager(player,spaceship);
 
         } catch (Exception e) {
-            System.err.println("OrthoScreen not initialised due to:" + e.getMessage());
+            System.err.println("GameScreen not initialised due to:" + e.getMessage());
         }
     }
 
@@ -72,7 +72,7 @@ public class GameScreen implements Screen {
             this.player = player;
             playerControlManager = new PlayerControlManager(player,spaceship);
         } catch (Exception e) {
-            System.err.println("OrthoScreen not initialised due to:" + e.getMessage());
+            System.err.println("Game Screen not initialised due to:" + e.getMessage());
         }
     }
 
@@ -109,8 +109,7 @@ public class GameScreen implements Screen {
             }
         }
         batch.end();
-        if (entityManager != null && !isGameOver && playerControlManager != null)
-        {
+        if (entityManager != null && !isGameOver && playerControlManager != null) {
             aiControlManager.moveEntities();
             entityManager.renderEntities(); //
             entityManager.updateEntities(delta);
@@ -118,8 +117,7 @@ public class GameScreen implements Screen {
             playerControlManager.moveEntities();
             game.getPlayer().drawPlayer();
             game.getPlayer().drawScore();
-        }
-        else {
+
             if (game.getPlayer().getLives() == 0) {
                 isGameOver = true;
                 screenManager.setScreen(new GameOverScreen(game, screenManager));
@@ -149,7 +147,7 @@ public class GameScreen implements Screen {
             float speedY = MathUtils.random(-5, 4);
             asteroid = new Asteroid("Objects/Asteroid/asteroid01.png", posX, posY,
                     speedX, speedY, true,player,game);
-            satellite = new Satellite(posX,posY,speedX,speedY,true,player); //set satellite out of screen and slowly move in
+            satellite = new Satellite(posX,posY,speedX,speedY,true,game,player); //set satellite out of screen and slowly move in
             entityManager.addEntity(asteroid);
             aiControlManager.addEntity(asteroid);
             entityManager.addEntity(satellite);
