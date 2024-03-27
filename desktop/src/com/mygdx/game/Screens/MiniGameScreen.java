@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Managers.OutputManager;
@@ -19,30 +20,27 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Player;
 
-
 public class MiniGameScreen implements Screen{
     private Stage stage;
     private DragAndDrop dragAndDrop;
     private int partsAssembled = 0;
     private final int totalParts = 3;
     private MyGdxGame game;
-    private Image originalPhoto;
     private Image backgroundImage;
     private Image[] parts;
-
     private BitmapFont font;
     private GlyphLayout layout;
-    private float timeLeft = 5; // Set the initial time left
     private SpriteBatch batch;
     private String gameText = "Match the pieces to the silhouette!";
     private OutputManager outputManager;
     private Player player;
     private boolean timeUp = false;
+    private float timeLeft = 10; // Set the initial time left
+    private long startTime;
 
     public MiniGameScreen(MyGdxGame game, Player player) {
         this.game = game;
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        originalPhoto = new Image(new Texture(Gdx.files.internal("Objects/Satellites/satelite.png")));
         Gdx.input.setInputProcessor(stage);
         dragAndDrop = new DragAndDrop();
         setupBaseSilhouette();
@@ -51,6 +49,7 @@ public class MiniGameScreen implements Screen{
         batch = new SpriteBatch();
         this.outputManager = new OutputManager();
         this.player = player;
+        startTime = TimeUtils.millis();
     }
     private void setupBaseSilhouette() {
         backgroundImage = new Image(new Texture(Gdx.files.internal("Background/MiniGame.png")));
@@ -58,12 +57,8 @@ public class MiniGameScreen implements Screen{
         Image baseSilhouette = new Image(new Texture(Gdx.files.internal("Objects/Satellites/satellite_silhouette.png")));
         baseSilhouette.setPosition(Gdx.graphics.getWidth() / 2 - baseSilhouette.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2 - baseSilhouette.getHeight() / 2); // set to the center of the screen
-        originalPhoto.setPosition(Gdx.graphics.getWidth() / 2 - originalPhoto.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - originalPhoto.getHeight() / 2);
-        originalPhoto.setVisible(false); // Hide the original photo
         stage.addActor(backgroundImage);
         stage.addActor(baseSilhouette);
-        stage.addActor(originalPhoto);
         setupParts(baseSilhouette);
     }
     private void setupParts(Image baseSilhouette) {
@@ -124,37 +119,7 @@ public class MiniGameScreen implements Screen{
             stage.addActor(part);
         }
     }
-    private void checkGameCompletion() {
-        if (partsAssembled == totalParts) {
-            originalPhoto.setVisible(true); // Show the original photo
-            Timer.instance().clear(); // Cancel the timer
-            player.addScore(1000);
-            timeLeft = 4;
-            gameText = "Well done! Returning to the game... ";
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    game.setScreen(new GameScreen(game,player));
-                }
-            }, timeLeft); // Delay in seconds
-        }
-        else if (timeLeft <= 0 && partsAssembled < totalParts && !timeUp) {
-            Timer.instance().clear(); // Cancel the timer
-            for (Image part : parts) {
-                part.setTouchable(Touchable.disabled);
-            }
-            timeUp = true;
-            player.decreaseLives(1);
-            timeLeft = 4;
-            gameText = "Time's up! You lost one health. Try again next time..";
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    game.setScreen(new GameScreen(game, player));
-                }
-            }, timeLeft); // Delay in seconds
-        }
-    }
+
     @Override
     public void show() {
     }
@@ -163,24 +128,56 @@ public class MiniGameScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.act(delta);
         stage.draw();
-
         layout.setText(outputManager.getFont(), gameText);
         float instructionX = (stage.getWidth() - layout.width ) / 2; // Center the text
-        float instructionY = layout.height+40; // 10 pixels from the bottom
+        float instructionY = layout.height+40;
         batch.setProjectionMatrix(stage.getCamera().combined);
         batch.begin();
         outputManager.draw(batch, gameText, instructionX, instructionY);
-        timeLeft -= delta;
-        String timeText = "Time left: " + Math.max(0, (int) timeLeft);
+        float elapsedTime = (TimeUtils.millis() - startTime) / 1000f; // Convert milliseconds to seconds
+        timeLeft -= elapsedTime; // Update timeLeft based on elapsed time
+        startTime = TimeUtils.millis(); // Update the start time for the next frame
+        String timeText = "Time left: " + Math.max(0, (int) timeLeft); // Ensure timeLeft doesn't go below 0
         layout.setText(font, timeText);
-        float timeX = 10; // 10 pixels from the left
-        float timeY = stage.getHeight() - layout.height - 10; // 10 pixels from the top
-        outputManager.draw(batch, timeText, timeX, timeY);
+        float timeX = 10;
+        float timeY = stage.getHeight() - layout.height - 10;
+        outputManager.draw(batch, timeText, timeX, timeY); //draw the time left
         batch.end();
         checkGameCompletion();
+
+
+    }
+
+    private void checkGameCompletion() {
+        if(timeLeft > 0 && partsAssembled == totalParts && !timeUp) {
+            timeUp = true;
+            game.getPlayer().addScore(1000);
+            timeLeft = 3;
+            gameText = "Well done! Returning to the game...";
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    game.setScreen(game.getGameScreen());
+                }
+            }, timeLeft); // Delay in seconds
+        }
+        else if (timeLeft <= 0 && partsAssembled < totalParts && !timeUp) {
+            timeUp = true;
+            for (Image part : parts) {
+                part.setTouchable(Touchable.disabled);
+            }
+            game.getPlayer().decreaseLives(1);
+            timeLeft = 3;
+            gameText = "Time's up! You lost one health. Try again next time..";
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    game.setScreen(game.getGameScreen());
+                }
+            }, timeLeft); // Delay in seconds
+        }
     }
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -197,5 +194,7 @@ public class MiniGameScreen implements Screen{
 
     public void dispose() {
         stage.dispose();
+        font.dispose();
+        batch.dispose();
     }
 }

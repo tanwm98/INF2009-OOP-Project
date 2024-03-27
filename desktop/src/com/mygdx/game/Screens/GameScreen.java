@@ -44,6 +44,7 @@ public class GameScreen implements Screen {
     private Entity planet;
     private Entity satellite;
 
+
     public GameScreen(MyGdxGame game) {
         try {
             this.game = game;
@@ -115,11 +116,11 @@ public class GameScreen implements Screen {
             entityManager.updateEntities(delta);
             entityManager.detect();
             playerControlManager.moveEntities();
-            player.drawPlayer();
-            player.drawScore();
+            game.getPlayer().drawPlayer();
+            game.getPlayer().drawScore();
         }
         else {
-            if (player.getLives() == 0) {
+            if (game.getPlayer().getLives() == 0) {
                 isGameOver = true;
                 screenManager.setScreen(new GameOverScreen(game, screenManager));
             }
