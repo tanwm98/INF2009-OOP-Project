@@ -20,9 +20,6 @@ public class EntityManager extends MyGdxGame{
 
     public EntityManager(){
         entityList = new ArrayList<>();
-        aiControlManager = new AIControlManager();
-		collisionManager = new CollisionManager();
-		outputManager = new OutputManager();
     }
     public EntityManager(AIControlManager aiControlManager, CollisionManager collisionManager,OutputManager outputManager,PlayerControlManager playerControlManager)
     //uses the same AIControlManager as the game
@@ -38,6 +35,12 @@ public class EntityManager extends MyGdxGame{
         entityList.add(entity);
         if(entity.isCollideable()) {
         	collisionManager.addEntity(entity);
+        }
+    }
+
+    public void updateEntities(float delta) {
+        for (Entity entity : entityList) {
+            entity.update(delta);
         }
     }
 
@@ -71,13 +74,9 @@ public class EntityManager extends MyGdxGame{
         		collide = collisionManager.detectCollision(player, object);
         		if(collide) {
         			if(object instanceof Asteroid || object instanceof Satellite) {
-        				outputManager.playsound("Music/sfx/hit_sfx.wav");
         				player.collide(collide);
-        				
         			}
-        			else if(object instanceof Planet) {
-        				outputManager.playsound("Music/planet_collide.wav");
-        			}
+
         			object.collide(collide);
         		}
 

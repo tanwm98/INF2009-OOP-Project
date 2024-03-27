@@ -3,25 +3,26 @@ package com.mygdx.game.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.Player;
 
 public class Planet extends Entity {
 	private Texture tex;
 	private float rotation;
 	private float scaleFactor;
 	private SpriteBatch batch = new SpriteBatch();
+	private Player player;
 
 	private boolean isMoving = true;
-	public Planet(String fileName, float x, float y, float Xspeed,boolean Collideable) {
+	public Planet(String fileName, float x, float y, float Xspeed,boolean Collideable,Player player) {
 		super();
 		setX(x);
 		setY(y);
 		setTexture(tex = new Texture(Gdx.files.internal(fileName)));
-//		setRotation(rotate);
 		setXSpeed(Xspeed);
-		setScaleFactor(scaleFactor);
 		super.setCollideable(Collideable);
 		super.setWidth(tex.getWidth());
 		super.setHeight(tex.getHeight());
+		this.player = player;
 	}
 	
 	// Scale Factor (size of texture) Get and Set.
@@ -55,7 +56,6 @@ public class Planet extends Entity {
 		batch.begin();
 		getoutputManager().draw(batch, tex, x, y, originX, originY, texWidth, texHeight, 1, rotate);
 		batch.end();
-
     }
     public void dispose()
     {
@@ -72,16 +72,20 @@ public class Planet extends Entity {
 			setX(getX() - moveSpeed); // Continue moving the planet to the left
 		}
     }
-    public void collide(boolean collide)
-    {
-    	//Transition to trivia screen
-    }
-
+	public void update(float delta)
+	{
+		super.update(delta);
+	}
+	public void collide(boolean collide) {
+		if(collide)
+		{
+			player.decreaseLives(1);
+		}
+	}
     public void setTexture(Texture t) {
     	this.tex = t;
     }
     public Texture getTexture() {
     	return this.tex;
     }
-
 }

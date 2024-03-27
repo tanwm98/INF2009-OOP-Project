@@ -7,26 +7,20 @@ import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.Player;
 
 
-public class Satellite extends Entity{
-	
+public class Satellite extends Entity {
+
 	private Texture tex;
-	
+
 	private SpriteBatch batch = new SpriteBatch();
 
 	private Player player;
-	
-    public Satellite() {
 
-    }
-	
-    public Satellite(String filePath) {
-    	super();
+	public Satellite(String filePath) {
+		super();
 		tex = new Texture(Gdx.files.internal(filePath));
-    }
-    
-    
-	public Satellite(float posX, float posY, float speedX, float speedY, boolean Collideable, Player player)
-	{
+	}
+
+	public Satellite(float posX, float posY, float speedX, float speedY, boolean Collideable, Player player) {
 		super.setX(posX);
 		super.setY(posY);
 		super.setXSpeed(speedX);
@@ -35,38 +29,24 @@ public class Satellite extends Entity{
 		this.player = player;
 		// Randomly pick a satellite texture.
 		SatelliteTextureFactory satFactory = new SatelliteTextureFactory();
-        int texSelect = MathUtils.random(0, 3);
+		int texSelect = MathUtils.random(1, 3);
 		setTexture(satFactory.makeSatellite(texSelect));
 		super.setHeight(this.getTexture().getHeight());
 		super.setWidth(this.getTexture().getWidth());
 	}
-    
+
 	public Texture getTexture() {
 		return tex;
 	}
-	
+
 	public void setTexture(Texture t) {
 		tex = t;
 	}
-	
-	@Override
-	public void collide(boolean collide) {
-		if(collide)
-		{
-			player.decreaseLives(1);
-		}
+
+	public void update(float delta)
+	{
+		super.update(delta);
 	}
-
-	@Override
-	public void move() {
-		float delta = Gdx.graphics.getDeltaTime();
-		float moveSpeed = getXSpeed() * delta;
-        float rotateSpeed = MathUtils.random(2, 5);
-		setX(getX() - moveSpeed);
-		setRotation(getRotation() + rotateSpeed);
-	}
-
-
 	@Override
 	public void render() {
 		tex = this.getTexture();
@@ -80,6 +60,22 @@ public class Satellite extends Entity{
 		batch.begin();
 		getoutputManager().draw(batch, tex, x, y, originX, originY, texWidth, texHeight, 1, rotate);
 		batch.end();
+	}
+	@Override
+	public void collide(boolean collide) {
+		if (collide && super.getCollisionCD() <= 0) {
+			player.decreaseLives(1);
+			getoutputManager().playsound("Music/sfx/hit_sfx.wav");
+			super.setCollisionCD(super.getCD_period());
+		}
+	}
+	@Override
+	public void move() {
+		float delta = Gdx.graphics.getDeltaTime();
+		float moveSpeed = getXSpeed() * delta;
+        float rotateSpeed = MathUtils.random(2, 5);
+		setX(getX() - moveSpeed);
+		setRotation(getRotation() + rotateSpeed);
 	}
 
 	@Override

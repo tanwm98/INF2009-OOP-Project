@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Screens.MiniGameScreen;
 import com.mygdx.game.Player;
-
-
 
 public class Spaceship extends Entity {
     private Texture tex;
@@ -26,42 +23,41 @@ public class Spaceship extends Entity {
         super.setX(posX);
         super.setY(posY);
         super.setYSpeed(speedY);
-        super.setControl(aiFlag);
         super.setCollideable(Collideable);
         this.camera = camera;
         super.setWidth(tex.getWidth());
         super.setHeight(tex.getHeight());
-        super.setPlayerControlled(playerFlag);
         this.game = game;
         this.player = player;
     }
 
     @Override
-    public void render()
-    {
+    public void render() {
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-        batch.begin(); // Start drawing
-        if(ishit) {
+        batch.begin();
+        if(ishit && getCollisionCD() > 0) {
             flickerTimer += Gdx.graphics.getDeltaTime();
-            if (flickerTimer < 0.1f) {
+            if (flickerTimer < 0.3f) {
                 batch.setColor(1, 1, 1, 0); // Fully transparent
-            } else if (flickerTimer < 0.2f) {
+            } else if (flickerTimer < 0.6f) {
                 batch.setColor(1, 1, 1, 1); // Fully opaque
             } else {
                 flickerTimer = 0;
             }
+        } else {
+            batch.setColor(1, 1, 1, 1); // Fully opaque
         }
         getoutputManager().draw(batch,tex, getX(), getY(), tex.getWidth(),tex.getHeight()); // Draw the spaceship texture at the spaceship's position
-        batch.end(); // End drawing
-        ishit = false;
+        batch.end();
     }
-    public void dispose()
-    {
-        tex.dispose();
-        batch.dispose();
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+        if(ishit && getCollisionCD() > 0) {
+            flickerTimer += delta;
+        }
     }
-
     public void move()
     {
         float delta = Gdx.graphics.getDeltaTime();
@@ -91,8 +87,19 @@ public class Spaceship extends Entity {
     }
     public void collide(boolean collide) {
         if (collide) {
-            ishit = true;
-            game.setScreen(new MiniGameScreen(game,player)); // Transition to the minigame screen
+            if (collide && getCollisionCD() <= 0) {
+                ishit = true;
+                setCollisionCD(getCD_period());
+            }
         }
+        else
+        {
+            ishit = false;
+        }
+    }
+    public void dispose()
+    {
+        tex.dispose();
+        batch.dispose();
     }
 }

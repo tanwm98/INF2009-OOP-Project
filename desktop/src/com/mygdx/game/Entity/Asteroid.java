@@ -3,12 +3,19 @@ package com.mygdx.game.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Player;
+import com.mygdx.game.Screens.MiniGameScreen;
 
 public class Asteroid extends Entity {
 	private Texture tex;
 	private float rotation;
+
+	private Player player;
 	
-	SpriteBatch batch = new SpriteBatch();
+	private SpriteBatch batch = new SpriteBatch();
+
+	private MyGdxGame game;
 	
     public Asteroid() {
 
@@ -18,7 +25,7 @@ public class Asteroid extends Entity {
     	super();
 		tex = new Texture(Gdx.files.internal(filePath));
     }
-	public Asteroid(String filePath, float posX, float posY,float speedX, float speedY,boolean Collideable)
+	public Asteroid(String filePath, float posX, float posY,float speedX, float speedY,boolean Collideable,Player player, MyGdxGame game)
 	{
 		super.setX(posX);
 		super.setY(posY);
@@ -29,6 +36,8 @@ public class Asteroid extends Entity {
 		super.setCollideable(Collideable);
 		super.setHeight(tex.getHeight());
 		super.setWidth(tex.getWidth());
+		this.player = player;
+		this.game = game;
 	}
 	public Texture getTexture() {
 		return tex;
@@ -37,10 +46,6 @@ public class Asteroid extends Entity {
 	public void setTexture(Texture t) {
 		tex = t;
 	}
-	
-	public void update() {
-
-    }
 
     public void render() {
     	batch.begin();
@@ -64,9 +69,17 @@ public class Asteroid extends Entity {
 			super.setYSpeed(super.getYSpeed() * -1); //reverse y direction
 		}
     }
+	public void update(float delta)
+	{
+		super.update(delta);
+	}
 
     public void collide(boolean collide) {
-    	//transition to minigame
+		if(collide)
+		{
+			game.setScreen(new MiniGameScreen(game,player)); // Transition to the minigame screen
+			getoutputManager().playsound("Music/sfx/hit_sfx.wav");
+		}
     }
 
 	public float getRotation() {

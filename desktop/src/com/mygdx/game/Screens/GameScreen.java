@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private float textureWidth;
     private float textureHeight;
-    private float backgroundScrollSpeed = 200; // Speed of BackgroundScroll, Adjust if want to test
+    private float backgroundScrollSpeed = 200; // Speed of BackgroundScroll
     private float offsetX = 0; // Offset for the background X position
     private Entity asteroid;
     private Entity spaceship;
@@ -52,8 +52,8 @@ public class GameScreen implements Screen {
             gameOverFont = new BitmapFont();
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
-            playerControlManager = new PlayerControlManager(player,spaceship);
             player = new Player();
+            playerControlManager = new PlayerControlManager(player,spaceship);
 
         } catch (Exception e) {
             System.err.println("OrthoScreen not initialised due to:" + e.getMessage());
@@ -68,8 +68,8 @@ public class GameScreen implements Screen {
             gameOverFont = new BitmapFont();
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
-            playerControlManager = new PlayerControlManager(player,spaceship);
             this.player = player;
+            playerControlManager = new PlayerControlManager(player,spaceship);
         } catch (Exception e) {
             System.err.println("OrthoScreen not initialised due to:" + e.getMessage());
         }
@@ -81,6 +81,7 @@ public class GameScreen implements Screen {
         // Camera dimensions
         int cameraWidth  = Gdx.graphics.getWidth();
         int cameraHeight = Gdx.graphics.getHeight();
+
         // Instantiate camera
         camera = new OrthographicCamera();
         camera.position.set( cameraWidth / 2f, cameraHeight / 2f, 0);
@@ -111,6 +112,7 @@ public class GameScreen implements Screen {
         {
             aiControlManager.moveEntities();
             entityManager.renderEntities(); //
+            entityManager.updateEntities(delta);
             entityManager.detect();
             playerControlManager.moveEntities();
             player.drawPlayer();
@@ -133,24 +135,24 @@ public class GameScreen implements Screen {
                 500,camera,false,true,true,player,game);
         planet = new Planet("Objects/Planets/planet02.png",
                 Gdx.graphics.getWidth()+500, Gdx.graphics.getHeight() / 2,
-                50,true); //set planet out of screen and slowly move in
-//        satellite = new Satellite("Objects/Satellite/satellite01.png",
-//                Gdx.graphics.getWidth()+500, Gdx.graphics.getHeight() / 2,
-//                50, true,true,player); //set satellite out of screen and slowly move in
+                50,true, player); //set planet out of screen and slowly move in
         entityManager.addEntity(spaceship);
         playerControlManager.addEntity(spaceship);
         entityManager.addEntity(planet);
         aiControlManager.addEntity(planet);
 
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 3; i++) {
             float posX = MathUtils.random(300, Gdx.graphics.getWidth());
             float posY = MathUtils.random(0, Gdx.graphics.getHeight());
-            float speedX = MathUtils.random(-5, 5);
-            float speedY = MathUtils.random(-5, 5);
+            float speedX = MathUtils.random(-5, 4);
+            float speedY = MathUtils.random(-5, 4);
             asteroid = new Asteroid("Objects/Asteroid/asteroid01.png", posX, posY,
-                    speedX, speedY, true);
+                    speedX, speedY, true,player,game);
+            satellite = new Satellite(posX,posY,speedX,speedY,true,player); //set satellite out of screen and slowly move in
             entityManager.addEntity(asteroid);
             aiControlManager.addEntity(asteroid);
+            entityManager.addEntity(satellite);
+            aiControlManager.addEntity(satellite);
         }
     }
 

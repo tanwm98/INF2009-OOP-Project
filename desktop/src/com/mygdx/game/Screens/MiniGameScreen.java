@@ -139,6 +139,10 @@ public class MiniGameScreen implements Screen{
             }, timeLeft); // Delay in seconds
         }
         else if (timeLeft <= 0 && partsAssembled < totalParts && !timeUp) {
+            Timer.instance().clear(); // Cancel the timer
+            for (Image part : parts) {
+                part.setTouchable(Touchable.disabled);
+            }
             timeUp = true;
             player.decreaseLives(1);
             timeLeft = 4;
