@@ -45,7 +45,7 @@ public class HelpScreen implements Screen {
         @Override
         public void show() {
         	if (backgroundMusic == null) {
-        	backgroundMusic=screenmanager.getoutputManager().musicStart(true);
+        	backgroundMusic=screenmanager.getoutputManager().musicStart(0);
         	}
                 Gdx.input.setInputProcessor(new InputAdapter() {
 					@Override
