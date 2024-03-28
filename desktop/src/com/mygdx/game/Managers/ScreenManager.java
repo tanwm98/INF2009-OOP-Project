@@ -2,14 +2,17 @@ package com.mygdx.game.Managers;
 
 import com.badlogic.gdx.Gdx;
 
+
 import com.badlogic.gdx.Screen;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screens.MiniGameScreen;
 
 import java.util.Stack;
 
 public class ScreenManager extends MyGdxGame {
     private final MyGdxGame game; 
     private final Stack<Screen> screens; // Instantiated to keep track of the screens\
+    private static ScreenManager instance;
 
     public ScreenManager(MyGdxGame game) {
         this.game = game;
@@ -24,22 +27,28 @@ public class ScreenManager extends MyGdxGame {
         game.setScreen(screen);
     }
 
-	/*
-	 * public void popToOrthoScreen() { while (!screens.isEmpty() &&
-	 * !(screens.peek() OrthoScreen)) { Screen oldScreen = screens.pop();
-	 * oldScreen.dispose(); } if (!screens.isEmpty()) {
-	 * game.setScreen(screens.peek()); } else { // If there are no more screens
-	 * left, set OrthoScreen as the current screen OrthoScreen orthoScreen = new
-	 * OrthoScreen(game); game.setScreen(orthoScreen); } }
-	 */
     public void popScreen() {
-        if (screens.size() > 1) {
-            Screen oldScreen = screens.pop();
-            oldScreen.dispose();
-            game.setScreen(screens.peek());
-        } else {
-        	Gdx.app.exit();
+        if (!screens.isEmpty()) {
+            Screen screenToPop = screens.pop();
+            System.out.println(screenToPop.getClass().getSimpleName());
+            if (!screens.isEmpty()) {
+                Screen nextScreen = screens.peek();
+                game.setScreen(nextScreen);
+                
+                if (nextScreen instanceof MiniGameScreen) {
+                    ((MiniGameScreen)nextScreen).resumeGame();
+                }
+            } else {
+                System.out.println("No more screens to display.");
+            }
         }
+    }
+    
+    public static ScreenManager getInstance(MyGdxGame game) {
+        if (instance == null) {
+            instance = new ScreenManager(game);
+        }
+        return instance;
     }
     public void setScreen(Screen screen) {
         for (Screen s : screens) {
@@ -56,8 +65,5 @@ public class ScreenManager extends MyGdxGame {
         }
         
     }
-    //public Screen getCurrentScreen() {
-       // return screens.isEmpty() ? null : screens.peek();
-    //}
-
+   
 }
