@@ -37,7 +37,7 @@ public class FinishScreen implements Screen {
 
     @Override
     public void show() {
-        backgroundMusic=screenmanager.getoutputManager().musicStart(true);
+        backgroundMusic=screenmanager.getoutputManager().musicStart(0);
     }
 
     @Override
