@@ -1,6 +1,5 @@
 package com.mygdx.game.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.Gdx;
@@ -37,10 +36,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-    	backgroundMusic=screenmanager.getoutputManager().musicStart(true,screenmanager.getoutputManager().getVolume());
-        // Check if backgroundMusic is not null before calling getVolume()
-            backgroundMusic.getVolume();
-
+    	backgroundMusic=screenmanager.getoutputManager().musicStart(true);
     }
 
     @Override
@@ -67,7 +63,7 @@ public class MainMenuScreen implements Screen {
         float startX = centerX - startGameWidth / 2; // To Center the text
         screenmanager.getoutputManager().draw(batch,startText, startX, startY,currentSelection == 0);
         startY -= lineHeight + gap;
-
+        
         // "Settings" Centered
         String settingsText = "Settings";
         layout.setText(screenmanager.getoutputManager().getFont(), settingsText);
@@ -144,20 +140,20 @@ public class MainMenuScreen implements Screen {
     }
 
     private void selectOption() {
-        switch (currentSelection) {
-            case 0:
-                screenmanager.pushScreen(new GameScreen(game));
-                break;
-            case 1:
-                screenmanager.pushScreen(new SettingsScreen(game));
-                break;
-            case 2:
-                screenmanager.pushScreen(new HelpScreen(game));
-                break;
-            case 3:
-                Gdx.app.exit();
-                break;
-        }
+    	switch (currentSelection) {
+	        case 0:
+	        	ScreenManager.getInstance(game).pushScreen(new GameScreen(game));
+	            break;
+	        case 1:
+	            ScreenManager.getInstance(game).pushScreen(new SettingsScreen(game));
+	            break;
+	        case 2:
+	            ScreenManager.getInstance(game).pushScreen(new HelpScreen(game));
+	            break;
+	        case 3:
+            Gdx.app.exit();
+            break;
+    }
     }
 
     @Override
