@@ -16,13 +16,11 @@ public class GameOverScreen implements Screen {
     private ScreenManager screenManager;
     private Music backgroundMusic;
     private SpriteBatch batch;
-    private BitmapFont gameOverFont;
     private BitmapFont optionFont;
     private int selectedOptions = 0;
     private float opacity = 0f; // Start fully transparent
     private float fadeSpeed = 0.5f; // Adjust for faster or slower fade
     
-
     public GameOverScreen(MyGdxGame game, ScreenManager screenManager) {
         this.game = game;
         this.screenManager = screenManager;
@@ -60,11 +58,8 @@ public class GameOverScreen implements Screen {
     	// Draw the game over image with the specified size and alpha for fade-in
     	batch.draw(gameOverImage, gameOverImageX, gameOverImageY, imageWidth, imageHeight);
     	batch.setColor(1, 1, 1, 1); 
-    	float retryPosX = 245.5f; 
-    	float exitPosX = 307.5f; 
-    	float optionsPosY = 160.0f; 
-
-    	screenManager.getoutputManager().draw(batch, "Retry?", retryPosX, optionsPosY, selectedOptions == 0);
+    	float exitPosX = 650.5f; 
+    	float optionsPosY = 250.0f; 
     	screenManager.getoutputManager().draw(batch, "Back to Menu", exitPosX, optionsPosY, selectedOptions == 1);
 
     	batch.end();
@@ -72,16 +67,9 @@ public class GameOverScreen implements Screen {
     }
 
     private void handleInputs() {
-        // Implement input handling for selecting and activating options
-    	if (screenManager.getinputManager().isLeftKeyJustPressed() || screenManager.getinputManager().isRightKeyJustPressed()) {
-        	selectedOptions = (selectedOptions + 1) % 2; // Toggle between options
-        }
     	if (screenManager.getinputManager().isEnterKeyJustPressed()) {
-            if (selectedOptions == 0) {
-                game.resetGameScreen();
-            } else if (selectedOptions == 1) {
-            	screenManager.pushScreen(new MainMenuScreen(game));
-            }
+            // Assuming the single option is to go to the game screen or whatever action you need
+            screenManager.setScreen(new MainMenuScreen(game));
         }
     }
 
@@ -112,7 +100,6 @@ public class GameOverScreen implements Screen {
     public void dispose() {
     	gameOverImage.dispose();
     	batch.dispose();
-        gameOverFont.dispose();
         optionFont.dispose();
         if (backgroundMusic != null) {
             backgroundMusic.dispose();
