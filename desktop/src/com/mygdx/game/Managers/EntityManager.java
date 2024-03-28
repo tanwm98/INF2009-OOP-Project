@@ -52,12 +52,16 @@ public class EntityManager extends MyGdxGame{
     public void removeEntity(Entity entity) {
     	entityList.remove(entity);
     }
+    public List<Entity> getEntities() {
+        return entityList;
+    }
 
     public void dispose() {
     	for (Entity entity : entityList) {
     		entity.dispose();
     	}
     }
+    
 
 	public void detect() {
         if (entityList == null) {
