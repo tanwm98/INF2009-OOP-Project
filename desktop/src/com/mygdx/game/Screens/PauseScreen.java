@@ -29,19 +29,13 @@ public class PauseScreen implements Screen {
     private Music backgroundMusic;
 	private BitmapFont font;
 	private SpriteBatch batch;
-    private static InputManager inputManager;
-    private static OutputManager outputManager;
     
     public PauseScreen(final MyGdxGame game, ScreenManager screenManager) {
     	this.game = game;
         this.screenManager = screenManager;
         this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
         this.stage = new Stage(new ScreenViewport());
-        OutputManager outputManager = screenManager.getoutputManager(); 
-        this.font = outputManager.getFont();
-        
-        inputManager = InputManager.getInstance();
-        //outputManager = OutputManager.getInstance();
+        this.font = OutputManager.getInstance().getFont();
 
         // Dialog box
         Dialog dialog = new Dialog("", skin);
@@ -65,7 +59,7 @@ public class PauseScreen implements Screen {
     public void show() {
     	Gdx.input.setInputProcessor(stage);
     	if (backgroundMusic == null) {
-    		backgroundMusic=screenManager.getoutputManager().musicStart(2);
+    		backgroundMusic=OutputManager.getInstance().musicStart(2);
     	}
     }
 
@@ -73,15 +67,15 @@ public class PauseScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Check for input events
-        if (screenManager.getinputManager().isUpKeyJustPressed()) {
+        if (InputManager.getInstance().isUpKeyJustPressed()||InputManager.getInstance().isWKeyJustPressed()) {
             selectedOptionIndex--;
             if (selectedOptionIndex < 0) 
                 selectedOptionIndex = options.length - 1;
-        } else if (screenManager.getinputManager().isDownKeyJustPressed()) {
+        } else if (InputManager.getInstance().isDownKeyJustPressed()||InputManager.getInstance().isSKeyJustPressed()) {
             selectedOptionIndex++;
             if (selectedOptionIndex >= options.length) 
                 selectedOptionIndex = 0;
-        } else if (screenManager.getinputManager().isEnterKeyJustPressed()) {
+        } else if (InputManager.getInstance().isEnterKeyJustPressed()) {
             // Handle selection
             switch (selectedOptionIndex) {
                 case 0:

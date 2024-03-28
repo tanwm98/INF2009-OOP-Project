@@ -18,10 +18,8 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 	private Color color;
 	private boolean isCollideable;    //Flag to see if entity can collide
 	private float rotation;
-	private OutputManager outputManager;
 	private float collisionCD = 0f; // Time remaining on the cooldown timer
 	private float CD_period = 1f; // cooldown period for collision
-	private Player player;
 
 	public Entity() {
 		setXSpeed(0);
@@ -32,7 +30,6 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 		setHeight(0);
 		color = Color.WHITE;
 		setRotation(0);
-		outputManager = new OutputManager();
 	}
 
 	public Entity(float xPos, float yPos, float xSpeed, float ySpeed, Color color, boolean isCollideable, Player player) {

@@ -107,7 +107,7 @@ public class GameScreen implements Screen {
         
         viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
         if (backgroundMusic == null) {
-        	backgroundMusic=screenManager.getoutputManager().musicStart(1);
+        	backgroundMusic=OutputManager.getInstance().musicStart(1);
         }
         backgroundTexture = new Texture(Gdx.files.internal("Background/starfield.png"));
         textureWidth = backgroundTexture.getWidth();
@@ -197,7 +197,7 @@ public class GameScreen implements Screen {
     private void setupGameEntities() {
         aiControlManager = new AIControlManager();
         collisionManager = new CollisionManager();
-        outputManager = screenManager.getoutputManager();
+        outputManager = OutputManager.getInstance();
 
         entityManager = new EntityManager(aiControlManager, collisionManager, outputManager, playerControlManager);
         spaceship = new Spaceship("Objects/Spaceship/Spaceship1.png", 0, Gdx.graphics.getHeight() / 2,
@@ -269,6 +269,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-    	screenManager.getoutputManager().soundEnd(backgroundMusic);
+    	OutputManager.getInstance().soundEnd(backgroundMusic);
     }
 }

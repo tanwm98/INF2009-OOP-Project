@@ -6,6 +6,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Managers.InputManager;
+import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,7 +15,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class GameOverScreen implements Screen {
 	private Texture gameOverImage;
     private MyGdxGame game;
-    private ScreenManager screenManager;
     private Music backgroundMusic;
     private SpriteBatch batch;
     private BitmapFont optionFont;
@@ -23,7 +24,6 @@ public class GameOverScreen implements Screen {
     
     public GameOverScreen(MyGdxGame game, ScreenManager screenManager) {
         this.game = game;
-        this.screenManager = screenManager;
     }
 
     @Override
@@ -31,9 +31,9 @@ public class GameOverScreen implements Screen {
     	 gameOverImage = new Texture("Background/GameOver.png");
          batch = new SpriteBatch();
          optionFont = new BitmapFont();
-         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/GameOverBGM.mp3"));
-         backgroundMusic.setLooping(false);
-         backgroundMusic.play();
+         if (backgroundMusic == null) {
+         	backgroundMusic=OutputManager.getInstance().musicStart(4);
+         }
     }
     
 
@@ -60,15 +60,15 @@ public class GameOverScreen implements Screen {
     	batch.setColor(1, 1, 1, 1); 
     	float exitPosX = 650.5f; 
     	float optionsPosY = 250.0f; 
-    	screenManager.getoutputManager().draw(batch, "Back to Menu", exitPosX, optionsPosY, selectedOptions == 1);
+    	OutputManager.getInstance().draw(batch, "Back to Menu", exitPosX, optionsPosY, selectedOptions == 1);
 
     	batch.end();
     	handleInputs();
     }
 
     private void handleInputs() {
-    	if (screenManager.getinputManager().isEnterKeyJustPressed()) {
-            screenManager.setScreen(new MainMenuScreen(game));
+    	if (InputManager.getInstance().isEnterKeyJustPressed()) {
+            ScreenManager.getInstance(game).setScreen(new MainMenuScreen(game));
         }
     }
 

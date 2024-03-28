@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
 import com.mygdx.game.MyGdxGame;
 
@@ -45,7 +46,7 @@ public class HelpScreen implements Screen {
         @Override
         public void show() {
         	if (backgroundMusic == null) {
-        	backgroundMusic=screenmanager.getoutputManager().musicStart(0);
+        	backgroundMusic=OutputManager.getInstance().musicStart(0);
         	}
                 Gdx.input.setInputProcessor(new InputAdapter() {
 					@Override
@@ -67,7 +68,7 @@ public class HelpScreen implements Screen {
                 viewport.apply();
                 batch.setProjectionMatrix(camera.combined);
                 batch.begin();
-                screenmanager.getoutputManager().draw(batch,backgroundImage,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
+                OutputManager.getInstance().draw(batch,backgroundImage,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
 
                 // Calculate the center of the screen
                 float centerX = viewport.getWorldWidth() / 2f;
@@ -113,7 +114,7 @@ public class HelpScreen implements Screen {
 
         @Override
         public void hide() {
-        	screenmanager.getoutputManager().soundEnd(backgroundMusic);
+        	OutputManager.getInstance().soundEnd(backgroundMusic);
         }
         @Override
         public void dispose() {

@@ -26,9 +26,6 @@ public class InputManager {
 	public boolean isDownKeyPressed() {
 		return Gdx.input.isKeyPressed(Keys.DOWN);
 	}
-	public boolean isEscapeKeyPressed() {
-		return Gdx.input.isKeyPressed(Keys.ESCAPE);
-	}
 
 	public boolean isAKeyPressed() {
 		return Gdx.input.isKeyPressed(Keys.A);

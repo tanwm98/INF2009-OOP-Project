@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
+import com.mygdx.game.Managers.OutputManager;
 
 
 public class Satellite extends Entity {
@@ -62,14 +63,14 @@ public class Satellite extends Entity {
 		float originY = texHeight/2;
 		float rotate = this.getRotation();
 		batch.begin();
-		getoutputManager().draw(batch, tex, x, y, originX, originY, texWidth, texHeight, 1, rotate);
+		OutputManager.getInstance().draw(batch, tex, x, y, originX, originY, texWidth, texHeight, 1, rotate);
 		batch.end();
 	}
 	@Override
 	public void collide(boolean collide) {
 		if (collide && super.getCollisionCD() <= 0) {
 			game.getPlayer().decreaseLives(1);
-			getoutputManager().playsound("Music/sfx/hit_sfx.wav");
+			OutputManager.getInstance().playsound("Music/sfx/hit_sfx.wav");
 			super.setCollisionCD(super.getCD_period());
 		}
 	}

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Player;
+import com.mygdx.game.Managers.InputManager;
+import com.mygdx.game.Managers.OutputManager;
 
 public class Planet extends Entity {
 	private Texture tex;
@@ -34,7 +36,7 @@ public class Planet extends Entity {
 		float originY = texHeight/2;
 		float rotate = this.getRotation();
 		batch.begin();
-		getoutputManager().draw(batch, tex, x, y, originX, originY, texWidth, texHeight, 1, rotate);
+		OutputManager.getInstance().draw(batch, tex, x, y, originX, originY, texWidth, texHeight, 1, rotate);
 		batch.end();
     }
     public void dispose()
@@ -58,7 +60,7 @@ public class Planet extends Entity {
 	}
 	public void collide(boolean collide) {
 		if (collide && super.getCollisionCD() <= 0) {
-			getoutputManager().playsound("Music/sfx/correct_sfx.wav");
+			OutputManager.getInstance().playsound("Music/sfx/correct_sfx.wav");
 			super.setCollisionCD(2);
 		}
 	}

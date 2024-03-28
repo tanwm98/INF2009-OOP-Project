@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -57,7 +56,6 @@ public class OutputManager {
 				0, 0, (int)texWidth, (int)texHeight,
 				false, false);
 	}
-
 	
 	public void draw(SpriteBatch batch, String text, float x, float y) {
 		font.setColor(Color.WHITE);
@@ -70,9 +68,6 @@ public class OutputManager {
 	
 	//Selection of text
 	public void draw(SpriteBatch batch, String text, float x, float y, boolean isSelected) {
-		ShapeRenderer shapeRenderer = new ShapeRenderer();
-		GlyphLayout layout = new GlyphLayout(font, text);
-
 		if(isSelected) {
 			font.setColor(Color.YELLOW); 
 		}
@@ -81,6 +76,15 @@ public class OutputManager {
 		}
 		font.draw(batch,text,x,y);
 	}
+	
+	public void setFontSize(int size) {
+		parameter.size = size;
+		font = generator.generateFont(parameter);
+	}
+	public BitmapFont getFont() {
+		return font;
+	}
+	
 	
 	//control music (mute button in settings)
 	public Music mute(boolean mute) {
@@ -96,33 +100,42 @@ public class OutputManager {
 		return backgroundMusic;
 	}
 	
+	public boolean isMuted() {
+	    return preferences.getBoolean("isMuted", false); // Default to false if not found
+	}
+	
+	public void setMuted(boolean muted) {
+	    preferences.putBoolean("isMuted", muted);
+	    preferences.flush(); 
+	}
+	
 	// Method to retrieve the previous volume
     public float getPreviousVolume() {
         return previousVolume;
     }
 	
-	//Music start
+	//Music selection to loop
 	public Music musicStart(int music) {
 		switch(music) {
 		case 0:
 			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/menuBGM.mp3"));
-			setVolume(getVolume());
-			backgroundMusic.setLooping(true);
-			backgroundMusic.play();
 			break;
 		case 1: 
 			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/gameBGM.mp3"));
-			setVolume(getVolume());
-			backgroundMusic.setLooping(true);
-			backgroundMusic.play();
 			break;
 		case 2:
 			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/pauseBGM.mp3"));
-			setVolume(getVolume());
-			backgroundMusic.setLooping(true);
-			backgroundMusic.play();
+			break;
+		case 3:
+			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/minigameBGM.mp3"));
+			break;
+		case 4:
+			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/GameOverBGM.mp3"));
 			break;
 		}
+	    backgroundMusic.setVolume(getVolume());
+	    backgroundMusic.setLooping(true);
+	    backgroundMusic.play();
 		return backgroundMusic;
 	}
 	
@@ -132,25 +145,17 @@ public class OutputManager {
 	        Gdx.app.log("OutputManager", "Setting volume: " + volume);
 	        
 	        preferences.putFloat("volume", volume);
-	        preferences.flush(); // Make sure to flush to save the changes immediately
+	        preferences.flush();
 	    }
 	}
 	
 	public float getVolume() {
-		// Load the volume setting from preferences
-	    return preferences.getFloat("volume", 1f); // Default volume is 1 if not found
+	    return preferences.getFloat("volume", 1f);
 	}
 
-	public void setFontSize(int size) {
-		parameter.size = size;
-		font = generator.generateFont(parameter);
-	}
 	//Music Stop
 	public void soundEnd(Music backgroundMusic) { 
 		backgroundMusic.stop();
-	}
-	public BitmapFont getFont() {
-		return font;
 	}
 	public void  playsound(String sfx) {
 		Sound sound = Gdx.audio.newSound(Gdx.files.internal(sfx));
@@ -161,8 +166,6 @@ public class OutputManager {
 	    if (backgroundMusic != null) {
 	        backgroundMusic.dispose();
 	    }
-
-	    // Dispose of any resources held by the font generator
 	    if (generator != null) {
 	        generator.dispose();
 	    }

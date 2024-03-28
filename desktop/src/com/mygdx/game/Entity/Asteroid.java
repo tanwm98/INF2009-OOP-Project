@@ -5,15 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
+import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Screens.MiniGameScreen;
 
 public class Asteroid extends Entity {
 	private Texture tex;
-
 	private Player player;
-	
 	private SpriteBatch batch = new SpriteBatch();
-
 	private MyGdxGame game;
 	
     public Asteroid() {
@@ -47,7 +45,7 @@ public class Asteroid extends Entity {
 
     public void render() {
     	batch.begin();
-    	getoutputManager().draw(batch, getTexture(), super.getX(), super.getY(), super.getWidth(), super.getHeight());
+    	OutputManager.getInstance().draw(batch, getTexture(), super.getX(), super.getY(), super.getWidth(), super.getHeight());
 		batch.end();
     }
 
@@ -76,7 +74,7 @@ public class Asteroid extends Entity {
 		if(collide)
 		{
 			game.setScreen(new MiniGameScreen(game,player)); // Transition to the minigame screen
-			getoutputManager().playsound("Music/sfx/hit_sfx.wav");
+			OutputManager.getInstance().playsound("Music/sfx/hit_sfx.wav");
 		}
     }
 

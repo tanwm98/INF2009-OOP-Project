@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
+import com.mygdx.game.Managers.InputManager;
+import com.mygdx.game.Managers.OutputManager;
 
 public class Spaceship extends Entity {
     private Texture tex;
@@ -48,7 +50,7 @@ public class Spaceship extends Entity {
         } else {
             batch.setColor(1, 1, 1, 1); // Fully opaque
         }
-        getoutputManager().draw(batch,tex, getX(), getY(), tex.getWidth(),tex.getHeight()); // Draw the spaceship texture at the spaceship's position
+        OutputManager.getInstance().draw(batch,tex, getX(), getY(), tex.getWidth(),tex.getHeight()); // Draw the spaceship texture at the spaceship's position
         batch.end();
     }
     @Override
@@ -63,7 +65,7 @@ public class Spaceship extends Entity {
         float delta = Gdx.graphics.getDeltaTime();
         float moveSpeed = super.getYSpeed() * delta;
 
-        if(getinputManager().isRightKeyPressed() || getinputManager().isDKeyPressed())
+        if(InputManager.getInstance().isRightKeyPressed() || InputManager.getInstance().isDKeyPressed())
         {
             setX(getX() + moveSpeed);
             if(getX() - getWidth() / 2 > Gdx.graphics.getWidth())
@@ -71,16 +73,16 @@ public class Spaceship extends Entity {
                 setX(-getWidth() / 2); // Wrap around
             }
         }
-        else if(getinputManager().isLeftKeyPressed() || getinputManager().isAKeyPressed())
+        else if(InputManager.getInstance().isLeftKeyPressed() || InputManager.getInstance().isAKeyPressed())
         {
             setX(Math.max(0, getX() - moveSpeed)); // Prevent from going off screen
         }
 
-        if(getinputManager().isUpKeyPressed() || getinputManager().isWKeyPressed())
+        if(InputManager.getInstance().isUpKeyPressed() ||InputManager.getInstance().isWKeyPressed())
         {
             setY(Math.min(Gdx.graphics.getHeight() - getHeight(), getY() + moveSpeed)); // Prevent from going off screen
         }
-        else if(getinputManager().isDownKeyPressed() || getinputManager().isSKeyPressed())
+        else if(InputManager.getInstance().isDownKeyPressed() || InputManager.getInstance().isSKeyPressed())
         {
             setY(Math.max(0, getY() - moveSpeed)); // Prevent from going off screen
         }

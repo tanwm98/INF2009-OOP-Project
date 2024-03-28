@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.Texture;
+import com.mygdx.game.Managers.InputManager;
 import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
 import com.mygdx.game.MyGdxGame;
@@ -37,8 +38,10 @@ public class MiniGameScreen implements Screen{
     private GlyphLayout layout;
     private SpriteBatch batch;
     private String gameText = "Match the pieces to the silhouette!";
-    private OutputManager outputManager;
-    private Player player;
+    private ScreenManager screenManager;
+    private static InputManager inputManager;
+    private static OutputManager outputManager;
+    //private Player player;
     private boolean timeUp = false;
     private float timeLeft = 5; // Set the initial time left
     private long startTime;
@@ -56,16 +59,19 @@ public class MiniGameScreen implements Screen{
         this.font = new BitmapFont();
         this.layout = new GlyphLayout();
         batch = new SpriteBatch();
-        this.outputManager = new OutputManager();
-        this.player = player;
+        //this.player = player;
         startTime = TimeUtils.millis();
+        
+        inputManager = InputManager.getInstance();
+        outputManager = OutputManager.getInstance();
+        screenManager = ScreenManager.getInstance(game);
     }
     private void setupBaseSilhouette() {
         backgroundImage = new Image(new Texture(Gdx.files.internal("Background/MiniGame.png")));
         backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Image baseSilhouette = new Image(new Texture(Gdx.files.internal("Objects/Satellites/satellite_silhouette.png")));
         baseSilhouette.setPosition(Gdx.graphics.getWidth() / 2 - baseSilhouette.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - baseSilhouette.getHeight() / 2); // set to the center of the screen
+        Gdx.graphics.getHeight() / 2 - baseSilhouette.getHeight() / 2); // set to the center of the screen
         stage.addActor(backgroundImage);
         stage.addActor(baseSilhouette);
         setupParts(baseSilhouette);
@@ -144,15 +150,15 @@ public class MiniGameScreen implements Screen{
             }
         });
         Gdx.input.setInputProcessor(inputMultiplexer);
-    	backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/minigameBGM.mp3"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
+        if (backgroundMusic == null) {
+        	backgroundMusic=outputManager.musicStart(3);
+        }
     }
     
     private void pauseGame() {
     	isPaused = true;
         pauseStartTime = TimeUtils.millis(); // Capture Paused Time
-        ScreenManager.getInstance(game).pushScreen(new PauseScreen(game, ScreenManager.getInstance(game)));
+        screenManager.pushScreen(new PauseScreen(game, ScreenManager.getInstance(game)));
     }
     public void resumeGame() {
     	if(isPaused) {
@@ -202,7 +208,7 @@ public class MiniGameScreen implements Screen{
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                	ScreenManager.getInstance(game).setScreen(new GameScreen(game));
+                	screenManager.setScreen(new GameScreen(game));
                 }
             }, timeLeft); // Delay in seconds
         }
@@ -217,7 +223,7 @@ public class MiniGameScreen implements Screen{
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                	ScreenManager.getInstance(game).setScreen(new GameScreen(game));
+                	screenManager.setScreen(new GameScreen(game));
                 }
             }, timeLeft); // Delay in seconds
         }
@@ -234,10 +240,7 @@ public class MiniGameScreen implements Screen{
     	
     }
     public void hide() {
-    	if (backgroundMusic != null) {
-            backgroundMusic.stop();
-            backgroundMusic.dispose();
-        }
+    	outputManager.soundEnd(backgroundMusic);
     }
 
 
@@ -245,9 +248,8 @@ public class MiniGameScreen implements Screen{
         stage.dispose();
         font.dispose();
         batch.dispose();
-        if (backgroundMusic != null) {
-            backgroundMusic.stop();
-            backgroundMusic.dispose();
-        }
+        inputManager.dispose();
+        outputManager.dispose();
+
     }
 }
