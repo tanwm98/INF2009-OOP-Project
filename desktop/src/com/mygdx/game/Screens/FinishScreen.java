@@ -12,8 +12,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Managers.InputManager;
+import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
-import jdk.tools.jmod.Main;
+//import jdk.tools.jmod.Main;
 
 public class FinishScreen implements Screen {
     private SpriteBatch batch;
@@ -37,7 +39,7 @@ public class FinishScreen implements Screen {
 
     @Override
     public void show() {
-        backgroundMusic=screenmanager.getoutputManager().musicStart(0);
+        backgroundMusic=OutputManager.getInstance().musicStart(0);
     }
 
     @Override
@@ -48,34 +50,34 @@ public class FinishScreen implements Screen {
         viewport.apply();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        screenmanager.getoutputManager().draw(batch,backgroundImage,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
+        OutputManager.getInstance().draw(batch,backgroundImage,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
         // Calculate the center of the screen
         float centerX = viewport.getWorldWidth() / 2f;
         float centerY = viewport.getWorldHeight() / 2f;
-        float lineHeight = screenmanager.getoutputManager().getFont().getLineHeight(); // Get the height of the font
+        float lineHeight = OutputManager.getInstance().getFont().getLineHeight(); // Get the height of the font
         float gap = Gdx.graphics.getPpcY(); // Initialize Gap between lines
         float startY = centerY + lineHeight;
         GlyphLayout layout = new GlyphLayout(); //Calculating text width
 
         String finishText = "End of Demo, Thanks for playing!\n";
-        layout.setText(screenmanager.getoutputManager().getFont(), finishText);
+        layout.setText(OutputManager.getInstance().getFont(), finishText);
         float finishTextWidth = layout.width;
         float startX = centerX - finishTextWidth / 2; // To Center the text
-        screenmanager.getoutputManager().draw(batch,finishText, startX, startY);
+        OutputManager.getInstance().draw(batch,finishText, startX, startY);
         startY -= lineHeight + gap;
 
         String menuText = "Back to Menu";
-        layout.setText(screenmanager.getoutputManager().getFont(), menuText);
+        layout.setText(OutputManager.getInstance().getFont(), menuText);
         float menuTextWidth = layout.width;
         startX = centerX - menuTextWidth / 2;
-        screenmanager.getoutputManager().draw(batch,menuText, startX, startY,currentSelection == 0);
+        OutputManager.getInstance().draw(batch,menuText, startX, startY,currentSelection == 0);
         startY -= lineHeight + gap;
 
         String exitText = "Exit";
-        layout.setText(screenmanager.getoutputManager().getFont(), exitText);
+        layout.setText(OutputManager.getInstance().getFont(), exitText);
         float exitWidth = layout.width;
         startX = centerX - exitWidth / 2;
-        screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 1);
+        OutputManager.getInstance().draw(batch,exitText, startX, startY,currentSelection == 1);
         batch.end(); //
 
         mouseSelection();
@@ -83,41 +85,39 @@ public class FinishScreen implements Screen {
     }
 
     private void mouseSelection() {
-        Rectangle startrectangle = new Rectangle(665, 455, 260, 55);
-        Rectangle settingrectangle = new Rectangle(695, 340, 205, 55);
-        Rectangle helprectangle = new Rectangle(665, 225, 260, 55);
-        Rectangle exitrectangle = new Rectangle(750, 115, 95, 55);
+        Rectangle menurectangle = new Rectangle(650, 340, 305, 55);
+        Rectangle exitrectangle = new Rectangle(750, 225, 95, 55);
         float textX = Gdx.input.getX();
         float textY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        if (startrectangle.contains(textX,textY)) {
+        if (menurectangle.contains(textX,textY)) {
             currentSelection=0;
         }
-        if (settingrectangle.contains(textX,textY)) {
+        if (exitrectangle.contains(textX,textY)) {
             currentSelection=1;
         }
         if (screenmanager.getinputManager().leftClick()) {
-            // Check if the touch coordinates are inside the rectangle
-            if (startrectangle.contains(textX, textY)||settingrectangle.contains(textX, textY)||helprectangle.contains(textX, textY)|| exitrectangle.contains(textX,textY)) {
+            if (menurectangle.contains(textX, textY)||exitrectangle.contains(textX, textY)) {
                 selectOption();
             }
         }
     }
 
     private void updateCurrentSelection() {
-        if (screenmanager.getinputManager().isUpKeyJustPressed()) {
+        if (InputManager.getInstance().isUpKeyJustPressed()|| InputManager.getInstance().isWKeyJustPressed()) {
             currentSelection--;
             if (currentSelection < 0) {
                 currentSelection = 1;
             }
         }
-        if (screenmanager.getinputManager().isDownKeyJustPressed()) {
+        if (InputManager.getInstance().isDownKeyJustPressed()|| InputManager.getInstance().isSKeyJustPressed()) {
             currentSelection++;
+            
             if (currentSelection > 1) {
                 currentSelection = 0;
             }
         }
-        if (screenmanager.getinputManager().isEnterKeyJustPressed()) {
+        if (InputManager.getInstance().isEnterKeyJustPressed()) {
             selectOption();
         }
     }
@@ -125,7 +125,7 @@ public class FinishScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-                screenmanager.pushScreen(new MainMenuScreen(game));
+                ScreenManager.getInstance(game).pushScreen(new MainMenuScreen(game));
                 break;
             case 1:
                 Gdx.app.exit();
@@ -151,7 +151,7 @@ public class FinishScreen implements Screen {
 
     @Override
     public void hide() {
-        screenmanager.getoutputManager().soundEnd(backgroundMusic);
+    	OutputManager.getInstance().soundEnd(backgroundMusic);
     }
 
     @Override
