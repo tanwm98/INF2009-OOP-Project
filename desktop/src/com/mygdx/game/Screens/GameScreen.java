@@ -1,6 +1,9 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,9 +12,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -19,11 +19,13 @@ import com.mygdx.game.Entity.*;
 import com.mygdx.game.Managers.*;
 import com.mygdx.game.MyGdxGame;
 import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.game.Player;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.Player;
 
 public class GameScreen implements Screen {
     private MyGdxGame game;
@@ -51,7 +53,7 @@ public class GameScreen implements Screen {
     private Entity spaceship;
     private Entity planet;
     private Entity satellite;
-
+    private boolean isPaused = false;
     private Stage stage;
     private Skin skin;
     private boolean showDialog = false;
@@ -67,7 +69,9 @@ public class GameScreen implements Screen {
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
             this.player = new Player(this.game);
-            playerControlManager = new PlayerControlManager();
+            playerControlManager = new PlayerControlManager(player,spaceship);
+            
+            
 
         } catch (Exception e) {
             System.err.println("GameScreen not initialised due to:" + e.getMessage());
@@ -83,7 +87,7 @@ public class GameScreen implements Screen {
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
             this.player = player;
-            playerControlManager = new PlayerControlManager();
+            playerControlManager = new PlayerControlManager(player,spaceship);
         } catch (Exception e) {
             System.err.println("Game Screen not initialised due to:" + e.getMessage());
         }
@@ -93,26 +97,40 @@ public class GameScreen implements Screen {
     public void show() {
         Gdx.graphics.setContinuousRendering(true);
         // Camera dimensions
-        int cameraWidth = Gdx.graphics.getWidth();
+        int cameraWidth  = Gdx.graphics.getWidth();
         int cameraHeight = Gdx.graphics.getHeight();
 
         // Instantiate camera
         camera = new OrthographicCamera();
-        camera.position.set(cameraWidth / 2f, cameraHeight / 2f, 0);
+        camera.position.set( cameraWidth / 2f, cameraHeight / 2f, 0);
         camera.update();
+        
         viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
-        backgroundMusic = screenManager.getoutputManager().musicStart(false,100);
+        backgroundMusic = screenManager.getoutputManager().musicStart(false);
         backgroundTexture = new Texture(Gdx.files.internal("Background/starfield.png"));
         textureWidth = backgroundTexture.getWidth();
         textureHeight = backgroundTexture.getHeight();
-
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        InputAdapter keyProcessor = new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.ESCAPE) {
+                    pauseGame();
+                    return true;
+                }
+                return false;
+            }
+        };
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(keyProcessor); // First, add the key processor
+        inputMultiplexer.addProcessor(stage); // Then add the stage
 
-        Gdx.input.setInputProcessor(stage); // Set the stage to process input events
-        setupGameEntities();
+        Gdx.input.setInputProcessor(inputMultiplexer); // Set the multiplexer as the input processor
+        if (entityManager == null || entityManager.getEntities().isEmpty()) {
+            setupGameEntities();
+        }
     }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -148,8 +166,6 @@ public class GameScreen implements Screen {
                             getTitleLabel().setAlignment(Align.center);
                         }
                     };
-
-//                    dialog.text("Your spaceship has collided with the planet!");
                     Label label = new Label("Your spaceship has collided with Mars, the 4th planet in the solar system!", skin);
                     label.setWrap(true);
                     dialog.getContentTable().add(label).width(Gdx.graphics.getWidth() / 2); // Set the width as per your requirement
@@ -175,7 +191,6 @@ public class GameScreen implements Screen {
         stage.act(delta);
         stage.draw();
     }
-
     private void setupGameEntities() {
         aiControlManager = new AIControlManager();
         collisionManager = new CollisionManager();
@@ -212,12 +227,12 @@ public class GameScreen implements Screen {
             aiControlManager.addEntity(satellite);
         }
     }
-
-
-    // private void pauseGameAndShowMenu()
-    //this.pause();
-    //PauseMenu pauseMenu = new PauseMenu(game, game.getScreenManager());
-    //pauseMenu.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    
+    private void pauseGame() {
+    	ScreenManager.getInstance(game).pushScreen(new PauseScreen(game, ScreenManager.getInstance(game)));
+    }
+    
+   
 
     @Override
     public void resize(int width, int height) {
@@ -235,16 +250,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        isPaused = true;
+        
     }
 
     @Override
     public void resume() {
-
+        isPaused = false;
+        
     }
 
     @Override
     public void hide() {
-
+    	screenManager.getoutputManager().soundEnd(backgroundMusic);
     }
 }
