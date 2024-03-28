@@ -36,7 +36,10 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-    	backgroundMusic=screenmanager.getoutputManager().musicStart(true);
+    	backgroundMusic=screenmanager.getoutputManager().musicStart(true,screenmanager.getoutputManager().getVolume());
+        // Check if backgroundMusic is not null before calling getVolume()
+            backgroundMusic.getVolume();
+
     }
 
     @Override

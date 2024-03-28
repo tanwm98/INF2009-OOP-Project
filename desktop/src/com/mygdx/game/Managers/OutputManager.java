@@ -5,9 +5,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
@@ -16,10 +16,8 @@ public class OutputManager {
 	private BitmapFont font;
 	private FreeTypeFontGenerator generator;
 	private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-	//private List<Screen> screenList;
 	
 	public OutputManager() {
-		//screenList = new ArrayList<>();
 		font = new BitmapFont();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gomarice_no_continue.ttf"));
 		parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -49,6 +47,7 @@ public class OutputManager {
 
 	
 	public void draw(SpriteBatch batch, String text, float x, float y) {
+		font.setColor(Color.WHITE);
 		font.draw(batch,text,x,y);
 	}
 	
@@ -61,7 +60,6 @@ public class OutputManager {
 		ShapeRenderer shapeRenderer = new ShapeRenderer();
 		GlyphLayout layout = new GlyphLayout(font, text);
 
-
 		if(isSelected) {
 			font.setColor(Color.YELLOW); 
 		}
@@ -71,18 +69,42 @@ public class OutputManager {
 		font.draw(batch,text,x,y);
 	}
 	
+	//control music (mute button in settings)
+	public Music mute(boolean music) {
+		if(music) {
+			backgroundMusic.setVolume(0);
+		}
+		else {
+			backgroundMusic.setVolume(1);
+		}
+		return backgroundMusic;
+	}
 	
 	//Music start
-	public Music musicStart(boolean music) {
+	public Music musicStart(boolean music,float volume) {
 		if(music) {
 			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/menuBGM.mp3"));
 		}
 		else {
 			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/gameBGM.mp3"));
 		}
+		setVolume(volume);
 		backgroundMusic.setLooping(true);
 		backgroundMusic.play();
 		return backgroundMusic;
+	}
+	
+	public void setVolume(float volume) {
+	    if (backgroundMusic != null) {
+	        backgroundMusic.setVolume(volume);
+	    }
+	}
+	
+	public float getVolume() {
+	    if (backgroundMusic != null) {
+	        return backgroundMusic.getVolume();
+	    }
+		return 1;
 	}
 
 	public void setFontSize(int size) {
@@ -101,34 +123,4 @@ public class OutputManager {
 		sound.play(1.0f);
 
 	}
-	
-	/*public void draw(SpriteBatch batch) {
-		batch.begin();
-		for (Screen screen : screenList) {
-			screen.draw(batch);
-	    }
-	    batch.end();
-		}
-	
-	public void draw(ShapeRenderer shape) {
-		shape.begin(ShapeRenderer.ShapeType.Filled);
-		for (Screen screen : screenList) {
-	       screen.draw(shape);
-		}
-		shape.end();
-		}
-	
-	//start music
-	public void show() {
-		for (Screen screen : screenList) {
-			screen.show();
-			}
-		}
-		
-	//stop music
-	public void hide() {
-		for (Screen screen : screenList) {
-			screen.hide();
-			}
-	}*/
 }
