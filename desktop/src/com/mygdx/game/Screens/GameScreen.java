@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Entity.*;
@@ -16,6 +18,10 @@ import com.mygdx.game.Managers.*;
 import com.mygdx.game.MyGdxGame;
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.Player;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class GameScreen implements Screen {
     private MyGdxGame game;
@@ -44,6 +50,9 @@ public class GameScreen implements Screen {
     private Entity planet;
     private Entity satellite;
 
+    private Stage stage;
+    private Skin skin;
+
 
     public GameScreen(MyGdxGame game) {
         try {
@@ -60,7 +69,6 @@ public class GameScreen implements Screen {
             System.err.println("GameScreen not initialised due to:" + e.getMessage());
         }
     }
-
     public GameScreen(MyGdxGame game, Player player) {
         try {
             this.game = game;
@@ -92,6 +100,11 @@ public class GameScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("Background/starfield.png"));
         textureWidth = backgroundTexture.getWidth();
         textureHeight = backgroundTexture.getHeight();
+
+        stage = new Stage();
+        skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+
+        Gdx.input.setInputProcessor(stage); // Set the stage to process input events
         setupGameEntities();
     }
     @Override
@@ -117,12 +130,25 @@ public class GameScreen implements Screen {
             playerControlManager.moveEntities();
             game.getPlayer().drawPlayer();
             game.getPlayer().drawScore();
-
+            if (collisionManager.detectCollision(spaceship, planet)) {
+                // Display dialog box
+                Dialog dialog = new Dialog("Collision Detected", skin);
+                dialog.text("Your spaceship has collided with the planet!");
+                dialog.button("OK").addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        dialog.hide();
+                    }
+                });
+                dialog.show(stage);
+            }
             if (game.getPlayer().getLives() == 0) {
                 isGameOver = true;
                 screenManager.setScreen(new GameOverScreen(game, screenManager));
             }
         }
+        stage.act(delta);
+        stage.draw();
     }
     private void setupGameEntities() {
         aiControlManager = new AIControlManager();
