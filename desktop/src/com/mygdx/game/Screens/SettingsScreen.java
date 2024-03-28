@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.viewport.*;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.mygdx.game.Managers.InputManager;
+import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
 import com.mygdx.game.MyGdxGame;
 
@@ -34,7 +36,8 @@ public class SettingsScreen implements Screen {
     private Texture backgroundTexture;
     private Music backgroundMusic;
     private int selectedOptions = 0;
-    private float newVolume = 0;
+    private boolean isDragging = false;
+    private float savedSliderValue = 0.5f; // Variable to store the slider value
 
     
     
@@ -53,7 +56,7 @@ public class SettingsScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         if (backgroundMusic == null) {
-        backgroundMusic = screenManager.getoutputManager().musicStart(0);
+        backgroundMusic = OutputManager.getInstance().musicStart(0);
         }
         
         Table table = new Table();
@@ -64,45 +67,63 @@ public class SettingsScreen implements Screen {
         // Create volume slider
         volumeSlider = new Slider(0, 1, 0.1f, false, skin); // Range from 0 to 1, step size of 0.1
         table.add(volumeSlider).width(350).pad(20);
+        volumeSlider.setValue(savedSliderValue);
         
-        volumeSlider.addListener(new DragListener(){
-        	private float startX;
-        	@Override            
-        	public void dragStart(InputEvent event, float x, float y, int pointer) {
-                startX = x;
-            }
+        //Drag slider to adjust volume
+        volumeSlider.addListener(new DragListener() {
+            float startValue;
+            float startX;
 
+            @Override
+            public void dragStart(InputEvent event, float x, float y, int pointer) {
+                startValue = volumeSlider.getValue();
+                startX = x;
+                isDragging = true;
+            }
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
-                // Handle slider drag event
+                float delta = x - startX;
+                float volumeChange = delta / volumeSlider.getWidth();
+                float newVolume = MathUtils.clamp(startValue + volumeChange, 0f, 1f);
+                OutputManager.getInstance().setVolume(newVolume);
+                savedSliderValue = newVolume;
             }
-
             @Override
             public void dragStop(InputEvent event, float x, float y, int pointer) {
-                // Calculate the delta change in slider position
-                float delta = x - startX;
-
-                // Calculate the new volume based on the delta change
-                newVolume = volumeSlider.getValue() + delta / volumeSlider.getWidth();
-
-                // Ensure that the new volume is within the valid range (0 to 1)
-                newVolume = MathUtils.clamp(newVolume, 0f, 1f);
-                screenManager.getoutputManager().setVolume(newVolume);
-                startX = x;	
+                startX = x;
+                isDragging = false;
+            }
+        });
+        
+        //Click slider to adjust volume
+        volumeSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                float newVolume = volumeSlider.getValue();
+                if (!isDragging) {
+                	OutputManager.getInstance().setVolume(newVolume);
+                	savedSliderValue = newVolume;
+                }
             }
         });
 
         Button button = new Button(skin);
         table.add(button);
+        boolean isMuted = OutputManager.getInstance().isMuted();
+        button.setChecked(isMuted);
+        
+        //Click mute Button to mute
         button.addListener(new ChangeListener(){
         	@Override
         	public void changed(ChangeEvent event, Actor actor) {
         		if (button.isChecked()) {
-        			screenManager.getoutputManager().mute(true);
+                    OutputManager.getInstance().mute(true);
+                    OutputManager.getInstance().setMuted(true);
         		}else {
-        			screenManager.getoutputManager().mute(false);
-        			float previousVolume = screenManager.getoutputManager().getPreviousVolume();
-                    screenManager.getoutputManager().setVolume(previousVolume);
+                    OutputManager.getInstance().mute(false);
+                    float previousVolume = OutputManager.getInstance().getPreviousVolume();
+                    OutputManager.getInstance().setVolume(previousVolume);
+                    OutputManager.getInstance().setMuted(false);
         		}
         	}
         });
@@ -115,12 +136,12 @@ public class SettingsScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.begin();
-        screenManager.getoutputManager().draw(batch,backgroundTexture,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
+        OutputManager.getInstance().draw(batch,backgroundTexture,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
         String volumeText = "Volume";
-		screenManager.getoutputManager().draw(batch,volumeText,400, 465);
+        OutputManager.getInstance().draw(batch,volumeText,400, 465);
         
         String menuText = "Back to Menu";
-        screenManager.getoutputManager().draw(batch,menuText,620, 290, selectedOptions == 0);
+        OutputManager.getInstance().draw(batch,menuText,620, 290, selectedOptions == 0);
         batch.end();
         
         // Update stage
@@ -140,7 +161,7 @@ public class SettingsScreen implements Screen {
             selectedOptions=0;
         }
 
-    	if (screenManager.getinputManager().leftClick()) {
+    	if (InputManager.getInstance().leftClick()) {
             // Check if the touch coordinates are inside the rectangle
             if (menurectangle.contains(textX, textY)) {
             	backToMainMenu();
@@ -151,7 +172,7 @@ public class SettingsScreen implements Screen {
 
     private void handleInputs() {
     	if(selectedOptions == 0) {
-            if (screenManager.getinputManager().isEnterKeyJustPressed()||screenManager.getinputManager().isEscapeKeyPressed()) {
+            if (InputManager.getInstance().isEnterKeyJustPressed()||InputManager.getInstance().isEscapeKeyJustPressed()) {
             	backToMainMenu();
             }
     	}
@@ -192,6 +213,6 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-    	screenManager.getoutputManager().soundEnd(backgroundMusic);
+    	OutputManager.getInstance().soundEnd(backgroundMusic);
     }
 }
