@@ -68,7 +68,6 @@ public class GameOverScreen implements Screen {
 
     private void handleInputs() {
     	if (screenManager.getinputManager().isEnterKeyJustPressed()) {
-            // Assuming the single option is to go to the game screen or whatever action you need
             screenManager.setScreen(new MainMenuScreen(game));
         }
     }
