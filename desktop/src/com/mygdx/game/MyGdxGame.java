@@ -30,6 +30,9 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         gameScreen = new GameScreen(this, player);
         player = new Player(this);
         playerControlManager = new PlayerControlManager();
+        
+        inputManager = InputManager.getInstance();
+        outputManager = OutputManager.getInstance();
     }
 
     public GameScreen getGameScreen() {
@@ -49,16 +52,17 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     	return outputManager;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
     public InputManager getinputManager(){
     	if(inputManager == null) {
     	    inputManager = new InputManager();
     	}
     	return inputManager;
     }
+    
+    public Player getPlayer() {
+    	return player;
+    }
+    
     // For GameScreen
     public void resetGameScreen() {
 //        GameScreen gameScreen = new GameScreen(this);

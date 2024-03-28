@@ -106,7 +106,9 @@ public class GameScreen implements Screen {
         camera.update();
         
         viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
-        backgroundMusic = screenManager.getoutputManager().musicStart(false,50);
+        if (backgroundMusic == null) {
+        	backgroundMusic=screenManager.getoutputManager().musicStart(1);
+        }
         backgroundTexture = new Texture(Gdx.files.internal("Background/starfield.png"));
         textureWidth = backgroundTexture.getWidth();
         textureHeight = backgroundTexture.getHeight();
@@ -131,6 +133,7 @@ public class GameScreen implements Screen {
             setupGameEntities();
         }
     }
+    
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -246,6 +249,10 @@ public class GameScreen implements Screen {
         shapeRenderer.dispose();
         batch.dispose();
         backgroundTexture.dispose();
+        if (backgroundMusic != null)
+        {
+        	backgroundMusic.dispose();
+        }
     }
 
     @Override

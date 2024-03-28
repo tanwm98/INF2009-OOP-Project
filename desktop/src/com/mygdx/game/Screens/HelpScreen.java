@@ -44,7 +44,9 @@ public class HelpScreen implements Screen {
 
         @Override
         public void show() {
-                backgroundMusic=screenmanager.getoutputManager().musicStart(true,50);
+        	if (backgroundMusic == null) {
+        	backgroundMusic=screenmanager.getoutputManager().musicStart(true);
+        	}
                 Gdx.input.setInputProcessor(new InputAdapter() {
 					@Override
                     public boolean keyDown(int keycode) {
@@ -111,10 +113,7 @@ public class HelpScreen implements Screen {
 
         @Override
         public void hide() {
-            if (backgroundMusic != null) {
-                backgroundMusic.stop();
-                
-            }
+        	screenmanager.getoutputManager().soundEnd(backgroundMusic);
         }
         @Override
         public void dispose() {

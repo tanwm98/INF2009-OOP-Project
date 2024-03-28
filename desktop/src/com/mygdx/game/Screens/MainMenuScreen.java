@@ -12,31 +12,42 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Managers.InputManager;
+import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
 
 public class MainMenuScreen implements Screen {
     private SpriteBatch batch;
     private Texture backgroundImage;
     private MyGdxGame game;
-    private ScreenManager screenmanager;
     private int currentSelection = 0;
     private Music backgroundMusic;
     private Viewport viewport;
     private OrthographicCamera camera;
+    private ScreenManager screenManager;
+    private static InputManager inputManager;
+    private static OutputManager outputManager;
     
 
     public MainMenuScreen(MyGdxGame game) {
         this.game = game;
         batch = new SpriteBatch();
         backgroundImage = new Texture("Background/MenuScreen.png");
-        screenmanager = new ScreenManager(game);
+        screenManager = new ScreenManager(game);
         camera = new OrthographicCamera();
         viewport = new FitViewport(1200,900, camera);
+        
+        inputManager = InputManager.getInstance();
+        outputManager = OutputManager.getInstance();
+        screenManager = ScreenManager.getInstance(game);
     }
 
     @Override
     public void show() {
-    	backgroundMusic=screenmanager.getoutputManager().musicStart(true,50);
+    	if (backgroundMusic == null) {
+    		backgroundMusic=outputManager.musicStart(0);
+    	}
+    	Gdx.app.log("MainMenuScreen", "Current volume: " + backgroundMusic.getVolume());
     }
 
     @Override
@@ -47,46 +58,46 @@ public class MainMenuScreen implements Screen {
         viewport.apply();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        screenmanager.getoutputManager().draw(batch,backgroundImage,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
+        outputManager.draw(batch,backgroundImage,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
         // Calculate the center of the screen
         float centerX = viewport.getWorldWidth() / 2f;
         float centerY = viewport.getWorldHeight() / 2f;
-        float lineHeight = screenmanager.getoutputManager().getFont().getLineHeight(); // Get the height of the font
+        float lineHeight = outputManager.getFont().getLineHeight(); // Get the height of the font
         float gap = Gdx.graphics.getPpcY(); // Initialize Gap between lines
         float startY = centerY + lineHeight;
         GlyphLayout layout = new GlyphLayout(); //Calculating text width
 
         // "Start Game" Centered
         String startText = "Start Game";
-        layout.setText(screenmanager.getoutputManager().getFont(), startText);
+        layout.setText(outputManager.getFont(), startText);
         float startGameWidth = layout.width;
         float startX = centerX - startGameWidth / 2; // To Center the text
-        screenmanager.getoutputManager().draw(batch,startText, startX, startY,currentSelection == 0);
+        outputManager.draw(batch,startText, startX, startY,currentSelection == 0);
         startY -= lineHeight + gap;
         
         // "Settings" Centered
         String settingsText = "Settings";
-        layout.setText(screenmanager.getoutputManager().getFont(), settingsText);
+        layout.setText(outputManager.getFont(), settingsText);
         float settingsWidth = layout.width;
         startX = centerX - settingsWidth / 2;
-        screenmanager.getoutputManager().draw(batch,settingsText, startX, startY,currentSelection == 1);
+        outputManager.draw(batch,settingsText, startX, startY,currentSelection == 1);
         startY -= lineHeight + gap;
 
         // "How to Play" Centered
         String aboutText = "How to Play";
-        layout.setText(screenmanager.getoutputManager().getFont(), aboutText);
+        layout.setText(outputManager.getFont(), aboutText);
         float aboutWidth = layout.width;
         startX = centerX - aboutWidth / 2;
-        screenmanager.getoutputManager().draw(batch,aboutText, startX, startY,currentSelection == 2);
+        outputManager.draw(batch,aboutText, startX, startY,currentSelection == 2);
         startY -= lineHeight + gap;
 
 
         // "Exit" centered
         String exitText = "Exit";
-        layout.setText(screenmanager.getoutputManager().getFont(), exitText);
+        layout.setText(outputManager.getFont(), exitText);
         float exitWidth = layout.width;
         startX = centerX - exitWidth / 2;
-        screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 3);
+        outputManager.draw(batch,exitText, startX, startY,currentSelection == 3);
         batch.end(); //
         
         mouseSelection();
@@ -113,7 +124,7 @@ public class MainMenuScreen implements Screen {
         if (exitrectangle.contains(textX,textY)) {
         	currentSelection=3;
         } 
-    	if (screenmanager.getinputManager().leftClick()) {
+    	if (inputManager.leftClick()) {
             // Check if the touch coordinates are inside the rectangle
             if (startrectangle.contains(textX, textY)||settingrectangle.contains(textX, textY)||helprectangle.contains(textX, textY)|| exitrectangle.contains(textX,textY)) {
             	selectOption();
@@ -122,19 +133,19 @@ public class MainMenuScreen implements Screen {
     }
 
     private void updateCurrentSelection() {
-        if (screenmanager.getinputManager().isUpKeyJustPressed()) {
+        if (inputManager.isUpKeyJustPressed() || inputManager.isWKeyJustPressed()) {
             currentSelection--;
             if (currentSelection < 0) {
                 currentSelection = 3;
             }
         }
-        if (screenmanager.getinputManager().isDownKeyJustPressed()) {
+        if (inputManager.isDownKeyJustPressed() || inputManager.isSKeyJustPressed()) {
             currentSelection++;
             if (currentSelection > 3) {
                 currentSelection = 0;
             }
         }
-        if (screenmanager.getinputManager().isEnterKeyJustPressed()) {
+        if (inputManager.isEnterKeyJustPressed()) {
             selectOption();
         }
     }
@@ -142,13 +153,13 @@ public class MainMenuScreen implements Screen {
     private void selectOption() {
     	switch (currentSelection) {
 	        case 0:
-	        	ScreenManager.getInstance(game).pushScreen(new GameScreen(game));
+	        	screenManager.pushScreen(new GameScreen(game));
 	            break;
 	        case 1:
-	            ScreenManager.getInstance(game).pushScreen(new SettingsScreen(game));
+	        	screenManager.pushScreen(new SettingsScreen(game));
 	            break;
 	        case 2:
-	            ScreenManager.getInstance(game).pushScreen(new HelpScreen(game));
+	        	screenManager.pushScreen(new HelpScreen(game));
 	            break;
 	        case 3:
             Gdx.app.exit();
@@ -174,7 +185,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-    	screenmanager.getoutputManager().soundEnd(backgroundMusic);
+    	outputManager.soundEnd(backgroundMusic);
     }
 
     @Override

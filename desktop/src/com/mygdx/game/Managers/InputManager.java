@@ -4,6 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.*;
 
 public class InputManager {
+	private static InputManager instance;
+
+    public static InputManager getInstance() {
+        if (null == instance) {
+            instance = new InputManager();
+        }
+        return instance;
+    }
+	
 	//KeyPressed
 	public boolean isLeftKeyPressed() {
 		return Gdx.input.isKeyPressed(Keys.LEFT);
@@ -50,6 +59,22 @@ public class InputManager {
 	public boolean isEnterKeyJustPressed() {
 		return Gdx.input.isKeyJustPressed(Keys.ENTER);
 	}
+	public boolean isEscapeKeyJustPressed() {
+		return Gdx.input.isKeyJustPressed(Keys.ESCAPE);
+	}
+	
+	public boolean isAKeyJustPressed() {
+		return Gdx.input.isKeyJustPressed(Keys.A);
+	}
+	public boolean isSKeyJustPressed() {
+		return Gdx.input.isKeyJustPressed(Keys.S);
+	}
+	public boolean isDKeyJustPressed() {
+		return Gdx.input.isKeyJustPressed(Keys.D);
+	}
+	public boolean isWKeyJustPressed() {
+		return Gdx.input.isKeyJustPressed(Keys.W);
+	}
 	
 	//Mouse
 	public boolean leftClick () {
@@ -58,5 +83,8 @@ public class InputManager {
 	public boolean rightClick () {
 		return Gdx.input.isButtonJustPressed(Buttons.RIGHT);
 	}
-
+	
+	public void dispose() {
+		
+	}
 }

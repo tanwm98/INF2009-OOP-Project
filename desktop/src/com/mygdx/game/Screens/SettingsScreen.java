@@ -52,8 +52,10 @@ public class SettingsScreen implements Screen {
     public void show() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        backgroundMusic = screenManager.getoutputManager().musicStart(false,screenManager.getoutputManager().getVolume());
-
+        if (backgroundMusic == null) {
+        backgroundMusic = screenManager.getoutputManager().musicStart(0);
+        }
+        
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
@@ -97,13 +99,10 @@ public class SettingsScreen implements Screen {
         	public void changed(ChangeEvent event, Actor actor) {
         		if (button.isChecked()) {
         			screenManager.getoutputManager().mute(true);
-        			newVolume = volumeSlider.getValue();
-        			screenManager.getoutputManager().setVolume(newVolume);
-        			
         		}else {
         			screenManager.getoutputManager().mute(false);
-        			newVolume = volumeSlider.getValue();
-        			screenManager.getoutputManager().setVolume(newVolume);
+        			float previousVolume = screenManager.getoutputManager().getPreviousVolume();
+                    screenManager.getoutputManager().setVolume(previousVolume);
         		}
         	}
         });
@@ -171,7 +170,14 @@ public class SettingsScreen implements Screen {
         if (batch != null) {
             batch.dispose();
         }
-        backgroundMusic.dispose();
+        if (backgroundMusic != null)
+        {
+        	backgroundMusic.dispose();
+        }
+        if (stage != null)
+        {
+        	stage.dispose();
+        }
     }
 
     @Override

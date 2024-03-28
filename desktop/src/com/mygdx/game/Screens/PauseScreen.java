@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Managers.InputManager;
 import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
 
@@ -28,6 +29,8 @@ public class PauseScreen implements Screen {
     private Music backgroundMusic;
 	private BitmapFont font;
 	private SpriteBatch batch;
+    private static InputManager inputManager;
+    private static OutputManager outputManager;
     
     public PauseScreen(final MyGdxGame game, ScreenManager screenManager) {
     	this.game = game;
@@ -36,6 +39,9 @@ public class PauseScreen implements Screen {
         this.stage = new Stage(new ScreenViewport());
         OutputManager outputManager = screenManager.getoutputManager(); 
         this.font = outputManager.getFont();
+        
+        inputManager = InputManager.getInstance();
+        //outputManager = OutputManager.getInstance();
 
         // Dialog box
         Dialog dialog = new Dialog("", skin);
@@ -58,9 +64,9 @@ public class PauseScreen implements Screen {
     @Override
     public void show() {
     	Gdx.input.setInputProcessor(stage);
-    	backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/pauseBGM.mp3"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
+    	if (backgroundMusic == null) {
+    		backgroundMusic=screenManager.getoutputManager().musicStart(2);
+    	}
     }
 
     public void render(float delta) {
