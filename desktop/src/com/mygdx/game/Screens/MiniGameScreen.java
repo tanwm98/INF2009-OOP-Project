@@ -1,6 +1,7 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,12 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Managers.OutputManager;
+import com.mygdx.game.Managers.ScreenManager;
 import com.mygdx.game.MyGdxGame;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.math.Vector2;
@@ -37,6 +42,10 @@ public class MiniGameScreen implements Screen{
     private boolean timeUp = false;
     private float timeLeft = 5; // Set the initial time left
     private long startTime;
+    private long pauseStartTime;
+    private boolean isPaused = false;
+    private Music backgroundMusic;
+    
 
     public MiniGameScreen(MyGdxGame game, Player player) {
         this.game = game;
@@ -122,12 +131,44 @@ public class MiniGameScreen implements Screen{
 
     @Override
     public void show() {
+    	InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.ESCAPE) {
+                    pauseGame();
+                    return true;
+                }
+                return false; 
+            }
+        });
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    	backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/minigameBGM.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
+    }
+    
+    private void pauseGame() {
+    	isPaused = true;
+        pauseStartTime = TimeUtils.millis(); // Capture Paused Time
+        ScreenManager.getInstance(game).pushScreen(new PauseScreen(game, ScreenManager.getInstance(game)));
+    }
+    public void resumeGame() {
+    	if(isPaused) {
+            long pauseEndTime = TimeUtils.millis();
+            long pauseDuration = pauseEndTime - pauseStartTime;
+            startTime += pauseDuration; 
+            isPaused = false;
+        }
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+       
+        
         stage.act(delta);
         stage.draw();
         layout.setText(outputManager.getFont(), gameText);
@@ -136,9 +177,13 @@ public class MiniGameScreen implements Screen{
         batch.setProjectionMatrix(stage.getCamera().combined);
         batch.begin();
         outputManager.draw(batch, gameText, instructionX, instructionY);
-        float elapsedTime = (TimeUtils.millis() - startTime) / 1000f; // Convert milliseconds to seconds
-        timeLeft -= elapsedTime; // Update timeLeft based on elapsed time
-        startTime = TimeUtils.millis(); // Update the start time for the next frame
+        
+        if (!isPaused) {
+            float elapsedTime = (TimeUtils.millis() - startTime) / 1000f;
+            timeLeft -= elapsedTime;
+            startTime = TimeUtils.millis();
+        }
+        
         String timeText = "Time left: " + Math.max(0, (int) timeLeft); // Ensure timeLeft doesn't go below 0
         layout.setText(font, timeText);
         float timeX = 10;
@@ -146,8 +191,6 @@ public class MiniGameScreen implements Screen{
         outputManager.draw(batch, timeText, timeX, timeY); //draw the time left
         batch.end();
         checkGameCompletion();
-
-
     }
 
     private void checkGameCompletion() {
@@ -159,7 +202,7 @@ public class MiniGameScreen implements Screen{
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    game.setScreen(game.getGameScreen());
+                	ScreenManager.getInstance(game).setScreen(new GameScreen(game));
                 }
             }, timeLeft); // Delay in seconds
         }
@@ -174,27 +217,37 @@ public class MiniGameScreen implements Screen{
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    game.setScreen(game.getGameScreen());
+                	ScreenManager.getInstance(game).setScreen(new GameScreen(game));
                 }
             }, timeLeft); // Delay in seconds
         }
     }
+    
+    
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     public void pause() {}
 
-
-    public void resume() {}
-
-
-    public void hide() {}
+    public void resume() {
+    	
+    }
+    public void hide() {
+    	if (backgroundMusic != null) {
+            backgroundMusic.stop();
+            backgroundMusic.dispose();
+        }
+    }
 
 
     public void dispose() {
         stage.dispose();
         font.dispose();
         batch.dispose();
+        if (backgroundMusic != null) {
+            backgroundMusic.stop();
+            backgroundMusic.dispose();
+        }
     }
 }
