@@ -41,7 +41,7 @@ public class HelpScreen implements Screen {
 
         @Override
         public void show() {
-                backgroundMusic=screenmanager.getoutputManager().musicStart(true);
+                backgroundMusic=screenmanager.getoutputManager().musicStart(true, 50);
         }
 
         @Override

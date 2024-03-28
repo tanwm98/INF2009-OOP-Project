@@ -1,5 +1,6 @@
 package com.mygdx.game.Screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.Gdx;
@@ -145,7 +146,7 @@ public class MainMenuScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-                screenmanager.pushScreen(new FinishScreen(game));
+                screenmanager.pushScreen(new GameScreen(game));
                 break;
             case 1:
                 screenmanager.pushScreen(new SettingsScreen(game));

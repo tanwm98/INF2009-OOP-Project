@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Managers.ScreenManager;
+import jdk.tools.jmod.Main;
 
 public class FinishScreen implements Screen {
     private SpriteBatch batch;
@@ -36,7 +37,7 @@ public class FinishScreen implements Screen {
 
     @Override
     public void show() {
-        backgroundMusic=screenmanager.getoutputManager().musicStart(true);
+        backgroundMusic=screenmanager.getoutputManager().musicStart(true, 50);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class FinishScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-                screenmanager.pushScreen(new GameScreen(game));
+                screenmanager.pushScreen(new MainMenuScreen(game));
                 break;
             case 1:
                 Gdx.app.exit();
