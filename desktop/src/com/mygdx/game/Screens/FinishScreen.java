@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Managers.ScreenManager;
 
-public class MainMenuScreen implements Screen {
+public class FinishScreen implements Screen {
     private SpriteBatch batch;
     private Texture backgroundImage;
     private MyGdxGame game;
@@ -23,9 +23,9 @@ public class MainMenuScreen implements Screen {
     private Music backgroundMusic;
     private Viewport viewport;
     private OrthographicCamera camera;
-    
 
-    public MainMenuScreen(MyGdxGame game) {
+
+    public FinishScreen(MyGdxGame game) {
         this.game = game;
         batch = new SpriteBatch();
         backgroundImage = new Texture("Background/MenuScreen.png");
@@ -36,7 +36,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-    	backgroundMusic=screenmanager.getoutputManager().musicStart(true);
+        backgroundMusic=screenmanager.getoutputManager().musicStart(true);
     }
 
     @Override
@@ -56,81 +56,63 @@ public class MainMenuScreen implements Screen {
         float startY = centerY + lineHeight;
         GlyphLayout layout = new GlyphLayout(); //Calculating text width
 
-        // "Start Game" Centered
-        String startText = "Start Game";
-        layout.setText(screenmanager.getoutputManager().getFont(), startText);
-        float startGameWidth = layout.width;
-        float startX = centerX - startGameWidth / 2; // To Center the text
-        screenmanager.getoutputManager().draw(batch,startText, startX, startY,currentSelection == 0);
+        String finishText = "End of Demo, Thanks for playing!\n";
+        layout.setText(screenmanager.getoutputManager().getFont(), finishText);
+        float finishTextWidth = layout.width;
+        float startX = centerX - finishTextWidth / 2; // To Center the text
+        screenmanager.getoutputManager().draw(batch,finishText, startX, startY);
         startY -= lineHeight + gap;
 
-        // "Settings" Centered
-        String settingsText = "Settings";
-        layout.setText(screenmanager.getoutputManager().getFont(), settingsText);
-        float settingsWidth = layout.width;
-        startX = centerX - settingsWidth / 2;
-        screenmanager.getoutputManager().draw(batch,settingsText, startX, startY,currentSelection == 1);
+        String menuText = "Back to Menu";
+        layout.setText(screenmanager.getoutputManager().getFont(), menuText);
+        float menuTextWidth = layout.width;
+        startX = centerX - menuTextWidth / 2;
+        screenmanager.getoutputManager().draw(batch,menuText, startX, startY,currentSelection == 0);
         startY -= lineHeight + gap;
 
-        // "How to Play" Centered
-        String aboutText = "How to Play";
-        layout.setText(screenmanager.getoutputManager().getFont(), aboutText);
-        float aboutWidth = layout.width;
-        startX = centerX - aboutWidth / 2;
-        screenmanager.getoutputManager().draw(batch,aboutText, startX, startY,currentSelection == 2);
-        startY -= lineHeight + gap;
-
-
-        // "Exit" centered
         String exitText = "Exit";
         layout.setText(screenmanager.getoutputManager().getFont(), exitText);
         float exitWidth = layout.width;
         startX = centerX - exitWidth / 2;
-        screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 3);
+        screenmanager.getoutputManager().draw(batch,exitText, startX, startY,currentSelection == 1);
         batch.end(); //
-        
+
         mouseSelection();
         updateCurrentSelection();
     }
 
     private void mouseSelection() {
-    	Rectangle startrectangle = new Rectangle(665, 455, 260, 55);
-    	Rectangle settingrectangle = new Rectangle(695, 340, 205, 55);
-    	Rectangle helprectangle = new Rectangle(665, 225, 260, 55);
-    	Rectangle exitrectangle = new Rectangle(750, 115, 95, 55);
-    	float textX = Gdx.input.getX();
+        Rectangle startrectangle = new Rectangle(665, 455, 260, 55);
+        Rectangle settingrectangle = new Rectangle(695, 340, 205, 55);
+        Rectangle helprectangle = new Rectangle(665, 225, 260, 55);
+        Rectangle exitrectangle = new Rectangle(750, 115, 95, 55);
+        float textX = Gdx.input.getX();
         float textY = Gdx.graphics.getHeight() - Gdx.input.getY();
-        
+
         if (startrectangle.contains(textX,textY)) {
             currentSelection=0;
         }
         if (settingrectangle.contains(textX,textY)) {
-        	currentSelection=1;
-        } 
-        if (helprectangle.contains(textX,textY)) {
-        	currentSelection=2;
-        } 
-        if (exitrectangle.contains(textX,textY)) {
-        	currentSelection=3;
-        } 
-    	if (screenmanager.getinputManager().leftClick()) {
+            currentSelection=1;
+        }
+        if (screenmanager.getinputManager().leftClick()) {
             // Check if the touch coordinates are inside the rectangle
             if (startrectangle.contains(textX, textY)||settingrectangle.contains(textX, textY)||helprectangle.contains(textX, textY)|| exitrectangle.contains(textX,textY)) {
-            	selectOption();
+                selectOption();
             }
-    	}
+        }
     }
 
     private void updateCurrentSelection() {
         if (screenmanager.getinputManager().isUpKeyJustPressed()) {
             currentSelection--;
             if (currentSelection < 0) {
-                currentSelection = 3;
+                currentSelection = 1;
             }
         }
         if (screenmanager.getinputManager().isDownKeyJustPressed()) {
             currentSelection++;
-            if (currentSelection > 3) {
+            if (currentSelection > 1) {
                 currentSelection = 0;
             }
         }
@@ -142,15 +124,9 @@ public class MainMenuScreen implements Screen {
     private void selectOption() {
         switch (currentSelection) {
             case 0:
-                screenmanager.pushScreen(new FinishScreen(game));
+                screenmanager.pushScreen(new GameScreen(game));
                 break;
             case 1:
-                screenmanager.pushScreen(new SettingsScreen(game));
-                break;
-            case 2:
-                screenmanager.pushScreen(new HelpScreen(game));
-                break;
-            case 3:
                 Gdx.app.exit();
                 break;
         }
@@ -174,7 +150,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-    	screenmanager.getoutputManager().soundEnd(backgroundMusic);
+        screenmanager.getoutputManager().soundEnd(backgroundMusic);
     }
 
     @Override

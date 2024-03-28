@@ -7,12 +7,9 @@ public class SatelliteTextureFactory { // Factory class for creating satellite t
 
 	public Texture makeSatellite(int newSatelliteTex) {
 		if (newSatelliteTex == 1) {
-			return new Texture(Gdx.files.internal("Objects/Satellites/satellite_1.png"));
-		}
-		else if (newSatelliteTex == 2) {
 			return new Texture(Gdx.files.internal("Objects/Satellites/satellite_2.png"));
 		}
-		else if (newSatelliteTex == 3) {
+		else if (newSatelliteTex == 2) {
 			return new Texture(Gdx.files.internal("Objects/Satellites/satellite_3.png"));
 		} else {
 			return null;

@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Entity.*;
@@ -52,6 +54,8 @@ public class GameScreen implements Screen {
 
     private Stage stage;
     private Skin skin;
+    private boolean showDialog = false;
+    private boolean pause = false;
 
 
     public GameScreen(MyGdxGame game) {
@@ -63,12 +67,13 @@ public class GameScreen implements Screen {
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
             this.player = new Player(this.game);
-            playerControlManager = new PlayerControlManager(player,spaceship);
+            playerControlManager = new PlayerControlManager(player, spaceship);
 
         } catch (Exception e) {
             System.err.println("GameScreen not initialised due to:" + e.getMessage());
         }
     }
+
     public GameScreen(MyGdxGame game, Player player) {
         try {
             this.game = game;
@@ -78,7 +83,7 @@ public class GameScreen implements Screen {
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
             this.player = player;
-            playerControlManager = new PlayerControlManager(player,spaceship);
+            playerControlManager = new PlayerControlManager(player, spaceship);
         } catch (Exception e) {
             System.err.println("Game Screen not initialised due to:" + e.getMessage());
         }
@@ -88,12 +93,12 @@ public class GameScreen implements Screen {
     public void show() {
         Gdx.graphics.setContinuousRendering(true);
         // Camera dimensions
-        int cameraWidth  = Gdx.graphics.getWidth();
+        int cameraWidth = Gdx.graphics.getWidth();
         int cameraHeight = Gdx.graphics.getHeight();
 
         // Instantiate camera
         camera = new OrthographicCamera();
-        camera.position.set( cameraWidth / 2f, cameraHeight / 2f, 0);
+        camera.position.set(cameraWidth / 2f, cameraHeight / 2f, 0);
         camera.update();
         viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
         backgroundMusic = screenManager.getoutputManager().musicStart(false);
@@ -107,6 +112,7 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage); // Set the stage to process input events
         setupGameEntities();
     }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -127,20 +133,39 @@ public class GameScreen implements Screen {
             entityManager.renderEntities(); //
             entityManager.updateEntities(delta);
             entityManager.detect();
-            playerControlManager.moveEntities();
+            if (!pause) {
+                playerControlManager.moveEntities();
+            }
             game.getPlayer().drawPlayer();
             game.getPlayer().drawScore();
             if (collisionManager.detectCollision(spaceship, planet)) {
-                // Display dialog box
-                Dialog dialog = new Dialog("Collision Detected", skin);
-                dialog.text("Your spaceship has collided with the planet!");
-                dialog.button("OK").addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        dialog.hide();
-                    }
-                });
-                dialog.show(stage);
+                if (!showDialog) {
+                    showDialog = true; // Set the flag to true so the dialog won't be shown again
+                    pause = true;
+                    // Display dialog box
+                    Dialog dialog = new Dialog("Planet Collision Detected!", skin) {
+                        {
+                            getTitleLabel().setAlignment(Align.center);
+                        }
+                    };
+
+//                    dialog.text("Your spaceship has collided with the planet!");
+                    Label label = new Label("Your spaceship has collided with Mars, the 4th planet in the solar system!", skin);
+                    label.setWrap(true);
+                    dialog.getContentTable().add(label).width(Gdx.graphics.getWidth() / 2); // Set the width as per your requirement
+                    dialog.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+                    dialog.button("Click to continue your adventure").addListener(new ClickListener() {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            dialog.hide();
+                            pause = false;
+                            game.setScreen(new FinishScreen(game));
+                        }
+                    });
+                    dialog.show(stage);
+                }
+            } else {
+                showDialog = false; // Reset the flag when the spaceship is not colliding with the planet
             }
             if (game.getPlayer().getLives() == 0) {
                 isGameOver = true;
@@ -150,32 +175,39 @@ public class GameScreen implements Screen {
         stage.act(delta);
         stage.draw();
     }
+
     private void setupGameEntities() {
         aiControlManager = new AIControlManager();
         collisionManager = new CollisionManager();
         outputManager = screenManager.getoutputManager();
 
-        entityManager = new EntityManager(aiControlManager, collisionManager,outputManager,playerControlManager);
-        spaceship = new Spaceship("Objects/Spaceship/Spaceship1.png",0, Gdx.graphics.getHeight() / 2,
-                500,camera,false,true,true,player,game);
+        entityManager = new EntityManager(aiControlManager, collisionManager, outputManager, playerControlManager);
+        spaceship = new Spaceship("Objects/Spaceship/Spaceship1.png", 0, Gdx.graphics.getHeight() / 2,
+                500, camera, false, true, true, player, game);
         planet = new Planet("Objects/Planets/planet02.png",
-                Gdx.graphics.getWidth()+500, Gdx.graphics.getHeight() / 2,
-                50,true, player); //set planet out of screen and slowly move in
+                Gdx.graphics.getWidth() + 200, Gdx.graphics.getHeight() / 2,
+                50, true); //set planet out of screen and slowly move in
         entityManager.addEntity(spaceship);
         playerControlManager.addEntity(spaceship);
         entityManager.addEntity(planet);
         aiControlManager.addEntity(planet);
 
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             float posX = MathUtils.random(300, Gdx.graphics.getWidth());
             float posY = MathUtils.random(0, Gdx.graphics.getHeight());
             float speedX = MathUtils.random(-5, 4);
             float speedY = MathUtils.random(-5, 4);
             asteroid = new Asteroid("Objects/Asteroid/asteroid01.png", posX, posY,
-                    speedX, speedY, true,player,game);
-            satellite = new Satellite(posX,posY,speedX,speedY,true,game,player); //set satellite out of screen and slowly move in
+                    speedX, speedY, true, player, game);
             entityManager.addEntity(asteroid);
             aiControlManager.addEntity(asteroid);
+        }
+        for (int i = 0; i < 2; i++) {
+            float posX = MathUtils.random(300, Gdx.graphics.getWidth());
+            float posY = MathUtils.random(0, Gdx.graphics.getHeight());
+            float speedX = MathUtils.random(-5, 4);
+            float speedY = MathUtils.random(-5, 4);
+            satellite = new Satellite(posX, posY, speedX, speedY, true, game, player); //set satellite out of screen and slowly move in
             entityManager.addEntity(satellite);
             aiControlManager.addEntity(satellite);
         }

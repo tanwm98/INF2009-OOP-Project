@@ -11,7 +11,7 @@ public class Planet extends Entity {
 	private Player player;
 
 	private boolean isMoving = true;
-	public Planet(String fileName, float x, float y, float Xspeed,boolean Collideable,Player player) {
+	public Planet(String fileName, float x, float y, float Xspeed,boolean Collideable) {
 		super();
 		setX(x);
 		setY(y);
@@ -20,7 +20,6 @@ public class Planet extends Entity {
 		super.setCollideable(Collideable);
 		super.setWidth(tex.getWidth());
 		super.setHeight(tex.getHeight());
-		this.player = player;
 	}
 	
 
@@ -58,9 +57,9 @@ public class Planet extends Entity {
 		super.update(delta);
 	}
 	public void collide(boolean collide) {
-		if(collide)
-		{
-			player.decreaseLives(1);
+		if (collide && super.getCollisionCD() <= 0) {
+			getoutputManager().playsound("Music/sfx/correct_sfx.wav");
+			super.setCollisionCD(2);
 		}
 	}
     public void setTexture(Texture t) {
