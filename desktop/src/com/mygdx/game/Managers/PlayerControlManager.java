@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PlayerControlManager {
     private List<IMovement> playerMovements;
-    public PlayerControlManager(Player player, Entity entity)
+    public PlayerControlManager()
     {
         playerMovements = new ArrayList<>();
     }
