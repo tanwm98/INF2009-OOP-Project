@@ -41,7 +41,6 @@ public class ScreenManager extends MyGdxGame {
         	Gdx.app.exit();
         }
     }
-
     public void setScreen(Screen screen) {
         for (Screen s : screens) {
             s.dispose();

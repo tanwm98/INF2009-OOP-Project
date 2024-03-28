@@ -31,7 +31,7 @@ public class Satellite extends Entity {
 		super.setCollideable(Collideable);
 		// Randomly pick a satellite texture.
 		SatelliteTextureFactory satFactory = new SatelliteTextureFactory();
-		int texSelect = MathUtils.random(1, 3);
+		int texSelect = MathUtils.random(1, 2);
 		setTexture(satFactory.makeSatellite(texSelect));
 		super.setHeight(this.getTexture().getHeight());
 		super.setWidth(this.getTexture().getWidth());
