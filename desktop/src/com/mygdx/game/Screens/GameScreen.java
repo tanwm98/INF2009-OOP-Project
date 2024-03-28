@@ -69,7 +69,7 @@ public class GameScreen implements Screen {
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
             this.player = new Player(this.game);
-            playerControlManager = new PlayerControlManager(player,spaceship);
+            playerControlManager = new PlayerControlManager();
             
             
 
@@ -87,7 +87,7 @@ public class GameScreen implements Screen {
             optionFont = new BitmapFont(); // Initialize font
             screenManager = new ScreenManager(game);
             this.player = player;
-            playerControlManager = new PlayerControlManager(player,spaceship);
+            playerControlManager = new PlayerControlManager();
         } catch (Exception e) {
             System.err.println("Game Screen not initialised due to:" + e.getMessage());
         }
