@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
@@ -18,7 +17,6 @@ import com.mygdx.game.MyGdxGame;
 
 
 public class HelpScreen implements Screen {
-
         private SpriteBatch batch;
         private Texture backgroundImage;
         private MyGdxGame game;

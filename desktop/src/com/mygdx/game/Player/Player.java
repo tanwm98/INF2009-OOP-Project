@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.Player;
 
 
 import com.badlogic.gdx.Gdx;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.Managers.OutputManager;
+import com.mygdx.game.MyGdxGame;
 
 public class Player {
     private int lives;
@@ -14,7 +15,7 @@ public class Player {
     private Image[] livesImage;
     private Texture tex;
     private SpriteBatch batch = new SpriteBatch();
-    OutputManager outputManager;
+    private OutputManager outputManager;
     private MyGdxGame game;
 
 
@@ -54,9 +55,6 @@ public class Player {
     	this.score = scores;
     }
 
-    public boolean isAlive() {
-        return this.isAlive;
-    }
     public void drawPlayer()
     {
         int spacing = 50;

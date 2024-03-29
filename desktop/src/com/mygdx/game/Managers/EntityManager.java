@@ -61,8 +61,6 @@ public class EntityManager extends MyGdxGame{
     		entity.dispose();
     	}
     }
-    
-
 	public void detect() {
         if (entityList == null) {
             throw new NullPointerException("Entity list is null");

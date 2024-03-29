@@ -24,7 +24,7 @@ import com.mygdx.game.MyGdxGame;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.Player;
+import com.mygdx.game.Player.Player;
 
 public class MiniGameScreen implements Screen{
     private Stage stage;
@@ -42,7 +42,7 @@ public class MiniGameScreen implements Screen{
     private static InputManager inputManager;
     private static OutputManager outputManager;
     private boolean timeUp = false;
-    private float timeLeft = 5; // Set the initial time left
+    private float timeLeft = 20; // Set the initial time left
     private long startTime;
     private long pauseStartTime;
     private boolean isPaused = false;

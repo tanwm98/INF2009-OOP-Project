@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.mygdx.game.Interfaces.ICollideable;
 import com.mygdx.game.Interfaces.IMovement;
 import com.mygdx.game.Managers.EntityManager;
-import com.mygdx.game.Managers.OutputManager;
-import com.mygdx.game.Player;
+import com.mygdx.game.Player.Player;
 
 
 public abstract class Entity extends EntityManager implements ICollideable, IMovement {
@@ -158,7 +157,7 @@ public abstract class Entity extends EntityManager implements ICollideable, IMov
 			collisionCD -= delta;
 		}
 	}
-
+	public abstract void move();
 	public abstract void render();
 
 	public abstract void dispose();

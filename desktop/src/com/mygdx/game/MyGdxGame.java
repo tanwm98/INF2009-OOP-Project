@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.game.Managers.*;
+import com.mygdx.game.Player.Player;
 import com.mygdx.game.Screens.GameScreen;
 import com.mygdx.game.Screens.MainMenuScreen;
 
@@ -47,13 +48,6 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
     
     public Player getPlayer() {
     	return player;
-    }
-    
-    // For GameScreen
-    public void resetGameScreen() {
-//        GameScreen gameScreen = new GameScreen(this);
-//        gameScreen.resetGame();
-//        this.setScreen(gameScreen);
     }
 
     @Override

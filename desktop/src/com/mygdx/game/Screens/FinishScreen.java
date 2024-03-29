@@ -15,7 +15,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Managers.InputManager;
 import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
-//import jdk.tools.jmod.Main;
+
 
 public class FinishScreen implements Screen {
     private SpriteBatch batch;

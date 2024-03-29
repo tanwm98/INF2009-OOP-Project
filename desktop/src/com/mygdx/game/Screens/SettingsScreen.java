@@ -39,8 +39,6 @@ public class SettingsScreen implements Screen {
     private boolean isDragging = false;
     private float savedSliderValue = 0.5f; // Variable to store the slider value
 
-    
-    
     public SettingsScreen(MyGdxGame game) {
         this.game = game;
         screenManager = new ScreenManager(game);

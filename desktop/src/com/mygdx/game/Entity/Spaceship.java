@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Player;
+import com.mygdx.game.Player.Player;
 import com.mygdx.game.Managers.InputManager;
 import com.mygdx.game.Managers.OutputManager;
 
@@ -16,7 +16,6 @@ public class Spaceship extends Entity {
     private boolean ishit;
     float flickerTimer = 0;
     private MyGdxGame game;
-    private boolean playerFlag;
     private Player player;
 
     public Spaceship(String filePath, float posX, float posY,float speedY,OrthographicCamera camera,boolean aiFlag,boolean playerFlag,boolean Collideable,Player player, MyGdxGame game)

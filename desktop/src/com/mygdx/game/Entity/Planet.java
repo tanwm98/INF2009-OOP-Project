@@ -3,16 +3,13 @@ package com.mygdx.game.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.Player;
-import com.mygdx.game.Managers.InputManager;
+import com.mygdx.game.Player.Player;
 import com.mygdx.game.Managers.OutputManager;
 
 public class Planet extends Entity {
 	private Texture tex;
 	private SpriteBatch batch = new SpriteBatch();
-	private Player player;
 
-	private boolean isMoving = true;
 	public Planet(String fileName, float x, float y, float Xspeed,boolean Collideable) {
 		super();
 		setX(x);
@@ -23,8 +20,6 @@ public class Planet extends Entity {
 		super.setWidth(tex.getWidth());
 		super.setHeight(tex.getHeight());
 	}
-	
-
     public void render()
     {
 		tex = this.getTexture();
@@ -61,7 +56,7 @@ public class Planet extends Entity {
 	public void collide(boolean collide) {
 		if (collide && super.getCollisionCD() <= 0) {
 			OutputManager.getInstance().playsound("Music/sfx/correct_sfx.wav");
-			super.setCollisionCD(2);
+			super.setCollisionCD(20);
 		}
 	}
     public void setTexture(Texture t) {

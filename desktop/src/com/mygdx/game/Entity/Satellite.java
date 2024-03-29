@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Player;
+import com.mygdx.game.Player.Player;
 import com.mygdx.game.Managers.OutputManager;
 
 

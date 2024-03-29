@@ -2,7 +2,7 @@ package com.mygdx.game.Managers;
 
 import com.mygdx.game.Entity.Entity;
 import com.mygdx.game.Interfaces.IMovement;
-import com.mygdx.game.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
