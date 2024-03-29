@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -100,6 +101,31 @@ public class PauseScreen implements Screen {
         }
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
+        mouseSelection();
+    }
+    
+    private void mouseSelection() {
+    	Rectangle resumerectangle = new Rectangle(655, 480, 290, 50);
+    	Rectangle exitrectangle = new Rectangle(655, 380, 285, 50);
+    	float textX = Gdx.input.getX();
+        float textY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        
+        if (resumerectangle.contains(textX,textY)) {
+        	selectedOptionIndex=0;
+        }
+        if (exitrectangle.contains(textX,textY)) {
+        	selectedOptionIndex=1;
+        } 
+    	if (InputManager.getInstance().leftClick()) {
+            // Check if the touch coordinates are inside the rectangle
+            if (resumerectangle.contains(textX, textY)) {
+            	ScreenManager.getInstance(game).popScreen();
+            }else if(exitrectangle.contains(textX, textY)){
+            	 ScreenManager.getInstance(game).setScreen(new MainMenuScreen(game));
+                 game.getPlayer().setLives(3); // Reset if Player Exits
+                 game.getPlayer().setScore(0); // Reset if Player Exits
+            }
+    	}
     }
     
     @Override
