@@ -50,6 +50,9 @@ public class Player {
     public int getScore() {
         return this.score;
     }
+    public void setScore(int scores) {
+    	this.score = scores;
+    }
 
     public boolean isAlive() {
         return this.isAlive;
