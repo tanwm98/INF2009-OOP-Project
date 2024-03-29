@@ -196,11 +196,5 @@ public class MainMenuScreen implements Screen {
         if (backgroundImage != null) {
             backgroundImage.dispose();
         }
-        if (inputManager != null) {
-            inputManager.dispose();
-        }
-        if (outputManager != null) {
-            outputManager.dispose();
-        }
     }
 }
