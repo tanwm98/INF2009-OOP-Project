@@ -22,8 +22,6 @@ public class HelpScreen implements Screen {
         private SpriteBatch batch;
         private Texture backgroundImage;
         private MyGdxGame game;
-        private ScreenManager screenmanager;
-        private int currentSelection = 0;
         private Music backgroundMusic;
         private Viewport viewport;
         private OrthographicCamera camera;
@@ -36,7 +34,6 @@ public class HelpScreen implements Screen {
                 this.game = game;
                 batch = new SpriteBatch();
                 backgroundImage = new Texture("Background/MenuScreen.png");
-                screenmanager = new ScreenManager(game);
                 camera = new OrthographicCamera();
                 viewport = new FitViewport(1200,900,camera);
         }
@@ -50,7 +47,7 @@ public class HelpScreen implements Screen {
 					@Override
                     public boolean keyDown(int keycode) {
                         if (keycode == Input.Keys.ESCAPE) {
-                        	screenmanager.pushScreen(new MainMenuScreen(game));
+                        	ScreenManager.getInstance(game).pushScreen(new MainMenuScreen(game));
                             return true;
                         }
                         return false; 

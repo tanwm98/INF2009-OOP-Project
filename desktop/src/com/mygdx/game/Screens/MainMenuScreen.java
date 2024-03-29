@@ -45,9 +45,8 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
     	if (backgroundMusic == null) {
-    		backgroundMusic=outputManager.musicStart(0);
+    		backgroundMusic=OutputManager.getInstance().musicStart(0);
     	}
-    	Gdx.app.log("MainMenuScreen", "Current volume: " + backgroundMusic.getVolume());
     }
 
     @Override

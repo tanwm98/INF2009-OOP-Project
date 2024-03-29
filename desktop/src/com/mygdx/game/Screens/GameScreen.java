@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.Player;
 
@@ -70,9 +71,6 @@ public class GameScreen implements Screen {
             screenManager = new ScreenManager(game);
             this.player = new Player(this.game);
             playerControlManager = new PlayerControlManager();
-            
-            
-
         } catch (Exception e) {
             System.err.println("GameScreen not initialised due to:" + e.getMessage());
         }
@@ -172,20 +170,26 @@ public class GameScreen implements Screen {
                             getTitleLabel().setAlignment(Align.center);
                         }
                     };
-                    Label label = new Label("Your spaceship has collided with Mars, the 4th planet in the solar system!", skin);
+                    Label label = new Label("Your spaceship has collided with Mars, the 4th planet in the solar system!\n"
+                    		+ "-Mars is often called the \"Red Planet\" because it appears red in the sky.\n"
+                    		+ "-This red color comes from iron oxide, or rust, covering its surface.", skin);
                     label.setWrap(true);
                     dialog.getContentTable().add(label).width(Gdx.graphics.getWidth() / 2); // Set the width as per your requirement
                     dialog.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-                    dialog.button("Click to continue your adventure").addListener(new ClickListener() {
+                    TextButton button = new TextButton("Click to continue your adventure", skin);
+                    button.addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
+                        	if (button.isChecked()) {
                             dialog.hide();
                             pause = false;
-                            game.setScreen(new FinishScreen(game));
+                            ScreenManager.getInstance(game).setScreen(new FinishScreen(game));
                             game.getPlayer().setLives(3); // Reset Lives before new game
                             game.getPlayer().setScore(0); // Reset Score before new game
+                        	}
                         }
                     });
+                    dialog.button(button);
                     dialog.show(stage);
                 }
             } else {
@@ -193,7 +197,7 @@ public class GameScreen implements Screen {
             }
             if (game.getPlayer().getLives() == 0) {
                 isGameOver = true;
-                screenManager.setScreen(new GameOverScreen(game, screenManager));
+                ScreenManager.getInstance(game).setScreen(new GameOverScreen(game, screenManager));
             }
         }
         stage.act(delta);
@@ -239,8 +243,6 @@ public class GameScreen implements Screen {
     private void pauseGame() {
     	ScreenManager.getInstance(game).pushScreen(new PauseScreen(game, ScreenManager.getInstance(game)));
     }
-    
-   
 
     @Override
     public void resize(int width, int height) {
@@ -254,10 +256,7 @@ public class GameScreen implements Screen {
         shapeRenderer.dispose();
         batch.dispose();
         backgroundTexture.dispose();
-        if (backgroundMusic != null)
-        {
-        	backgroundMusic.dispose();
-        }
+        backgroundMusic.dispose();
     }
 
     @Override

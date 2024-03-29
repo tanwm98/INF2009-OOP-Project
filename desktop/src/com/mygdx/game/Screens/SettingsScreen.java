@@ -158,7 +158,9 @@ public class SettingsScreen implements Screen {
         float textY = Gdx.graphics.getHeight() - Gdx.input.getY();
         
         if (menurectangle.contains(textX,textY)) {
-            selectedOptions=0;
+            selectedOptions=0; //only light up when hovering top of text
+        }else {
+        	selectedOptions=1; 
         }
 
     	if (InputManager.getInstance().leftClick()) {
@@ -172,9 +174,12 @@ public class SettingsScreen implements Screen {
 
     private void handleInputs() {
     	if(selectedOptions == 0) {
-            if (InputManager.getInstance().isEnterKeyJustPressed()||InputManager.getInstance().isEscapeKeyJustPressed()) {
+            if (InputManager.getInstance().isEnterKeyJustPressed()) {
             	backToMainMenu();
             }
+    	}
+    	if (InputManager.getInstance().isEscapeKeyJustPressed()) {
+    		backToMainMenu();
     	}
     }
     

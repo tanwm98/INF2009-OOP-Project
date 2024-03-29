@@ -11,6 +11,7 @@ import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public class GameOverScreen implements Screen {
 	private Texture gameOverImage;
@@ -65,7 +66,25 @@ public class GameOverScreen implements Screen {
     	OutputManager.getInstance().draw(batch, "Back to Menu", exitPosX, optionsPosY, selectedOptions == 1);
 
     	batch.end();
+    	mouseSelection();
     	handleInputs();
+    }
+    
+    private void mouseSelection() {
+    	Rectangle exitrectangle = new Rectangle(645, 210, 290, 50);
+    	float textX = Gdx.input.getX();
+        float textY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        
+        if (exitrectangle.contains(textX,textY)) {
+        	selectedOptions = 1; //only light up when hovering top of text
+        } else {
+        	selectedOptions = 0;
+        }
+    	if (InputManager.getInstance().leftClick()) {
+            if (exitrectangle.contains(textX, textY)) {
+            	ScreenManager.getInstance(game).setScreen(new MainMenuScreen(game));
+            }
+    	}
     }
 
     private void handleInputs() {
@@ -91,10 +110,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void hide() {
-    	if (backgroundMusic != null) {
-            backgroundMusic.stop();
-        }
-
+    	OutputManager.getInstance().soundEnd(backgroundMusic);
     }
 
     @Override

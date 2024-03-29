@@ -142,18 +142,13 @@ public class PauseScreen implements Screen {
     
 
     public void hide() {
-    	if (backgroundMusic != null) {
-            backgroundMusic.stop();
-            backgroundMusic.dispose();
-        }
-    	
+    	OutputManager.getInstance().soundEnd(backgroundMusic);
     }
 
     public void dispose() {
         skin.dispose();
         stage.dispose();
         if (backgroundMusic != null) {
-            backgroundMusic.stop();
             backgroundMusic.dispose();
         }
     }

@@ -133,6 +133,7 @@ public class OutputManager {
 			backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/bgm/GameOverBGM.mp3"));
 			break;
 		}
+		
 	    backgroundMusic.setVolume(getVolume());
 	    backgroundMusic.setLooping(true);
 	    backgroundMusic.play();
@@ -142,7 +143,6 @@ public class OutputManager {
 	public void setVolume(float volume) {
 	    if (backgroundMusic != null) {
 	        backgroundMusic.setVolume(volume);
-	        Gdx.app.log("OutputManager", "Setting volume: " + volume);
 	        
 	        preferences.putFloat("volume", volume);
 	        preferences.flush();
@@ -159,7 +159,7 @@ public class OutputManager {
 	}
 	public void  playsound(String sfx) {
 		Sound sound = Gdx.audio.newSound(Gdx.files.internal(sfx));
-		sound.play(1.0f);
+		sound.play(getVolume());
 	}
 	
 	public void dispose() {
