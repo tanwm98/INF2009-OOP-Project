@@ -107,8 +107,11 @@ public class GameScreen implements Screen {
         
         viewport = new ExtendViewport(cameraWidth, cameraHeight, camera); //ExtendViewport to maintain aspect ratio
         if (backgroundMusic == null) {
-        	backgroundMusic=OutputManager.getInstance().musicStart(1);
+        	backgroundMusic = OutputManager.getInstance().musicStart(1);
+        } else if (!backgroundMusic.isPlaying()) {
+            backgroundMusic.play();
         }
+        
         backgroundTexture = new Texture(Gdx.files.internal("Background/starfield.png"));
         textureWidth = backgroundTexture.getWidth();
         textureHeight = backgroundTexture.getHeight();
