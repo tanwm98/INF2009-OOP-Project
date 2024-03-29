@@ -79,11 +79,11 @@ public class PauseScreen implements Screen {
             // Handle selection
             switch (selectedOptionIndex) {
                 case 0:
-                    screenManager.popScreen();
+                	ScreenManager.getInstance(game).popScreen();
                     break;
                 case 1:
-                    screenManager.setScreen(new MainMenuScreen(game));
-		    game.getPlayer().setLives(3); // Reset if Player Exits
+                	ScreenManager.getInstance(game).setScreen(new MainMenuScreen(game));
+                    game.getPlayer().setLives(3); // Reset if Player Exits
                     game.getPlayer().setScore(0); // Reset if Player Exits
                     break;
             }
@@ -122,7 +122,6 @@ public class PauseScreen implements Screen {
         }
     	
     }
-
 
     public void dispose() {
         skin.dispose();

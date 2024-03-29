@@ -148,7 +148,7 @@ public class GameScreen implements Screen {
         // Draw the background by tiling it across the screen
         for (float x = offsetX % textureWidth - textureWidth; x < camera.viewportWidth; x += textureWidth) {
             for (float y = 0; y < camera.viewportHeight; y += textureHeight) {
-                batch.draw(backgroundTexture, x, y);
+            	OutputManager.getInstance().draw(batch,backgroundTexture, x, y);
             }
         }
         batch.end();

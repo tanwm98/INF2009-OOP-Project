@@ -41,7 +41,6 @@ public class MiniGameScreen implements Screen{
     private ScreenManager screenManager;
     private static InputManager inputManager;
     private static OutputManager outputManager;
-    //private Player player;
     private boolean timeUp = false;
     private float timeLeft = 5; // Set the initial time left
     private long startTime;
@@ -59,7 +58,6 @@ public class MiniGameScreen implements Screen{
         this.font = new BitmapFont();
         this.layout = new GlyphLayout();
         batch = new SpriteBatch();
-        //this.player = player;
         startTime = TimeUtils.millis();
         
         inputManager = InputManager.getInstance();
@@ -250,6 +248,5 @@ public class MiniGameScreen implements Screen{
         batch.dispose();
         inputManager.dispose();
         outputManager.dispose();
-
     }
 }
