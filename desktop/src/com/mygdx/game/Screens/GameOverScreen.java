@@ -24,6 +24,7 @@ public class GameOverScreen implements Screen {
     
     public GameOverScreen(MyGdxGame game, ScreenManager screenManager) {
         this.game = game;
+	game.getPlayer().setLives(3);
     }
 
     @Override
