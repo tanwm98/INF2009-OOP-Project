@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.Managers.OutputManager;
 import com.mygdx.game.Managers.ScreenManager;
 import com.mygdx.game.MyGdxGame;
@@ -27,20 +27,18 @@ public class HelpScreen implements Screen {
         private Music backgroundMusic;
         private Viewport viewport;
         private OrthographicCamera camera;
-        private ScreenManager screenManager;
 
-        private String aboutText = "\n" +
-                "Navigate a spaceship through our solar system, exploring eight planets while avoiding satellites. \n" +
-                "Hitting a satellite decreases health, but colliding with asteroids triggers mini-games that can boost your score. \n";
-        private String helpText = "Use the arrow keys or WASD keys to move the spaceship.";
-        private String exitText = "Press the Escape key to return to the main menu.";
+        private String aboutText = "Navigate a spaceship through our solar system\n exploring eight planets while avoiding satellites.\n" +
+                "\nHitting a satellite decreases health, but colliding \nwith asteroids triggers mini-games that can boost \nyour score.";
+        private String helpText = "\n\n\nUse arrow keys or WASD keys to move spaceship.";
+        private String exitText = "\nPress the Escape key to return to the main menu.";
         public HelpScreen(MyGdxGame game) {
                 this.game = game;
                 batch = new SpriteBatch();
                 backgroundImage = new Texture("Background/MenuScreen.png");
                 screenmanager = new ScreenManager(game);
                 camera = new OrthographicCamera();
-                viewport = new FitViewport(1200,900, camera);
+                viewport = new FitViewport(1200,900,camera);
         }
 
         @Override
@@ -73,27 +71,28 @@ public class HelpScreen implements Screen {
                 // Calculate the center of the screen
                 float centerX = viewport.getWorldWidth() / 2f;
                 float centerY = viewport.getWorldHeight() / 2f;
-                float lineHeight = screenmanager.getoutputManager().getFont().getLineHeight(); // Get the height of the font
-                float gap = 2 * Gdx.graphics.getPpcY(); // Initialize Gap between lines
-                float startY = centerY + lineHeight;
+                float lineHeight = OutputManager.getInstance().getFont().getLineHeight(); // Get the height of the font
+                float gap = 4 * Gdx.graphics.getPpcY(); // Initialize Gap between lines
+                float startY = centerY +gap;
                 GlyphLayout layout = new GlyphLayout(); //Calculating text width
-                screenmanager.getoutputManager().setFontSize(25);
-                layout.setText(screenmanager.getoutputManager().getFont(), aboutText);
-                float startGameWidth = layout.width;
-                float startX = centerX - startGameWidth / 2; // To Center the text
-                screenmanager.getoutputManager().draw(batch,aboutText, startX, startY);
+
+                // Set the text with wrapping and center alignment
+                layout.setText(OutputManager.getInstance().getFont(), aboutText);
+                float textWidth = layout.width;
+                float startX = centerX - textWidth / 2; // To Center the text
+                OutputManager.getInstance().draw(batch,aboutText, startX, startY);
                 startY -= lineHeight + gap;
 
-                layout.setText(screenmanager.getoutputManager().getFont(), helpText);
+                layout.setText(OutputManager.getInstance().getFont(), helpText);
                 float settingsWidth = layout.width;
                 startX = centerX - settingsWidth / 2;
-                screenmanager.getoutputManager().draw(batch,helpText, startX, startY);
+                OutputManager.getInstance().draw(batch,helpText, startX, startY);
                 startY -= lineHeight + gap;
 
-                layout.setText(screenmanager.getoutputManager().getFont(), exitText);
+                layout.setText(OutputManager.getInstance().getFont(), exitText);
                 float aboutWidth = layout.width;
                 startX = centerX - aboutWidth / 2;
-                screenmanager.getoutputManager().draw(batch,exitText, startX, startY);
+                OutputManager.getInstance().draw(batch,exitText, startX, startY);
                 batch.end(); 
 
         }

@@ -96,7 +96,7 @@ public class FinishScreen implements Screen {
         if (exitrectangle.contains(textX,textY)) {
             currentSelection=1;
         }
-        if (screenmanager.getinputManager().leftClick()) {
+        if (InputManager.getInstance().leftClick()) {
             if (menurectangle.contains(textX, textY)||exitrectangle.contains(textX, textY)) {
                 selectOption();
             }

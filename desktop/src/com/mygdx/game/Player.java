@@ -28,7 +28,7 @@ public class Player {
             livesImage[i] = new Image(tex);
         }
         batch = new SpriteBatch();
-        outputManager = new OutputManager();
+        outputManager = OutputManager.getInstance();
     }
 
     public void decreaseLives(int lives) {

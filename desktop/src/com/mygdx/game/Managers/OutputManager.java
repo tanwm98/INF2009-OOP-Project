@@ -27,7 +27,7 @@ public class OutputManager {
         return instance;
     }
 	
-	public OutputManager() {
+	private OutputManager() {
 		font = new BitmapFont();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gomarice_no_continue.ttf"));
 		parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

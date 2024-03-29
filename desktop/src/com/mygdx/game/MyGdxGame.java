@@ -45,20 +45,6 @@ public class MyGdxGame extends Game { // Rename the class to MyGdxGame
         return screenManager;
     }
     
-    public OutputManager getoutputManager(){
-    	if(outputManager == null) {
-    	    outputManager = new OutputManager();
-    	}
-    	return outputManager;
-    }
-
-    public InputManager getinputManager(){
-    	if(inputManager == null) {
-    	    inputManager = new InputManager();
-    	}
-    	return inputManager;
-    }
-    
     public Player getPlayer() {
     	return player;
     }

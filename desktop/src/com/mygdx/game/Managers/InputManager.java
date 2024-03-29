@@ -12,6 +12,9 @@ public class InputManager {
         }
         return instance;
     }
+	private InputManager(){
+		//Private Constructor to prevent instantiation
+	}
 	
 	//KeyPressed
 	public boolean isLeftKeyPressed() {
