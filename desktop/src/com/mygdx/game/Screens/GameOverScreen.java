@@ -58,7 +58,7 @@ public class GameOverScreen implements Screen {
 
     	batch.setColor(1, 1, 1, opacity);
     	// Draw the game over image with the specified size and alpha for fade-in
-    	batch.draw(gameOverImage, gameOverImageX, gameOverImageY, imageWidth, imageHeight);
+    	OutputManager.getInstance().draw(batch,gameOverImage, gameOverImageX, gameOverImageY, imageWidth, imageHeight);
     	batch.setColor(1, 1, 1, 1); 
     	float exitPosX = 650.5f; 
     	float optionsPosY = 250.0f; 
