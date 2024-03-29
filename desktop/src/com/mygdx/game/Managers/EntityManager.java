@@ -77,10 +77,17 @@ public class EntityManager extends MyGdxGame{
         		ICollideable object = CollideableObjects.get(i);
         		collide = collisionManager.detectCollision(player, object);
         		if(collide) {
-        			if(object instanceof Asteroid || object instanceof Satellite) {
+        			if(object instanceof Planet) {
+        				for(int j = 1; j<CollideableObjects.size(); j++) {
+        					ICollideable entity = CollideableObjects.get(j);
+        					if(entity instanceof Asteroid || entity instanceof Satellite) {
+            						CollideableObjects.remove(j);
+        					}
+        				}
+        			}
+        			else if(object instanceof Asteroid || object instanceof Satellite) {
         				player.collide(collide);
         			}
-
         			object.collide(collide);
         		}
 
