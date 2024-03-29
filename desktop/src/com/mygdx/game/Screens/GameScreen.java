@@ -179,6 +179,8 @@ public class GameScreen implements Screen {
                             dialog.hide();
                             pause = false;
                             game.setScreen(new FinishScreen(game));
+                            game.getPlayer().setLives(3); // Reset Lives before new game
+                            game.getPlayer().setScore(0); // Reset Score before new game
                         }
                     });
                     dialog.show(stage);
