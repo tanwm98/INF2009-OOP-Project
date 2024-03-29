@@ -83,6 +83,8 @@ public class PauseScreen implements Screen {
                     break;
                 case 1:
                     screenManager.setScreen(new MainMenuScreen(game));
+		    game.getPlayer().setLives(3); // Reset if Player Exits
+                    game.getPlayer().setScore(0); // Reset if Player Exits
                     break;
             }
         }
