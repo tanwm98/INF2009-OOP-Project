@@ -125,8 +125,8 @@ public class GameScreen implements Screen {
             }
         };
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(keyProcessor); // First, add the key processor
-        inputMultiplexer.addProcessor(stage); // Then add the stage
+        inputMultiplexer.addProcessor(keyProcessor); 
+        inputMultiplexer.addProcessor(stage); 
 
         Gdx.input.setInputProcessor(inputMultiplexer); // Set the multiplexer as the input processor
         if (entityManager == null || entityManager.getEntities().isEmpty()) {
