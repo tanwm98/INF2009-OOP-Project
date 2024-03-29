@@ -43,6 +43,9 @@ public class Player {
     public int getLives() {
         return this.lives;
     }
+    public void setLives(int lives) {
+    	this.lives = lives;
+    }
 
     public int getScore() {
         return this.score;
