@@ -55,7 +55,7 @@ public class CollisionManager{
 		else if(e2 instanceof Satellite){
 		    objectx = e2.getX()+e2.getWidth()/4;
 		    objecty = e2.getY()+e2.getHeight()/4;
-			object3 = new Rectangle(objectx , objecty , e2.getWidth() , e2.getHeight());
+			object3 = new Rectangle(objectx , objecty , e2.getWidth()/2 , e2.getHeight()/2);
 			if(Intersector.overlaps(object1 , object3) == true) {
 				collide = true;
 			}
