@@ -34,6 +34,9 @@ public class CollisionManager{
         	CollideableObjects.add(entity);
         }
     }
+    public void removeEntity(ICollideable entity) {
+    	CollideableObjects.remove(entity);
+    }
     
     public List<ICollideable> getCollideables(){
     	return CollideableObjects;
